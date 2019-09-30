@@ -8,13 +8,13 @@ public class Car {
     private long owner_id;
     private String brand;
     private String model;
-    private float engineSize;
-    private float power;
-    private int consumption;
+    private int engineSize;
+    private int power;
+    private float consumption;
     private String plate;
 
     public Car() {}
-    public Car(long id, String brand,String model, float engineSize, float power, int consumption, String plate) {
+    public Car(long id, String brand,String model, int engineSize, int power, float consumption, String plate) {
         super();
         this.id = id;
         this.brand = brand;
@@ -46,24 +46,24 @@ public class Car {
         this.model = model;
     }
     @XmlElement
-    public float getEngineSize() {
+    public int getEngineSize() {
         return engineSize;
     }
-    public void setEngineSize(float engineSize) {
+    public void setEngineSize(int engineSize) {
         this.engineSize = engineSize;
     }
     @XmlElement
-    public float getPower() {
+    public int getPower() {
         return power;
     }
-    public void setPower(float power) {
+    public void setPower(int power) {
         this.power = power;
     }
     @XmlElement
-    public int getConsumption() {
+    public float getConsumption() {
         return consumption;
     }
-    public void setConsumption(int consumption) {
+    public void setConsumption(float consumption) {
         this.consumption = consumption;
     }
     @XmlElement
