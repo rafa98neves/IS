@@ -21,6 +21,7 @@ public class Owner{
     }
     public void addCar(Car car){
         ownerships.add(car.getId());
+        car.setOwner_id(this.id);
     }
     @XmlAttribute
     public long getId() {
