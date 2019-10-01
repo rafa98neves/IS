@@ -2,6 +2,11 @@ syntax = "proto3";
 
 option java_multiple_files = true;
 package org.grpcFA;
+option java_package = "org.grpcFA";
+
+service OwnerRequest {
+    rpc hello(HelloRequest) returns (HelloReply);
+}
 
 message HelloReply {
     string message = 1;
@@ -11,6 +16,3 @@ message HelloRequest {
     string name = 1;
 }
 
-service OwnerRequest {
-    rpc hello(HelloRequest) returns (HelloReply);
-}
