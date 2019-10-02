@@ -7,27 +7,26 @@ import org.grpcFA.*;
 public class RequestServiceImpl extends OwnerRequestGrpc.OwnerRequestImplBase {
 
     @Override
-    public void request(OwnersRequest request, StreamObserver<Cars> responseObserver) {
-
-        String ownersList = new StringBuilder()
-                .append(request.getOwnersList())
-                .toString();
-
-        System.out.println(ownersList);
-
-        /*Ver carros dos Owners*/
-
-
+    public void request(OwnersRequest request, StreamObserver<Ownerships_list> responseObserver) {
         Repository repo = new Repository();
         List<Car> cars = repo.getCars();
-        int counter = 0;
-        Cars.Builder Car_builder = Cars.newBuilder();
-        for(Car c : cars){
-            Car_builder.setCars(counter,c);
-            counter++;
-        }
-        Cars Response = Car_builder.build();
+        Ownerships_list.Builder response = Ownerships_list.newBuilder();
 
+        for(int i=0; i<request.getOwnersCount(); i++){
+            Ownerships.Builder ownership = Ownerships.newBuilder();
+            Owner o = request.getOwners(i);
+            ownership.setOwner(o);
+            for(long l : o.getCarIdList()){
+                for (Car c : cars) {
+                    if (c.getId() == l){
+                        ownership.addCar(c);
+                    }
+                }
+            }
+            response.addOwnership(ownership);
+        }
+
+        Ownerships_list Response = response.build();
         responseObserver.onNext(Response);
         responseObserver.onCompleted();
     }

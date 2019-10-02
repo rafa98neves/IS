@@ -4,8 +4,18 @@ option java_multiple_files = true;
 package org.grpcFA;
 option java_package = "org.grpcFA";
 
+
 service OwnerRequest {
-    rpc request(OwnersRequest) returns (Cars);
+    rpc request(OwnersRequest) returns (Ownerships_list);
+}
+
+message Ownerships_list{
+    repeated Ownerships ownership = 1;
+}
+
+message Ownerships{
+    Owner owner = 1;
+    repeated Car car = 2;
 }
 
 message OwnersRequest {
@@ -20,10 +30,6 @@ message Owner{
     repeated int64 car_id = 5;
 }
 
-message Cars {
-    repeated Car cars = 1;
-}
-
 message Car{
     int64 id = 1;
     string brand = 2;
@@ -32,4 +38,5 @@ message Car{
     int32 power = 5;
     float consumption = 6;
     string plate = 7;
+    int64 ownerId = 8;
 }

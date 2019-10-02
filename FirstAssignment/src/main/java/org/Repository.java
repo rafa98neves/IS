@@ -1,5 +1,6 @@
 package org;
 
+import com.google.protobuf.Descriptors;
 import org.grpcFA.Car;
 import org.grpcFA.Owner;
 
@@ -15,6 +16,7 @@ public class Repository {
     public Repository(){
         Car car1 = Car.newBuilder()
                 .setId(1)
+                .setOwnerId(1)
                 .setBrand("Opel")
                 .setModel("Corsa")
                 .setEngineSize(1200)
@@ -25,6 +27,7 @@ public class Repository {
 
         Car car2 = Car.newBuilder()
                 .setId(2)
+                .setOwnerId(1)
                 .setBrand("Audi")
                 .setModel("A5")
                 .setEngineSize(1200)
@@ -34,6 +37,7 @@ public class Repository {
                 .build();
         Car car3 = Car.newBuilder()
                 .setId(3)
+                .setOwnerId(2)
                 .setBrand("Opel")
                 .setModel("Zafira")
                 .setEngineSize(1200)
@@ -43,8 +47,9 @@ public class Repository {
                 .build();
         Car car4 = Car.newBuilder()
                 .setId(4)
+                .setOwnerId(2)
                 .setBrand("Carro")
-                .setModel("da Mãe")
+                .setModel("da Mae")
                 .setEngineSize(1200)
                 .setPower(75)
                 .setConsumption(7.5f)
@@ -56,16 +61,16 @@ public class Repository {
                 .setAddress("Rua de Santa Rita, Castelo")
                 .setTelephone(969999123)
                 .setName("Rafael")
-                .setCarId(0,1)
-                .setCarId(1,2)
+                .addCarId(1)
+                .addCarId(2)
                 .build();
         Owner owner2 = Owner.newBuilder()
                 .setId(2)
                 .setAddress("Vila de Rei")
                 .setTelephone(969922123)
-                .setName("João")
-                .setCarId(0,3)
-                .setCarId(1,4)
+                .setName("Joao")
+                .addCarId(3)
+                .addCarId(4)
                 .build();
 
         owners = Arrays.asList(owner1, owner2);

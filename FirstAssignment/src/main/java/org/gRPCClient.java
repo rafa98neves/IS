@@ -20,10 +20,11 @@ public class gRPCClient {
         List<Owner> owners = repo.getOwners();
         OwnersRequest.Builder Owner_builder = OwnersRequest.newBuilder();
         for(Owner o : owners){
-            Owner_builder.setOwners(counter,o);
-            counter++;
+            Owner_builder.addOwners(o);
         }
-        Cars CarsResponse = stub.request(Owner_builder.build());
+        Ownerships_list response = stub.request(Owner_builder.build());
+
+        System.out.println(response);
         channel.shutdown();
     }
 }
