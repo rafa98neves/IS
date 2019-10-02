@@ -6,11 +6,12 @@ import org.grpcFA.HelloReply;
 import org.grpcFA.HelloRequest;
 import org.grpcFA.OwnerRequestGrpc;
 
-public class Client {
+public class gRPCClient {
     public static void main(String[] args) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8082)
                 .usePlaintext()
                 .build();
+
 
         OwnerRequestGrpc.OwnerRequestBlockingStub stub
                 = OwnerRequestGrpc.newBlockingStub(channel);

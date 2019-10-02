@@ -5,14 +5,30 @@ package org.grpcFA;
 option java_package = "org.grpcFA";
 
 service OwnerRequest {
-    rpc hello(HelloRequest) returns (HelloReply);
+    rpc request(OwnersRequest) returns (Cars);
 }
 
-message HelloReply {
-    string message = 1;
+message OwnersRequest {
+    repeated Owner owners = 1;
 }
 
-message HelloRequest {
-    string name = 1;
+message Owner{
+    int64 id = 1;
+    string name = 2;
+    int32 telephone = 3;
+    string address = 4;
 }
 
+message Cars {
+    repeated Car cars = 1;
+}
+
+message Car{
+    int64 id = 1;
+    string brand = 2;
+    string model = 3;
+    int32 engineSize = 4;
+    int32 power = 5;
+    float consumption = 6;
+    string plate = 7;
+}
