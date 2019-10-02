@@ -1,13 +1,10 @@
 package org;
 
+import java.util.List;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import org.grpcFA.Cars;
-import org.grpcFA.Owner;
-import org.grpcFA.OwnerRequestGrpc;
-import org.grpcFA.OwnersRequest;
+import org.grpcFA.*;
 
-import java.util.ArrayList;
 
 public class gRPCClient {
     public static void main(String[] args) {
@@ -15,17 +12,18 @@ public class gRPCClient {
                 .usePlaintext()
                 .build();
 
-
         OwnerRequestGrpc.OwnerRequestBlockingStub stub
                 = OwnerRequestGrpc.newBlockingStub(channel);
 
         Repository repo = new Repository();
-
-        ArrayList<Owner> owners = repo.getOwners();
-        Cars CarsResponse = stub.request(OwnersRequest.newBuilder()
-                .setOwners()
-                .build());
-
+        int counter = 0;
+        List<Owner> owners = repo.getOwners();
+        OwnersRequest.Builder Owner_builder = OwnersRequest.newBuilder();
+        for(Owner o : owners){
+            Owner_builder.setOwners(counter,o);
+            counter++;
+        }
+        Cars CarsResponse = stub.request(Owner_builder.build());
         channel.shutdown();
     }
 }

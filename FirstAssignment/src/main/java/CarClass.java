@@ -3,7 +3,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Car {
+public class CarClass {
     private long id;
     private long owner_id;
     private String brand;
@@ -13,8 +13,8 @@ public class Car {
     private float consumption;
     private String plate;
 
-    public Car() {}
-    public Car(long id, String brand,String model, int engineSize, int power, float consumption, String plate) {
+    public CarClass() {}
+    public CarClass(long id, String brand,String model, int engineSize, int power, float consumption, String plate) {
         super();
         this.id = id;
         this.brand = brand;

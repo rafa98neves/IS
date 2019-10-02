@@ -1,41 +1,81 @@
 package org;
 
-import java.lang.reflect.Array;
+import org.grpcFA.Car;
+import org.grpcFA.Owner;
+
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 
 public class Repository {
 
-    private ArrayList<Owner> owners;
-    private ArrayList<Car> cars;
+    private List<Owner> owners;
+    private List<Car> cars;
 
     public Repository(){
-        Car car1 =  new Car(1,"Opel","Corsa",1200,75,7.5f, "00-01-AA");
-        Car car2 =  new Car(2,"Audi","A5",1200,75,7.5f, "00-02-AA");
-        Car car3 =  new Car(3,"Opel","Zafira",1200,75,7.5f, "00-03-AA");
-        Car car4 =  new Car(4,"Carro","da Mãe",1200,75,7.5f, "00-04-AA");
+        Car car1 = Car.newBuilder()
+                .setId(1)
+                .setBrand("Opel")
+                .setModel("Corsa")
+                .setEngineSize(1200)
+                .setPower(75)
+                .setConsumption(7.5f)
+                .setPlate("00-01-AA").
+                build();
 
+        Car car2 = Car.newBuilder()
+                .setId(2)
+                .setBrand("Audi")
+                .setModel("A5")
+                .setEngineSize(1200)
+                .setPower(75)
+                .setConsumption(7.5f)
+                .setPlate("00-02-AA")
+                .build();
+        Car car3 = Car.newBuilder()
+                .setId(3)
+                .setBrand("Opel")
+                .setModel("Zafira")
+                .setEngineSize(1200)
+                .setPower(75)
+                .setConsumption(7.5f)
+                .setPlate("00-03-AA")
+                .build();
+        Car car4 = Car.newBuilder()
+                .setId(4)
+                .setBrand("Carro")
+                .setModel("da Mãe")
+                .setEngineSize(1200)
+                .setPower(75)
+                .setConsumption(7.5f)
+                .setPlate("00-04-AA")
+                .build();
 
-        Owner owner1 =  new Owner(1,"Rafael",969999123,"Rua de Santa Rita, Castelo");
-        Owner owner2 =  new Owner(1,"João",969922123,"Vila de Rei");
+        Owner owner1 = Owner.newBuilder()
+                .setId(1)
+                .setAddress("Rua de Santa Rita, Castelo")
+                .setTelephone(969999123)
+                .setName("Rafael")
+                .setCarId(0,1)
+                .setCarId(1,2)
+                .build();
+        Owner owner2 = Owner.newBuilder()
+                .setId(2)
+                .setAddress("Vila de Rei")
+                .setTelephone(969922123)
+                .setName("João")
+                .setCarId(0,3)
+                .setCarId(1,4)
+                .build();
 
-        owner1.addCar(car1);
-        owner1.addCar(car2);
-        owner2.addCar(car3);
-        owner2.addCar(car4);
-
-        cars.add(car1);
-        cars.add(car2);
-        cars.add(car3);
-        cars.add(car4);
-
-        owners.add(owner1);
-        owners.add(owner2);
+        owners = Arrays.asList(owner1, owner2);
+        cars = Arrays.asList(car1,car2,car3,car4);
     }
 
-    public ArrayList<Owner> getOwners(){
+    public List<Owner> getOwners(){
         return owners;
     }
-    public ArrayList<Car> getCars(){
+    public List<Car> getCars(){
         return cars;
     }
 }

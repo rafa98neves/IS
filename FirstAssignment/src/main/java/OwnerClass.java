@@ -5,21 +5,21 @@ import java.util.ArrayList;
 
 
 @XmlRootElement
-public class Owner{
+public class OwnerClass{
     private long id;
     private String name;
     private int telephone;
     private String address;
     private ArrayList ownerships;
 
-    public Owner(){}
-    public Owner(long id, String name, int telephone, String address){
+    public OwnerClass(){}
+    public OwnerClass(long id, String name, int telephone, String address){
         this.id = id;
         this.name = name;
         this.telephone = telephone;
         this.address = address;
     }
-    public void addCar(Car car){
+    public void addCar(CarClass car){
         ownerships.add(car.getId());
         car.setOwner_id(this.id);
     }

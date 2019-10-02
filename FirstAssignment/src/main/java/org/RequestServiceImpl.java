@@ -1,30 +1,32 @@
 package org;
 
+import java.util.List;
 import io.grpc.stub.StreamObserver;
-import org.grpcFA.Car;
-import org.grpcFA.Cars;
-import org.grpcFA.OwnerRequestGrpc;
-import org.grpcFA.OwnersRequest;
-
-import java.util.ArrayList;
+import org.grpcFA.*;
 
 public class RequestServiceImpl extends OwnerRequestGrpc.OwnerRequestImplBase {
 
     @Override
-    public void request(
-            OwnersRequest request, StreamObserver<Cars> responseObserver) {
+    public void request(OwnersRequest request, StreamObserver<Cars> responseObserver) {
 
         String ownersList = new StringBuilder()
                 .append(request.getOwnersList())
                 .toString();
 
-        //Ver carros dos Owners
+        System.out.println(ownersList);
 
-        //Passar de alguma forma
-        ArrayList<Car> CarsList = new ArrayList<>();
-        Cars Response = org.grpcFA.Cars.newBuilder()
-                .setCars(0, CarsList.get(0))
-                .build();
+        /*Ver carros dos Owners*/
+
+
+        Repository repo = new Repository();
+        List<Car> cars = repo.getCars();
+        int counter = 0;
+        Cars.Builder Car_builder = Cars.newBuilder();
+        for(Car c : cars){
+            Car_builder.setCars(counter,c);
+            counter++;
+        }
+        Cars Response = Car_builder.build();
 
         responseObserver.onNext(Response);
         responseObserver.onCompleted();
