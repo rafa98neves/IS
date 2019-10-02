@@ -1,27 +1,32 @@
 package org;
 
-import com.sun.jmx.mbeanserver.Repository;
 import io.grpc.stub.StreamObserver;
-import org.grpcFA.HelloReply;
-import org.grpcFA.HelloRequest;
+import org.grpcFA.Car;
+import org.grpcFA.Cars;
 import org.grpcFA.OwnerRequestGrpc;
+import org.grpcFA.OwnersRequest;
+
+import java.util.ArrayList;
 
 public class RequestServiceImpl extends OwnerRequestGrpc.OwnerRequestImplBase {
 
     @Override
     public void request(
-            OwnerRequest request, StreamObserver<Cars> responseObserver) {
+            OwnersRequest request, StreamObserver<Cars> responseObserver) {
 
-        String greeting = new StringBuilder()
-                .append("Hello, ")
-                .append(request.getName())
+        String ownersList = new StringBuilder()
+                .append(request.getOwnersList())
                 .toString();
 
-        HelloReply response = HelloReply.newBuilder()
-                .setMessage(greeting)
+        //Ver carros dos Owners
+
+        //Passar de alguma forma
+        ArrayList<Car> CarsList = new ArrayList<>();
+        Cars Response = org.grpcFA.Cars.newBuilder()
+                .setCars(0, CarsList.get(0))
                 .build();
 
-        responseObserver.onNext(response);
+        responseObserver.onNext(Response);
         responseObserver.onCompleted();
     }
 }

@@ -7,7 +7,7 @@ public class gRPCServer {
     public static void main(String[] args) {
         Server server = ServerBuilder
                 .forPort(8082)
-                .addService(new HelloServiceImpl()).build();
+                .addService(new RequestServiceImpl()).build();
         try {
             server.start();
             server.awaitTermination();
