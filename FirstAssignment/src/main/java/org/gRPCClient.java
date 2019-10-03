@@ -1,6 +1,8 @@
 package org;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.grpcFA.*;
@@ -26,5 +28,10 @@ public class gRPCClient {
 
         System.out.println(response);
         channel.shutdown();
+        try{
+            channel.awaitTermination(5, TimeUnit.SECONDS);
+        }catch(Exception e){
+            channel.shutdownNow();
+        }
     }
 }
