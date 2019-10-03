@@ -1,8 +1,11 @@
+package org;
+
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Car {
+public class CarXML {
     private long id;
     private String brand;
     private String model;
@@ -12,7 +15,9 @@ public class Car {
     private String plate;
     private long ownerId;
 
-    public Car(long id, String brand, String model, int engineSize, int power, float consumption, String plate, long ownerId){
+    public CarXML(){}
+    public CarXML(long id, String brand, String model, int engineSize, int power, float consumption, String plate, long ownerId){
+        super();
         this.id = id;
         this.brand = brand;
         this.model = model;
@@ -27,70 +32,62 @@ public class Car {
     public String getBrand(){
         return brand;
     }
-
     public void setBrand(String brand) {
         this.brand = brand;
     }
 
-    @XmlAttribute
+    @XmlElement
     public long getId(){
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
 
-    @XmlAttribute
+    @XmlElement
     public String getModel() {
         return model;
     }
-
     public void setModel(String model) {
         this.model = model;
     }
 
-    @XmlAttribute
+    @XmlElement
     public int getEngineSize() {
         return engineSize;
     }
-
     public void setEngineSize(int engineSize) {
         this.engineSize = engineSize;
     }
 
-    @XmlAttribute
+    @XmlElement
     public int getPower() {
         return power;
     }
-
     public void setPower(int power) {
         this.power = power;
     }
 
-    @XmlAttribute
+    @XmlElement
     public float getConsumption() {
         return consumption;
     }
-
     public void setConsumption(float consumption) {
         this.consumption = consumption;
     }
 
-    @XmlAttribute
+    @XmlElement
     public String getPlate() {
         return plate;
     }
-
     public void setPlate(String plate) {
         this.plate = plate;
     }
 
-    @XmlAttribute
+    @XmlElement
     public long getOwnerId() {
         return ownerId;
     }
-
     public void setOwnerId(long ownerId) {
         this.ownerId = ownerId;
     }

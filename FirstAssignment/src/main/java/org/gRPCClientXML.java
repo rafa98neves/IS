@@ -2,12 +2,14 @@ package org;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import org.grpcFA.*;
+import org.grpcFA.XML;
+import org.grpcFA.XMLRequestGrpc;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,30 +22,27 @@ public class gRPCClientXML {
         XMLRequestGrpc.XMLRequestBlockingStub stub
                 = XMLRequestGrpc.newBlockingStub(channel);
 
-        JAXBContext contextObj = JAXBContext.newInstance(Class.class);
-
+        JAXBContext contextObj = JAXBContext.newInstance(OwnerXML.class);
         Marshaller marshallerObj = contextObj.createMarshaller();
         marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        marshallerObj.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 
-        Repository repo = new Repository();
-        List<Owner> owners = repo.getOwners();
+        _Repository repo = new _Repository();
 
-        Marshaller m = contextObj.createMarshaller();
-        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        List<Long> ids = new ArrayList<Long>();
+        ids.add(1l);
+        ids.add(2l);
+        OwnerXML owner1 = new OwnerXML(1,"Rafael",96988888, "Rua Santa Rita",ids);
+
         StringWriter request = new StringWriter();
-        m.marshal(owners, request);
+        marshallerObj.marshal(owner1, request);
 
         String result = request.toString();
-
-        System.out.println(result);
-
         XML xml = XML.newBuilder()
                 .setXML(result)
                 .build();
 
         XML response = stub.request(xml);
-
-        System.out.println(response);
 
         channel.shutdown();
     }

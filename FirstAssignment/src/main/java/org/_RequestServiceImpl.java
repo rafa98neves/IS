@@ -4,11 +4,11 @@ import java.util.List;
 import io.grpc.stub.StreamObserver;
 import org.grpcFA.*;
 
-public class RequestServiceImpl extends OwnerRequestGrpc.OwnerRequestImplBase {
+public class _RequestServiceImpl extends OwnerRequestGrpc.OwnerRequestImplBase {
 
     @Override
     public void request(OwnersRequest request, StreamObserver<Ownerships_list> responseObserver) {
-        Repository repo = new Repository();
+        _Repository repo = new _Repository();
         List<Car> cars = repo.getCars();
         Ownerships_list.Builder response = Ownerships_list.newBuilder();
 

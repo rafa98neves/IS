@@ -3,11 +3,11 @@ package org;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
-public class gRPCServer {
+public class gRPCServerXML {
     public static void main(String[] args) {
         Server server = ServerBuilder
                 .forPort(8082)
-                .addService(new RequestServiceImpl()).build();
+                .addService(new _RequestServiceImpl()).build();
         try {
             server.start();
             server.awaitTermination();

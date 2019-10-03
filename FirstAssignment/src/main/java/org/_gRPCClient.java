@@ -7,12 +7,8 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.grpcFA.*;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 
-
-public class gRPCClient {
+public class _gRPCClient {
     public static void main(String[] args){
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8082)
                 .usePlaintext()
@@ -21,7 +17,7 @@ public class gRPCClient {
         OwnerRequestGrpc.OwnerRequestBlockingStub stub
                 = OwnerRequestGrpc.newBlockingStub(channel);
 
-        Repository repo = new Repository();
+        _Repository repo = new _Repository();
         List<Owner> owners =  repo.getOwners();
 
         OwnersRequest.Builder Owner_builder = OwnersRequest.newBuilder();
