@@ -8,7 +8,10 @@ import org.grpcFA.XMLRequestGrpc;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.StringReader;
 import java.io.StringWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,9 +54,16 @@ public class gRPCClientXML {
         XML xml = XML.newBuilder()
                 .setXML(result)
                 .build();
-
         XML response = stub.request(xml);
-        System.out.println(response);
+
+        StringReader reader = new StringReader(response.getXML());
+        contextObj = JAXBContext.newInstance(OwnershipXML.class);
+        Unmarshaller jaxbUnmarshaller = contextObj.createUnmarshaller();
+        OwnershipXML cars = (OwnershipXML) jaxbUnmarshaller.unmarshal(reader);
+
+        for(CarXML c : cars){
+            System.out.println(c.getOwnerId() + " - " + c.getBrand() + " - " + c.getModel());
+        }
         channel.shutdown();
     }
 }
