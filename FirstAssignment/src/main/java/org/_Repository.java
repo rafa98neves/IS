@@ -7,74 +7,68 @@ import org.grpcFA.Owner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Random;
+
+import static org.grpcFA.Owner.newBuilder;
 
 public class _Repository {
 
     private List<Owner> owners;
     private List<Car> cars;
+    private OwnerListXML ownersXML;
+    private OwnershipXML carsXML;
 
     public _Repository(){
-        Car car1 = Car.newBuilder()
-                .setId(1)
-                .setOwnerId(1)
-                .setBrand("Opel")
-                .setModel("Corsa")
-                .setEngineSize(1200)
-                .setPower(75)
-                .setConsumption(7.5f)
-                .setPlate("00-01-AA").
-                build();
+        ownersXML = new OwnerListXML();
+        carsXML = new OwnershipXML();
+        owners = new ArrayList<Owner>();
+        cars = new ArrayList<Car>();
+    }
 
-        Car car2 = Car.newBuilder()
-                .setId(2)
-                .setOwnerId(1)
-                .setBrand("Audi")
-                .setModel("A5")
-                .setEngineSize(1200)
-                .setPower(75)
-                .setConsumption(7.5f)
-                .setPlate("00-02-AA")
-                .build();
-        Car car3 = Car.newBuilder()
-                .setId(3)
-                .setOwnerId(2)
-                .setBrand("Opel")
-                .setModel("Zafira")
-                .setEngineSize(1200)
-                .setPower(75)
-                .setConsumption(7.5f)
-                .setPlate("00-03-AA")
-                .build();
-        Car car4 = Car.newBuilder()
-                .setId(4)
-                .setOwnerId(2)
-                .setBrand("Carro")
-                .setModel("da Mae")
-                .setEngineSize(1200)
-                .setPower(75)
-                .setConsumption(7.5f)
-                .setPlate("00-04-AA")
-                .build();
+    public void GenerateOwners(int numberOwners){
+        for(int i=1; i<=numberOwners; i++){
+            Owner owner = newBuilder()
+                    .setId(i)
+                    .setAddress("Somewhere")
+                    .setTelephone(99999999)
+                    .setName("Bot " + i)
+                    .build();
+            owners.add(owner);
+        }
+    }
 
-        Owner owner1 = Owner.newBuilder()
-                .setId(1)
-                .setAddress("Rua de Santa Rita, Castelo")
-                .setTelephone(969999123)
-                .setName("Rafael")
-                .addCarId(1)
-                .addCarId(2)
-                .build();
-        Owner owner2 = Owner.newBuilder()
-                .setId(2)
-                .setAddress("Vila de Rei")
-                .setTelephone(969922123)
-                .setName("Joao")
-                .addCarId(3)
-                .addCarId(4)
-                .build();
+    public void GenerateCars(int numberOwners, int numberCars){
+        Random r = new Random();
+        for(int i=1; i<=numberCars; i++){
+            Car car = Car.newBuilder().
+                    setId(i)
+                    .setOwnerId(r.nextInt((numberOwners - 1) + 1) + 1)
+                    .setBrand("SomeBrand")
+                    .setModel("SomeModel")
+                    .setConsumption(7.5f)
+                    .setEngineSize(1000)
+                    .setPower(75)
+                    .setConsumption(7.5f)
+                    .setPlate("00-"+i+"-AA")
+                    .build();
+            cars.add(car);
+        }
+    }
 
-        owners = Arrays.asList(owner1, owner2);
-        cars = Arrays.asList(car1,car2,car3,car4);
+    public void GenerateOwnersXML(int numberOwners){
+        for(int i=1; i<=numberOwners; i++){
+            OwnerXML owner = new OwnerXML(i,"Bot" + i,99999999, "Somewhere",null);
+            ownersXML.add(owner);
+        }
+    }
+
+    public void GenerateCarsXML(int numberOwners, int numberCars){
+        Random r = new Random();
+        for(int i=1; i<=numberCars; i++){
+            CarXML car = new CarXML(i,"Bot",""+i, 1200,75,7.5f,
+                    "00-"+i+"-AA",r.nextInt((numberOwners - 1) + 1) + 1);
+            carsXML.add(car);
+        }
     }
 
     public List<Owner> getOwners(){
@@ -82,5 +76,11 @@ public class _Repository {
     }
     public List<Car> getCars(){
         return cars;
+    }
+    public OwnershipXML getCarsXML(){
+        return carsXML;
+    }
+    public OwnerListXML getOwnersXML(){
+        return ownersXML;
     }
 }
