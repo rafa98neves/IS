@@ -7,7 +7,7 @@ public class gRPCServerXML {
     public static void main(String[] args) {
         Server server = ServerBuilder
                 .forPort(8082)
-                .addService(new _RequestServiceImpl()).build();
+                .addService(new RequestServiceImplXML()).build();
         try {
             server.start();
             server.awaitTermination();
