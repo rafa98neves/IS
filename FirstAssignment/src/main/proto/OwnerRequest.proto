@@ -5,6 +5,15 @@ package org.grpcFA;
 option java_package = "org.grpcFA";
 
 
+service XMLRequest{
+    rpc request(XML) returns(XML);
+}
+
+message XML{
+    string XML = 1;
+}
+
+
 service OwnerRequest {
     rpc request(OwnersRequest) returns (Ownerships_list);
 }
