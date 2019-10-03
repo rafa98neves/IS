@@ -16,6 +16,7 @@ public class RequestServiceImplXML extends XMLRequestGrpc.XMLRequestImplBase {
 
     @Override
     public void request(XML request, StreamObserver<XML> responseObserver) {
+
         OwnerListXML owners = new OwnerListXML();
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance( OwnerListXML.class );
@@ -25,10 +26,11 @@ public class RequestServiceImplXML extends XMLRequestGrpc.XMLRequestImplBase {
         }catch (Exception e){
             System.out.println("Error creating marshalOBJ: " + e);
         }
+        long requestTime =  System.currentTimeMillis() - request.getTimeRequest();
 
         /*Generate Cars*/
         _Repository repo = new _Repository();
-        repo.GenerateCarsXML(owners.size()-1,10);
+        repo.GenerateCarsXML(owners.size()-1,16000);
         OwnershipXML cars = repo.getCarsXML();
 
         /* Get cars */
@@ -37,15 +39,14 @@ public class RequestServiceImplXML extends XMLRequestGrpc.XMLRequestImplBase {
         ArrayList<OwnerXML> owners_list = owners.getOwners();
         for(OwnerXML o: owners_list){
             for (CarXML c : cars_list){
-                System.out.println(c.getOwnerId());
                 if (c.getOwnerId() == o.getId()){
                     cars_response.add(c);
                 }
             }
-
         }
 
         /* Send to client */
+        long replyTime = System.currentTimeMillis();
         StringWriter writer = new StringWriter();
         try {
             JAXBContext contextObj = JAXBContext.newInstance(OwnershipXML.class);
@@ -61,6 +62,8 @@ public class RequestServiceImplXML extends XMLRequestGrpc.XMLRequestImplBase {
         String response = writer.toString();
         XML xml = XML.newBuilder()
                 .setXML(response)
+                .setTimeRequest(requestTime)
+                .setTimeReply(replyTime)
                 .build();
 
         XML Response = xml;

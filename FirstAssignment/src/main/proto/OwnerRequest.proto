@@ -11,6 +11,8 @@ service XMLRequest{
 
 message XML{
     string XML = 1;
+    int64 timeRequest = 2;
+    int64 timeReply = 3;
 }
 
 
@@ -20,6 +22,8 @@ service OwnerRequest {
 
 message Ownerships_list{
     repeated Ownerships ownership = 1;
+    int64 timeRequest = 2;
+    int64 timeReply = 3;
 }
 
 message Ownerships{
@@ -29,6 +33,7 @@ message Ownerships{
 
 message OwnersRequest {
     repeated Owner owners = 1;
+    int64 timeRequest = 2;
 }
 
 message Owner{

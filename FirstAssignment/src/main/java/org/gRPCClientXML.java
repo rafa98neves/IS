@@ -14,6 +14,7 @@ import java.io.StringWriter;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class gRPCClientXML {
@@ -25,23 +26,25 @@ public class gRPCClientXML {
         XMLRequestGrpc.XMLRequestBlockingStub stub
                 = XMLRequestGrpc.newBlockingStub(channel);
 
+        /*Generate Owners*/
+        _Repository repo = new _Repository();
+        repo.GenerateOwnersXML(25000);
+        OwnerListXML owners = repo.getOwnersXML();
+
+        /* Send to Server*/
+        long start = System.currentTimeMillis();
         JAXBContext contextObj = JAXBContext.newInstance(OwnerListXML.class);
         Marshaller marshallerObj = contextObj.createMarshaller();
         marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshallerObj.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 
-        /*Generate Owners*/
-        _Repository repo = new _Repository();
-        repo.GenerateOwnersXML(3);
-        OwnerListXML owners = repo.getOwnersXML();
-
-        /* Send to Server*/
         StringWriter request = new StringWriter();
         marshallerObj.marshal(owners, request);
 
         String result = request.toString();
         XML xml = XML.newBuilder()
                 .setXML(result)
+                .setTimeRequest(start)
                 .build();
 
         /* Get response and shutdown */
@@ -52,9 +55,13 @@ public class gRPCClientXML {
         Unmarshaller jaxbUnmarshaller = contextObj.createUnmarshaller();
         OwnershipXML cars = (OwnershipXML) jaxbUnmarshaller.unmarshal(reader);
 
-        for(CarXML c : cars){
-            System.out.println(c.getOwnerId() + " - " + c.getBrand() + " - " + c.getModel());
+        long timer = System.currentTimeMillis() - response.getTimeReply() + response.getTimeRequest();
+        System.out.println(timer);
+
+        try{
+            channel.awaitTermination(5, TimeUnit.SECONDS);
+        }catch(Exception e){
+            channel.shutdownNow();
         }
-        channel.shutdown();
     }
 }

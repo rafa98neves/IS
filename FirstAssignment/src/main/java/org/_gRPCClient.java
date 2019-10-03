@@ -19,22 +19,21 @@ public class _gRPCClient {
 
         /*Generate Owners*/
         _Repository repo = new _Repository();
-        repo.GenerateOwners(3);
+        repo.GenerateOwners(18000);
         List<Owner> owners = repo.getOwners();
-        for(Owner o : owners){
-            System.out.println(o.getName());
-        }
 
         /* Send to Server*/
+        long time = System.currentTimeMillis();
         OwnersRequest.Builder Owner_builder = OwnersRequest.newBuilder();
         for(Owner o : owners){
             Owner_builder.addOwners(o);
         }
 
         /* Get response and shutdown */
-        Ownerships_list response = stub.request(Owner_builder.build());
+        Ownerships_list response = stub.request(Owner_builder.setTimeRequest(time).build());
+        long timer = System.currentTimeMillis() - response.getTimeReply() + response.getTimeRequest();
+        System.out.println(timer);
 
-        System.out.println(response);
         channel.shutdown();
         try{
             channel.awaitTermination(5, TimeUnit.SECONDS);
