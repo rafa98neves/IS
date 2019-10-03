@@ -17,13 +17,21 @@ public class _gRPCClient {
         OwnerRequestGrpc.OwnerRequestBlockingStub stub
                 = OwnerRequestGrpc.newBlockingStub(channel);
 
+        /*Generate Owners*/
         _Repository repo = new _Repository();
-        List<Owner> owners =  repo.getOwners();
+        repo.GenerateOwners(3);
+        List<Owner> owners = repo.getOwners();
+        for(Owner o : owners){
+            System.out.println(o.getName());
+        }
 
+        /* Send to Server*/
         OwnersRequest.Builder Owner_builder = OwnersRequest.newBuilder();
         for(Owner o : owners){
             Owner_builder.addOwners(o);
         }
+
+        /* Get response and shutdown */
         Ownerships_list response = stub.request(Owner_builder.build());
 
         System.out.println(response);
