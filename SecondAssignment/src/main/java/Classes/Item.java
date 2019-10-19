@@ -18,8 +18,5 @@ public class Item implements Serializable {
     private String category;
     @Column
     private String country;
-    @Column
-    private String photograph;
-
 
 }
