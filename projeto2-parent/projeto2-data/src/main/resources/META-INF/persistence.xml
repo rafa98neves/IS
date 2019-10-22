@@ -5,6 +5,11 @@
 	<persistence-unit name="MyBay" transaction-type="JTA">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>java:/MySqlDS</jta-data-source>
+
+		<class>data.User</class>
+		<class>data.Item</class>
+		<class>data.Country</class>
+
 		<properties>
 			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password" value="root" />
@@ -15,6 +20,8 @@
 			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.show_sql" value="true" />
 		</properties>
+
+
 
 	</persistence-unit>
 </persistence>
