@@ -5,7 +5,7 @@ import javax.ejb.Stateless;
 import javax.persistence.*;
 
 @Stateless
-public class LoginBean implements LoginBeanRemote {
+public class LoginBean implements LoginBeanLocal {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("MyBay");
     EntityManager em = emf.createEntityManager();
 

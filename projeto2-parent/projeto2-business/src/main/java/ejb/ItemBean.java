@@ -11,7 +11,7 @@ import javax.persistence.Persistence;
 import java.util.List;
 
 @Stateful
-public class ItemBean implements ItemBeanRemote {
+public class ItemBean implements ItemBeanLocal {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("MyBay");
     EntityManager em = emf.createEntityManager();
 

@@ -11,7 +11,7 @@ import javax.persistence.Persistence;
 import java.sql.Date;
 
 @Stateful
-public class UserBean implements UserBeanRemote{
+public class UserBean implements UserBeanLocal {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("MyBay");
     EntityManager em = emf.createEntityManager();
 

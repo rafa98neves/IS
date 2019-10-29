@@ -2,9 +2,9 @@ package ejb;
 
 import data.User;
 
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
-@Remote
-public interface LoginBeanRemote {
+@Local
+public interface LoginBeanLocal {
     User login(String email, String password);
 }

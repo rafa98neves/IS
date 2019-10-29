@@ -11,7 +11,7 @@ import java.sql.Date;
 
 
 @Stateless
-public class RegisterBean implements RegisterBeanRemote {
+public class RegisterBean implements RegisterBeanLocal {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("MyBay");
     EntityManager em = emf.createEntityManager();
 

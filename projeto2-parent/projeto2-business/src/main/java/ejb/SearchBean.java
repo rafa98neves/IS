@@ -12,7 +12,7 @@ import java.sql.Date;
 import java.util.List;
 
 @Stateless
-public class SearchBean implements SearchBeanRemote{
+public class SearchBean implements SearchBeanLocal {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("MyBay");
     EntityManager em = emf.createEntityManager();
 

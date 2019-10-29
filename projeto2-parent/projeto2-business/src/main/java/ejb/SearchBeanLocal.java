@@ -4,12 +4,12 @@ import data.Category;
 import data.Country;
 import data.Item;
 
-import javax.ejb.Remote;
+import javax.ejb.Local;
 import java.sql.Date;
 import java.util.List;
 
-@Remote
-public interface SearchBeanRemote {
+@Local
+public interface SearchBeanLocal {
     List<Item> searchAllItems(String searchString);
     List<Item> searchItemsByCategory(String searchString, Category c);
     List<Item> searchItemsByPriceRange(String searchString, float minPrice, float maxPrice);
