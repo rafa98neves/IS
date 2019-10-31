@@ -4,13 +4,10 @@
     <facet type="jpa" name="JPA">
       <configuration>
         <setting name="validation-enabled" value="true" />
-        <setting name="provider-name" value="Hibernate" />
+        <setting name="provider-name" value="" />
         <datasource-mapping>
-          <factory-entry name="MyBay" value="a74e978b-436e-4d5e-9355-e28161224241" />
+          <factory-entry name="MyBay" value="f834c547-fab3-40bd-9a98-24b555dddb0d" />
         </datasource-mapping>
-        <naming-strategy-map>
-          <unit-entry name="MyBay" />
-        </naming-strategy-map>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
     </facet>
