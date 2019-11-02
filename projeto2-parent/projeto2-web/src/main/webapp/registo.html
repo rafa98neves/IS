@@ -7,18 +7,19 @@
 <body>
     <h3> Registo </h3>
     <form method="post" action="RequestRegistration">
-        <p>Give the following details</p>
         <table>
-            <tr><td>Email </td> <td><input type="email" name="email"/></td></tr>
+            <tr><td>Nome </td> <td><input type="text" name="name" required/></td></tr>
+            <tr><td>Email </td> <td><input type="email" name="email" required/></td></tr>
             <tr><td>País </td> <td>
-                <select>
+                <select name="country">
                     <option value="portugal">Portugal</option>
                     <option value="espanha">Espanha</option>
                     <option value="inglaterra">Inglaterra</option>
                     <option value="marrocos">Marrocos</option>
                 </select>
+            <tr><td>Data de nascimento </td> <td><input type="date" name="bithdate" required/></td></tr>
             </td></tr>
-            <tr><td>Password </td> <td> <input type="password" name="psw"/></td></tr>
+            <tr><td>Password </td> <td> <input type="password" name="psw" required/></td></tr>
             <tr><td></td> <td><input type="submit" value="Registar"/></td></tr>
         </table>
     </form> <br>

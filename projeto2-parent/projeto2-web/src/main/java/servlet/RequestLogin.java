@@ -29,11 +29,16 @@ public class RequestLogin extends HttpServlet {
             String psw= request.getParameter("psw");
 
             User user = myLoginBean.login(email,psw);
+
             if(user != null){
-                RequestDispatcher rd = context.getRequestDispatcher("/registo.html");
+                RequestDispatcher rd = context.getRequestDispatcher("/");
                 rd.include(request, response);
             }
             else{
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Email ou password incorrectos');");
+                out.println("location='login.html';");
+                out.println("</script>");
                 RequestDispatcher rd = context.getRequestDispatcher("/login.html");
                 rd.include(request, response);
             }
