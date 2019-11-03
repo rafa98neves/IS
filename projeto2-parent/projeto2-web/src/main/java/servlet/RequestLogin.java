@@ -29,20 +29,25 @@ public class RequestLogin extends HttpServlet {
             String email= request.getParameter("email");
             String psw= request.getParameter("psw");
 
-            User user = myLoginBean.login(email,psw);
+            //User user = myLoginBean.login(email,psw);
+
+            User user = new User();
+            user.setName("Rafa");
+            user.setEmail("santarita@live.com.pt");
 
             if(user != null){
                 HttpSession session = request.getSession(true);
                 session.setAttribute("currentSessionUser",user);
-                RequestDispatcher rd = context.getRequestDispatcher("/MyBay.jsp");
-                rd.include(request, response);
+                response.sendRedirect("/projeto2-web/MyBay.jsp");
+                /*RequestDispatcher rd = context.getRequestDispatcher();
+                rd.(request, response);*/
             }
             else{
                 out.println("<script type=\"text/javascript\">");
                 out.println("alert('Email ou password incorrectos');");
                 out.println("location='login.html';");
                 out.println("</script>");
-                RequestDispatcher rd = context.getRequestDispatcher("/login.html");
+                RequestDispatcher rd = context.getRequestDispatcher("/Login.jsp");
                 rd.include(request, response);
             }
         } catch (Exception e){

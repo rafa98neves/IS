@@ -9,10 +9,8 @@
 </head>
 
 <body>
-<jsp:include page="Layout.jsp"></jsp:include>
-
 <h3>Registo</h3>
-<form action="RequestRegistration">
+<form method="post" action="RequestRegistration">
     <table>
         <tr><td>Nome </td> <td><input type="text" name="name" required/></td></tr>
         <tr><td>Email </td> <td><input type="email" name="email" required/></td></tr>

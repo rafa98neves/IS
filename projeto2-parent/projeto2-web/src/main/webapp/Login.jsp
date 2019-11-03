@@ -7,10 +7,8 @@
 </head>
 
 <body>
-    <jsp:include page="Layout.jsp"></jsp:include>
-
     <h3>Login</h3>
-    <form action="RequestLogin">
+    <form method="post" action="RequestLogin">
             <table>
                 <tr><td>Email </td> <td><input type="email" name="email" required/></td></tr>
                 <tr><td>Password </td> <td> <input type="password" name="psw" required/></td></tr>
