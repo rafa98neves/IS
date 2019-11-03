@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -31,7 +32,9 @@ public class RequestLogin extends HttpServlet {
             User user = myLoginBean.login(email,psw);
 
             if(user != null){
-                RequestDispatcher rd = context.getRequestDispatcher("/");
+                HttpSession session = request.getSession(true);
+                session.setAttribute("currentSessionUser",user);
+                RequestDispatcher rd = context.getRequestDispatcher("/MyBay.jsp");
                 rd.include(request, response);
             }
             else{
