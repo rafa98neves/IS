@@ -1,7 +1,7 @@
 package servlet;
 
+import data.Country;
 import data.User;
-import ejb.LoginBean;
 import ejb.LoginBeanLocal;
 
 import javax.ejb.EJB;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 
 
 @WebServlet("/RequestLogin")
@@ -34,6 +35,11 @@ public class RequestLogin extends HttpServlet {
             User user = new User();
             user.setName("Rafa");
             user.setEmail("santarita@live.com.pt");
+            java.util.Date date = new SimpleDateFormat("dd-MM-yyyy").parse("02-03-1998");
+            java.sql.Date birthdate = new java.sql.Date(date.getTime());
+            user.setBirthdate(birthdate);
+            user.setCountry(new Country());
+
 
             if(user != null){
                 HttpSession session = request.getSession(true);

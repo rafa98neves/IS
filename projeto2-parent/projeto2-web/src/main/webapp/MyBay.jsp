@@ -15,8 +15,8 @@
 <body>
     <jsp:include page="Layout.jsp"></jsp:include>
 
-    <h3 id="Table-title">Items online</h3>
-    <table>
+    <h3 id="Table-title">Itens online</h3>
+    <table class="item-table">
         <tr>
             <th>Categoria</th>
             <th>Nome</th>
