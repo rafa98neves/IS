@@ -1,27 +1,42 @@
 /* Layout Page */
 
 .dropimg {
-  position: relative;
-  float: right;
-  top: 7px;
-  margin-right: 150px;
-  max-width: 33px;
-  max-height: 33px;
-  border: none;
-  cursor: pointer;
+    position: absolute;
+    float: left;
+    top: 6px;
+    margin-right: 150px;
+    max-width: 59px;
+    max-height: 60px;
+    border: none;
+    cursor: pointer;
+    padding-bottom: 25px;
+    margin-bottom: -25px;
+    padding-right: 20px;
+}
+
+#username-text{
+    position: relative;
+    text-align: center;
+    display: block;
+    margin-top: 5%;
 }
 
 .dropdown {
-  position: relative;
+    display: inline;
+    position: fixed;
+    right: 0;
+    width: 15%;
+    margin-top: 2px;
 }
 
 .dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    margin-top: 5%;
 }
 
 .dropdown-content a {
@@ -40,7 +55,6 @@
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
 }
-
 
 /* Main page */
 

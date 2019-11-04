@@ -29,10 +29,11 @@
 
             <ul class="dropdown">
                 <img src="static/user.png" class="dropimg">
+                <div id="username-text"><%= currentUser.getName() %></div>
                 <div class="dropdown-content">
                     <a href="Perfil.jsp">O meu perfil</a>
-                    <a href="#">Os meus itens</a>
-                    <a href="#">Logout</a>
+                    <a href="Meus_items.jsp">Os meus itens</a>
+                    <a href="RequestLogout">Logout</a>
                 </div>
             </ul>
         </nav>
