@@ -9,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.sql.Date;
+import java.util.List;
 
 
 @Stateless
@@ -32,6 +33,10 @@ public class RegisterBean implements RegisterBeanLocal {
         }catch (Exception e){
             return false;
         }
+    }
+
+    public List<Country> getAllCountries(){
+        return (List<Country>) em.createQuery("from COUNTRIES c").getResultList();
     }
 
 

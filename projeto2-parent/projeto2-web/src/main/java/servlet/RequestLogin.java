@@ -36,8 +36,7 @@ public class RequestLogin extends HttpServlet {
             if(user != null){
                 HttpSession session = request.getSession(true);
                 session.setAttribute("currentSessionUser",user);
-                RequestDispatcher rd = context.getRequestDispatcher("MyBay.jsp");
-                rd.forward(request, response);
+                response.sendRedirect("/projeto2-web/MyBay.jsp");
             }
             else{
                 out.println("<script type=\"text/javascript\">");

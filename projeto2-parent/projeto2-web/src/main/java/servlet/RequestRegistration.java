@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.sql.Date;
 
 
@@ -27,6 +26,7 @@ public class RequestRegistration extends HttpServlet {
         response.setContentType("text/html");
         ServletContext context= getServletContext();
         try (PrintWriter out = response.getWriter()){
+            request.setCharacterEncoding("UTF-8");
             String name= request.getParameter("name"); //get name
             String email= request.getParameter("email"); //get email
 

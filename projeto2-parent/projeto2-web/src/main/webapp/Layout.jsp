@@ -14,7 +14,7 @@
     <% User currentUser = (User) session.getAttribute("currentSessionUser");%>
 
     <% if (currentUser != null) { %>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="MyBay.jsp">MyBay</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -27,15 +27,19 @@
                 </form>
             </div>
 
+
             <ul class="dropdown">
+
                 <img src="static/user.png" class="dropimg">
+                <p class="user_name">  <%=currentUser.getName()%></p>
                 <div class="dropdown-content">
                     <a href="Perfil.jsp">O meu perfil</a>
                     <a href="#">Os meus itens</a>
-                    <a href="#">Logout</a>
+                    <a href="RequestLogout">Logout</a>
                 </div>
+
             </ul>
         </nav>
-    <% } %>
+    <%}%>
 </body>
 </html>

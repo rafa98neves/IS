@@ -4,15 +4,27 @@
   position: relative;
   float: right;
   top: 7px;
-  margin-right: 150px;
-  max-width: 33px;
-  max-height: 33px;
+  margin-right: 100px;
+  max-width: 50px;
+  max-height: 50px;
   border: none;
   cursor: pointer;
+  align: middle;
+}
+
+.user_name {
+  align: middle;
+  float: right;
+  max-height: 50px;
+}
+
+.navbar{
+  max-height: 50px;
 }
 
 .dropdown {
   position: relative;
+  max-height: 50px;
 }
 
 .dropdown-content {
@@ -114,6 +126,10 @@
   display: inline-block;
   margin:auto;
   width:50%;
+}
+
+.navbar{
+  max-height: 50px;
 }
 
 .profile-box input, select{
