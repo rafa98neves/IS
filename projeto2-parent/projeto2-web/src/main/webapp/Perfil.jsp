@@ -16,7 +16,7 @@
     <jsp:include page="Layout.jsp"></jsp:include>
     <div class="profile-header">
         <h3 id="profile-title">Perfil de <%= currentUser.getName() %></h3>
-        <button class="button1"><span>Eliminar perfil</span></button>
+        <button class="button1" action="RequestDeleteProfile"><span>Eliminar perfil</span></button>
     </div>
     <form method="post" action="RequestProfileChange">
         <div class="profile-box">

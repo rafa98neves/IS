@@ -1,5 +1,10 @@
 /* Layout Page */
-
+#Title-navbar{
+    margin-left: 2%;
+}
+#Title-navbar:hover{
+    color: mediumseagreen;
+}
 .dropimg {
     position: absolute;
     float: left;
@@ -168,7 +173,7 @@ button span {
   transition: 0.5s;
 }
 
-button  span:after {
+button span:after {
   content: '\00bb';
   position: absolute;
   opacity: 0;
@@ -185,3 +190,37 @@ button:hover span:after {
   opacity: 1;
   right: 0;
 }
+
+/*Meus itens*/
+
+.button3 {
+    float:right;
+    margin-right: 15%;
+    margin-top: 2%;
+    display: inline-block;
+    border-radius: 4px;
+    background-color: cornflowerblue;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px;
+    width: 80px;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+.button3:hover {
+    background-color: dodgerblue;
+}
+
+.icon{
+    max-width: 20px;
+    max-height: 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.5;
+ }
+
+.icon:hover{
+    opacity: 1;
+  }
