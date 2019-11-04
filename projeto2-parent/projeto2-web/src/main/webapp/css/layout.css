@@ -1,32 +1,37 @@
 /* Layout Page */
 
-.dropimg {
-    position: absolute;
-    float: left;
-    top: 6px;
-    margin-right: 150px;
-    max-width: 59px;
-    max-height: 60px;
+.dropimg{
+    position: relative;
+    margin-left: 5px;
+    max-width: 40px;
+    max-height: 40px;
     border: none;
     cursor: pointer;
-    padding-bottom: 25px;
-    margin-bottom: -25px;
-    padding-right: 20px;
 }
 
-#username-text{
+
+.username-text{
     position: relative;
     text-align: center;
-    display: block;
+    display: inline;
     margin-top: 5%;
+    width: auto;
+}
+
+.navbar{
+    max-height: 50px;
 }
 
 .dropdown {
     display: inline;
     position: fixed;
     right: 0;
-    width: 15%;
+    margin-right: 2%;
+    max-width: 80%;
     margin-top: 2px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    align-text: center;
 }
 
 .dropdown-content {
@@ -36,152 +41,145 @@
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
-    margin-top: 5%;
+    margin-top: 8px;
+    padding-inline-start: 0px;
 }
 
 .dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
 }
 
 .dropdown-content a:hover {background-color: #f1f1f1}
 
 .dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown:hover .dropbtn {
-  background-color: #3e8e41;
+    display: block;
 }
 
 /* Main page */
 
 #Table-title{
-  margin-top: 4%;
-  margin-left: 15%;
-  witdh: 50%;
+    margin-top: 4%;
+    margin-left: 15%;
+    witdh: 50%;
 }
 
 .item-table {
-  border-collapse: collapse;
-  margin-top: 2%;
-  margin-left: 15%;
-  width: 70%;
+    border-collapse: collapse;
+    margin-top: 2%;
+    margin-left: 15%;
+    width: 70%;
 }
 
 .item-table th, td {
-  text-align: left;
-  padding: 8px;
+    text-align: left;
+    padding: 8px;
 }
 
 .item-table tr:nth-child(even){background-color: #f2f2f2}
 
 .item-table th {
-  background-color: #4CAF50;
-  color: white;
+    background-color: #4CAF50;
+    color: white;
 }
 
 /* Profile Page */
 
 .profile-header{
-  margin-top:2%;
-  witdh: 100%;
-  overflow: hidden;
-  display: block;
+    margin-top:2%;
+    witdh: 100%;
+    overflow: hidden;
+    display: block;
 }
 
 #profile-title{
-  float:left;
-  margin-left: 15%;
-  witdh: 30%;
+    float:left;
+    margin-left: 15%;
+    witdh: 30%;
 }
 
 .button1 {
-  float:right;
-  margin-right: 22%;
-  padding: 10px;
-  border-radius: 4px;
-  background-color: red;
-  border: none;
-  color: #FFFFFF;
-  font-size: 14px;
-  width: 150px;
-  transition: all 0.5s;
-  cursor: pointer;
+    float:right;
+    margin-right: 22%;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: red;
+    border: none;
+    color: #FFFFFF;
+    font-size: 14px;
+    width: 150px;
+    transition: all 0.5s;
+    cursor: pointer;
 }
 
 .profile-box{
-  margin-top: 2%;
-  margin-left: 15%;
-  width: 70%;
+    margin-top: 2%;
+    margin-left: 15%;
+    width: 70%;
 }
 
 .profile-box #left{
-  display: inline-block;
-  width:50%;
-  float: left;
+    display: inline-block;
+    width:50%;
+    float: left;
 }
 
 .profile-box #right{
-  display: inline-block;
-  margin:auto;
-  width:50%;
-}
-
-.navbar{
-  max-height: 50px;
+    display: inline-block;
+    margin:auto;
+    width:50%;
 }
 
 .profile-box input, select{
-  width: 80%;
-  padding: 12px 20px;
-  margin: 8px 0px;
-  display: block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+    width: 80%;
+    padding: 12px 20px;
+    margin: 8px 0px;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 .button2 {
-  float:right;
-  margin-right: 10%;
-  margin-top: 2%;
-  display: inline-block;
-  border-radius: 4px;
-  background-color: cornflowerblue;
-  border: none;
-  color: #FFFFFF;
-  text-align: center;
-  font-size: 14px;
-  padding: 10px;
-  width: 120px;
-  transition: all 0.5s;
-  cursor: pointer;
+    float:right;
+    margin-right: 10%;
+    margin-top: 2%;
+    display: inline-block;
+    border-radius: 4px;
+    background-color: cornflowerblue;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px;
+    width: 120px;
+    transition: all 0.5s;
+    cursor: pointer;
 }
 
 button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
 }
 
 button  span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
 }
 
 button:hover span {
-  padding-right: 25px;
+    padding-right: 25px;
 }
 
 button:hover span:after {
-  opacity: 1;
-  right: 0;
+    opacity: 1;
+    right: 0;
 }

@@ -28,17 +28,17 @@
             </div>
 
 
-            <ul class="dropdown">
-
+            <div class="dropdown">
+                <p class="username-text">  <%=currentUser.getName()%></p>
                 <img src="static/user.png" class="dropimg">
-                <p class="user_name">  <%=currentUser.getName()%></p>
-                <div class="dropdown-content">
+                <ul class="dropdown-content">
                     <a href="Perfil.jsp">O meu perfil</a>
                     <a href="#">Os meus itens</a>
                     <a href="RequestLogout">Logout</a>
-                </div>
+                </ul>
+            </div>
 
-            </ul>
+
         </nav>
     <%}%>
 </body>
