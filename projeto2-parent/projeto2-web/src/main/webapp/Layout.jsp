@@ -15,7 +15,7 @@
 
     <% if (currentUser != null) { %>
         <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="MyBay.jsp">MyBay</a>
+            <a class="navbar-brand" id="Title-navbar" href="MyBay.jsp">MyBay</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -33,7 +33,7 @@
                 <img src="static/user.png" class="dropimg">
                 <ul class="dropdown-content">
                     <a href="Perfil.jsp">O meu perfil</a>
-                    <a href="#">Os meus itens</a>
+                    <a href="Meus_items.jsp">Os meus itens</a>
                     <a href="RequestLogout">Logout</a>
                 </ul>
             </div>

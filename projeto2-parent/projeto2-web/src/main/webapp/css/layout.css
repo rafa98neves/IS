@@ -1,5 +1,6 @@
 /* Layout Page */
 
+
 .dropimg{
     position: relative;
     margin-left: 5px;
@@ -9,6 +10,12 @@
     cursor: pointer;
 }
 
+#Title-navbar{
+    margin-left: 2%;
+}
+#Title-navbar:hover{
+    color: mediumseagreen;
+}
 
 .username-text{
     position: relative;
@@ -18,9 +25,7 @@
     width: auto;
 }
 
-.navbar{
-    max-height: 50px;
-}
+
 
 .dropdown {
     display: inline;
@@ -166,13 +171,13 @@ button span {
     transition: 0.5s;
 }
 
-button  span:after {
-    content: '\00bb';
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    right: -20px;
-    transition: 0.5s;
+button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
 }
 
 button:hover span {
@@ -180,6 +185,40 @@ button:hover span {
 }
 
 button:hover span:after {
-    opacity: 1;
-    right: 0;
+  opacity: 1;
+  right: 0;
 }
+
+/*Meus itens*/
+
+.button3 {
+    float:right;
+    margin-right: 15%;
+    margin-top: 2%;
+    display: inline-block;
+    border-radius: 4px;
+    background-color: cornflowerblue;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px;
+    width: 80px;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+.button3:hover {
+    background-color: dodgerblue;
+}
+
+.icon{
+    max-width: 20px;
+    max-height: 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.5;
+ }
+
+.icon:hover{
+    opacity: 1;
+  }

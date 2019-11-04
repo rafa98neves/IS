@@ -15,9 +15,10 @@
 <body>
     <jsp:include page="Layout.jsp"></jsp:include>
 
-    <h3 id="Table-title">Itens online</h3>
+    <h3 id="Table-title">Os meus itens...</h3>
     <table class="item-table">
         <tr>
+            <th></th>
             <th>Categoria</th>
             <th>Nome</th>
             <th>Preço</th>
@@ -25,14 +26,15 @@
             <th></th>
         </tr>
         <tr>
+            <td>ISTO E UMA IMAGEM</td>
             <td>Peter</td>
             <td>Griffin</td>
             <td>$100</td>
-            <td>ISTO E UMA IMAGEM</td>
-            <td> ELIMINAR </td>
+            <td><a href="/novo"> <img class="icon" src="static/edit.png"> </a></td>
+            <td><a href="RequestDeleteItem"> <img class="icon" src="static/trash.png"></a></td>
         </tr>
-
-        <button class="button2" action="AddItem">+</button>
     </table>
+
+    <button class="button3" action="RequestAddItem">+</button>
 </body>
 </html>
