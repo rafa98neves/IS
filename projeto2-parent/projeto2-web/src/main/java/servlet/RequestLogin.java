@@ -1,7 +1,7 @@
 package servlet;
 
+import data.Country;
 import data.User;
-import ejb.LoginBean;
 import ejb.LoginBeanLocal;
 
 import javax.ejb.EJB;
@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 
 
 @WebServlet("/RequestLogin")
@@ -31,16 +32,12 @@ public class RequestLogin extends HttpServlet {
             String psw= request.getParameter("psw");
 
             User user = myLoginBean.login(email,psw);
-            /*User user = new User();
-            user.setName("Rafa");
-            user.setEmail("santarita@live.com.pt");*/
 
             if(user != null){
                 HttpSession session = request.getSession(true);
                 session.setAttribute("currentSessionUser",user);
-                response.sendRedirect("/projeto2-web/MyBay.jsp");
-                /*RequestDispatcher rd = context.getRequestDispatcher();
-                rd.(request, response);*/
+                RequestDispatcher rd = context.getRequestDispatcher("MyBay.jsp");
+                rd.forward(request, response);
             }
             else{
                 out.println("<script type=\"text/javascript\">");

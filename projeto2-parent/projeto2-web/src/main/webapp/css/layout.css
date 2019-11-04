@@ -1,0 +1,169 @@
+/* Layout Page */
+
+.dropimg {
+  position: relative;
+  float: right;
+  top: 7px;
+  margin-right: 150px;
+  max-width: 33px;
+  max-height: 33px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+
+
+/* Main page */
+
+#Table-title{
+  margin-top: 4%;
+  margin-left: 15%;
+  witdh: 50%;
+}
+
+.item-table {
+  border-collapse: collapse;
+  margin-top: 2%;
+  margin-left: 15%;
+  width: 70%;
+}
+
+.item-table th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+.item-table tr:nth-child(even){background-color: #f2f2f2}
+
+.item-table th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Profile Page */
+
+.profile-header{
+  margin-top:2%;
+  witdh: 100%;
+  overflow: hidden;
+  display: block;
+}
+
+#profile-title{
+  float:left;
+  margin-left: 15%;
+  witdh: 30%;
+}
+
+.button1 {
+  float:right;
+  margin-right: 22%;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: red;
+  border: none;
+  color: #FFFFFF;
+  font-size: 14px;
+  width: 150px;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.profile-box{
+  margin-top: 2%;
+  margin-left: 15%;
+  width: 70%;
+}
+
+.profile-box #left{
+  display: inline-block;
+  width:50%;
+  float: left;
+}
+
+.profile-box #right{
+  display: inline-block;
+  margin:auto;
+  width:50%;
+}
+
+.profile-box input, select{
+  width: 80%;
+  padding: 12px 20px;
+  margin: 8px 0px;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.button2 {
+  float:right;
+  margin-right: 10%;
+  margin-top: 2%;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: cornflowerblue;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 14px;
+  padding: 10px;
+  width: 120px;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+button  span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+button:hover span {
+  padding-right: 25px;
+}
+
+button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
