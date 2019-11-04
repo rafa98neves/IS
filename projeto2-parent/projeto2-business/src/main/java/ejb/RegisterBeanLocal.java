@@ -7,5 +7,5 @@ import java.sql.Date;
 
 @Local
 public interface RegisterBeanLocal {
-    void registerUser(String username, String email, Country country, Date birthdate, String password);
+    boolean registerUser(String username, String email, Country country, Date birthdate, String password);
 }

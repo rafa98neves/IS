@@ -13,5 +13,11 @@ public class Country implements Serializable {
     @Column(nullable = false, length = 32)
     private String name;
 
+    public Country(){
 
+    }
+
+    public Country(String name) {
+        this.name = name;
+    }
 }

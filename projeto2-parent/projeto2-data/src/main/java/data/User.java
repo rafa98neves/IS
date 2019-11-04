@@ -13,7 +13,7 @@ public class User implements Serializable {
     private String name;
     @Column(nullable = false, length = 64)
     private String password;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Country country;
     @Column(nullable = false)
     private Date birthdate;
@@ -21,7 +21,7 @@ public class User implements Serializable {
     @Column(nullable = false, length=48)
     private String email;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = {CascadeType.ALL})
     private List<Item> items;
 
     public User(){

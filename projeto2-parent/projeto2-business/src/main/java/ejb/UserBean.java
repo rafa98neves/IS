@@ -16,28 +16,27 @@ public class UserBean implements UserBeanLocal {
     EntityManager em = emf.createEntityManager();
 
 
-    public UserBean(){
+    public UserBean() {
 
     }
 
-    public void edit(String name, Country country, String email, String password, Date birthdate){
+    public void edit(String name, Country country, String email, String password, Date birthdate) {
         em.createQuery("UPDATE USERS set name = ?, country = ?, password = ?, birthdate = ? where email = ?")
-            .setParameter(0, name)
-            .setParameter(1, country)
-            .setParameter(2, password)
-            .setParameter(3, birthdate)
-            .setParameter(4, email)
-            .executeUpdate();
+                .setParameter(0, name)
+                .setParameter(1, country)
+                .setParameter(2, password)
+                .setParameter(3, birthdate)
+                .setParameter(4, email)
+                .executeUpdate();
     }
 
-    public void deleteUser(User u){
-        for(Item i : u.getItems()){
+    public void deleteUser(User u) {
+        em.getTransaction().begin();
+        for (Item i : u.getItems()) {
             em.remove(i);
         }
         em.remove(u);
+        em.getTransaction().commit();
     }
 
-    public void logout(){
-
-    }
 }

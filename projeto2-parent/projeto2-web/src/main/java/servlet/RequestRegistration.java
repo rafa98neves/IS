@@ -1,6 +1,7 @@
 package servlet;
 
 import data.Country;
+import ejb.RegisterBean;
 import ejb.RegisterBeanLocal;
 
 import javax.ejb.EJB;
@@ -20,8 +21,7 @@ import java.sql.Date;
 @WebServlet("/RequestRegistration")
 public class RequestRegistration extends HttpServlet {
 
-    @EJB
-    RegisterBeanLocal myRegisterBean;
+    @EJB RegisterBeanLocal myRegisterBean;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,  IOException {
         response.setContentType("text/html");
@@ -31,24 +31,22 @@ public class RequestRegistration extends HttpServlet {
             String email= request.getParameter("email"); //get email
 
             String raw_country= request.getParameter("country"); //get country
-            Country country = new Country(); //????
-
-            java.util.Date date = new SimpleDateFormat("dd-MM-yyyy").parse(request.getParameter("birthdate")); //get birthdate
-            Date birthdate = new Date(date.getTime());
+            Country country = new Country("Portugal"); //????
+            Date birthdate = Date.valueOf(request.getParameter("birthdate"));
             String psw= request.getParameter("psw"); //get password
 
-            /*if(myRegisterBean.registerUser(name,email,country,birthdate,psw)){
-                RequestDispatcher rd = context.getRequestDispatcher("/login.html");
+            if(myRegisterBean.registerUser(name,email,country,birthdate,psw)){
+                RequestDispatcher rd = context.getRequestDispatcher("/Login.jsp");
                 rd.include(request, response);
             }
             else{
                 out.println("<script type=\"text/javascript\">");
                 out.println("alert('Este email já está associado a um utilizador');");
-                out.println("location='registo.html';");
+                out.println("location='Registo.jsp';");
                 out.println("</script>");
-                RequestDispatcher rd = context.getRequestDispatcher("/registo.html");
+                RequestDispatcher rd = context.getRequestDispatcher("/Registo.jsp");
                 rd.include(request, response);
-            }*/
+            }
         } catch (Exception e){
             //....
         }

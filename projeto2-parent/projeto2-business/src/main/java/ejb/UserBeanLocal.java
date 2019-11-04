@@ -10,5 +10,4 @@ import java.sql.Date;
 public interface UserBeanLocal {
     void edit(String name, Country country, String email, String password, Date birthdate);
     void deleteUser(User u);
-    void logout();
 }

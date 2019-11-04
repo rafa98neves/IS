@@ -21,7 +21,7 @@
                 <option value="inglaterra">Inglaterra</option>
                 <option value="marrocos">Marrocos</option>
             </select>
-        <tr><td>Data de nascimento </td> <td><input type="date" name="bithdate" required/></td></tr>
+        <tr><td>Data de nascimento </td> <td><input type="date" name="birthdate" required/></td></tr>
         </td></tr>
         <tr><td>Password </td> <td> <input type="password" name="psw" required/></td></tr>
         <tr><td></td> <td><input type="submit" value="Registar"/></td></tr>

@@ -7,6 +7,7 @@ import ejb.LoginBeanLocal;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,11 +30,10 @@ public class RequestLogin extends HttpServlet {
             String email= request.getParameter("email");
             String psw= request.getParameter("psw");
 
-            //User user = myLoginBean.login(email,psw);
-
-            User user = new User();
+            User user = myLoginBean.login(email,psw);
+            /*User user = new User();
             user.setName("Rafa");
-            user.setEmail("santarita@live.com.pt");
+            user.setEmail("santarita@live.com.pt");*/
 
             if(user != null){
                 HttpSession session = request.getSession(true);
@@ -45,10 +45,11 @@ public class RequestLogin extends HttpServlet {
             else{
                 out.println("<script type=\"text/javascript\">");
                 out.println("alert('Email ou password incorrectos');");
-                out.println("location='login.html';");
+                out.println("location='Login.jsp';");
                 out.println("</script>");
                 RequestDispatcher rd = context.getRequestDispatcher("/Login.jsp");
                 rd.include(request, response);
+                out.close();
             }
         } catch (Exception e){
             //....

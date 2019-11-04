@@ -14,7 +14,7 @@
     <% if (currentUser != null) { %>
         <ul>
             <li style="float:left; margin-left: 5%"><a href="MyBay.jsp">MyBay</a></li>
-            <li style="float:right; margin-right: 5%"><a href="Logout.jsp">Logout</a></li>
+            <li style="float:right; margin-right: 5%"><a href="RequestLogout">Logout</a></li>
             <li style="float:right"><a href="Perfil.jsp">Perfil</a></li>
         </ul>
     <% } %>

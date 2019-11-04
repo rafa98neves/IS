@@ -86,9 +86,9 @@ public class Item implements Serializable {
         this.owner = owner;
     }
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Country country;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private User owner;
 
     public Item(){
