@@ -145,13 +145,13 @@
     width: 70%;
 }
 
-.profile-box #left{
+.profile-box #left, #left2{
     display: inline-block;
     width:50%;
     float: left;
 }
 
-.profile-box #right{
+.profile-box #right, #right2{
     display: inline-block;
     margin:auto;
     width:50%;

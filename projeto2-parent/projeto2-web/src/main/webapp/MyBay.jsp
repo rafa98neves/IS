@@ -4,10 +4,9 @@
 
 <% User currentUser = (User) session.getAttribute("currentSessionUser");%>
 <% if (currentUser == null) {
-    String redirectURL = "/projeto2-web/Login.jsp";
+    String redirectURL = "Login.jsp";
     response.sendRedirect(redirectURL);
 } %>
-
 
 <html>
 <head>

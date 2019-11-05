@@ -21,13 +21,13 @@
     <form method="post" action="RequestProfileChange">
         <div class="profile-box">
             <div id="left">
-                Nome    <input type="text" name="name" placeholder=<%= currentUser.getName()%> > </br>
-                Email   <input type="email" name="email" placeholder=<%= currentUser.getEmail() %> > </br>
+                Nome    <input type="text" name="name" value=<%= currentUser.getName()%> > </br>
+                Email   <input type="email" name="email" value=<%= currentUser.getEmail() %> > </br>
             </div>
             <div id="right">
-                País <select name="country"  placeholder=<%= currentUser.getCountry() %>>
-                        <option value="portugal">Portugal</option>
+                País <select name="country"  value=<%= currentUser.getCountry().getName() %>>
                         <option value="espanha">Espanha</option>
+                        <option value="portugal">Portugal</option>
                         <option value="inglaterra">Inglaterra</option>
                         <option value="marrocos">Marrocos</option>
                      </select> </br>

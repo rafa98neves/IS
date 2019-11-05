@@ -35,6 +35,6 @@
         </tr>
     </table>
 
-    <button class="button3" action="RequestAddItem">+</button>
+    <a type="button" class="button3" href="AdicionarItem.jsp">+</a>
 </body>
 </html>
