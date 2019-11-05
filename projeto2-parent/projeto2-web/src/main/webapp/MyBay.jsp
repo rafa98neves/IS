@@ -1,5 +1,8 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"
          import="data.User"%>
+<%@ page import="data.Item" %>
+<%@ page import="java.util.List" %>
 
 <% User currentUser = (User) session.getAttribute("currentSessionUser");%>
 <% if (currentUser == null) {
@@ -23,12 +26,14 @@
             <th>Nome</th>
             <th>Preço</th>
         </tr>
-        <tr>
-            <td>ISTO E UMA IMAGEM</td>
-            <td>Peter</td>
-            <td>Griffin</td>
-            <td>$100</td>
-        </tr>
+        <c:forEach items="${items}" var="item">
+            <tr>
+                <td>No tem</td>
+                <td>No tem</td>
+                <td>${item.name}</td>
+                <td>${item.price}</td>
+            </tr>
+        </c:forEach>
 
     </table>
 </body>

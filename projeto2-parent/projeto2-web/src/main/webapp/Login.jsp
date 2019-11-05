@@ -7,14 +7,20 @@
 </head>
 
 <body>
-    <h3>Login</h3>
+    <jsp:include page="Layout.jsp"></jsp:include>
+
+    <div class="profile-header">
+        <h3 id="profile-title">Login</h3>
+    </div>
     <form method="post" action="RequestLogin">
-            <table>
-                <tr><td>Email </td> <td><input type="email" name="email" required/></td></tr>
-                <tr><td>Password </td> <td> <input type="password" name="psw" required/></td></tr>
-                <tr><td></td> <td><input type="submit" value="Entrar"/></td></tr>
-            </table>
+        <div class="profile-box">
+            <div id="left">
+                Email    <input type="email" name="email" required > </br>
+                Password   <input type="password" name="psw" > </br>
+                <a style="margin-top:2%;" href="Registo.jsp"> Registar </a>
+                <button class="button_login" type="submit"><span>Entrar</span></button>
+            </div>
+        </div>
     </form>
-    <a href="Registo.jsp"> Registar </a>
 </body>
 </html>

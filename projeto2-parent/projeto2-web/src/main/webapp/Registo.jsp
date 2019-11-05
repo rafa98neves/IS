@@ -9,24 +9,31 @@
 </head>
 
 <body>
-<h3>Registo</h3>
+
+<jsp:include page="Layout.jsp"></jsp:include>
+
+<div class="profile-header">
+    <h3 id="profile-title">Registo</h3>
+</div>
 <form method="post" action="RequestRegistration">
-    <table>
-        <tr><td>Nome </td> <td><input type="text" name="name" required/></td></tr>
-        <tr><td>Email </td> <td><input type="email" name="email" required/></td></tr>
-        <tr><td>País </td> <td>
-            <select name="country">
-                <option value="portugal">Portugal</option>
-                <option value="espanha">Espanha</option>
-                <option value="inglaterra">Inglaterra</option>
-                <option value="marrocos">Marrocos</option>
-            </select>
-        <tr><td>Data de nascimento </td> <td><input type="date" name="birthdate" required/></td></tr>
-        </td></tr>
-        <tr><td>Password </td> <td> <input type="password" name="psw" required/></td></tr>
-        <tr><td></td> <td><input type="submit" value="Registar"/></td></tr>
-    </table>
+    <div class="profile-box">
+        <div id="left">
+            Nome    <input type="text" name="name" required/> </br>
+            Email   <input type="email" name="email" placeholder="exemplo@email.com" required/> </br>
+            Password   <input type="password" name="psw" required/> </br>
+            <a href="Login.jsp"> Já está registado? </a>
+        </div>
+        <div id="right">
+            País <select name="country">
+            <option value="portugal">Portugal</option>
+            <option value="espanha">Espanha</option>
+            <option value="inglaterra">Inglaterra</option>
+            <option value="marrocos">Marrocos</option>
+        </select> </br>
+            Data de nascimento  <input type="date" name="birthdate" required/></br>
+        </div>
+        <button class="button2" type="submit"><span>Registar</span></button>
+    </div>
 </form>
-<a href="Login.jsp"> Já está registado? </a>
 </body>
 </html>
