@@ -22,7 +22,7 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" style="margin-left: 80px;" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control mr-sm-2" style="margin-left: 80px;" type="search" placeholder="Pesquisa" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Procurar</button>
                 </form>
             </div>
