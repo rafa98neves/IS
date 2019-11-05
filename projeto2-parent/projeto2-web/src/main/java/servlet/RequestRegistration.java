@@ -48,7 +48,8 @@ public class RequestRegistration extends HttpServlet {
                 rd.include(request, response);
             }
         } catch (Exception e){
-            //....
+            System.out.println("[REQUEST REGISTRATION ERROR] " + e);
+            response.sendRedirect("/Registo.jsp");
         }
     }
 

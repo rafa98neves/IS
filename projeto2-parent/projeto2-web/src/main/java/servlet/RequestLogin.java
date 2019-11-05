@@ -32,11 +32,11 @@ public class RequestLogin extends HttpServlet {
             String psw= request.getParameter("psw");
 
             User user = myLoginBean.login(email,psw);
-
             if(user != null){
                 HttpSession session = request.getSession(true);
                 session.setAttribute("currentSessionUser",user);
-                response.sendRedirect("/projeto2-web/MyBay.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("RequestItemsPageable");
+                rd.forward(request, response);
             }
             else{
                 out.println("<script type=\"text/javascript\">");
@@ -48,7 +48,8 @@ public class RequestLogin extends HttpServlet {
                 out.close();
             }
         } catch (Exception e){
-            //....
+            System.out.println("[REQUEST LOGIN ERROR] " + e);
+            response.sendRedirect("/Login.jsp");
         }
     }
 

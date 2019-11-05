@@ -15,14 +15,14 @@
 
     <% if (currentUser != null) { %>
         <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" id="Title-navbar" href="MyBay.jsp">MyBay</a>
+            <a class="navbar-brand" id="Title-navbar" href="RequestItemsPageable">MyBay</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" style="margin-left: 80px;" type="search" placeholder="Pesquisa" aria-label="Search">
+                <form class="form-inline my-2 my-lg-0" action="RequestItemsPageable">
+                    <input class="form-control mr-sm-2" style="margin-left: 80px;" type="search" name="search" placeholder="Procure o seu item..." aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Procurar</button>
                 </form>
             </div>
