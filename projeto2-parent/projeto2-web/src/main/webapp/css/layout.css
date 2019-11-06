@@ -21,15 +21,6 @@
 
 /* Layout Page */
 
-.dropimg{
-    position: relative;
-    margin-left: 5px;
-    max-width: 40px;
-    max-height: 40px;
-    border: none;
-    cursor: pointer;
-}
-
 #Title-navbar{
     margin-left: 2%;
 }
@@ -43,6 +34,15 @@
     display: inline;
     margin-top: 5%;
     width: auto;
+}
+
+.dropimg{
+    position: relative;
+    margin-left: 5px;
+    max-width: 40px;
+    max-height: 40px;
+    border: none;
+    cursor: pointer;
 }
 
 .dropdown {
@@ -86,16 +86,15 @@
 /* Main page */
 
 #Table-title{
-    margin-top: 4%;
     margin-left: 15%;
-    witdh: 50%;
+    width: 50%;
+    float: left;
 }
 
 .item-table {
     border-collapse: collapse;
-    margin-top: 2%;
-    margin-left: 15%;
-    width: 70%;
+    margin-left: 3%;
+    width: 87%;
 }
 
 .item-table th, td {
@@ -119,13 +118,55 @@
     color: white;
 }
 
+
+.menu{
+    max-width: 100%;
+    width:100%;
+    display:inline;
+    margin-top: 2%;
+    float:left;
+    margin-left:5%;
+}
+
+.menu #left{
+    background-color: #d9ffb3;
+    float:left;
+    width: 17%;
+    height: 70%;
+}
+
+.menu #left select {
+    margin-left:10%;
+    margin-top: 15%;
+}
+
+.menu #left input {
+    float:right;
+    margin-top: 15%;
+    margin-right: 5%;
+    max-width: 49%;
+}
+
+.menu #left label{
+    margin-top: 15%;
+    margin-left: 4%;
+}
+.menu #right{
+    float:left;
+    width: 80%;
+}
+
+.filters {
+    position: relative;
+    display: block;
+}
 /* Profile Page */
 
 .profile-header{
-    margin-top:2%;
-    witdh: 100%;
+    margin-top: 3%;
+    width: 100%;
     overflow: hidden;
-    display: block;
+    display: inline-block;
 }
 
 #profile-title{
@@ -228,8 +269,7 @@ button:hover span:after {
 
 .button3 {
     float:right;
-    margin-right: 15%;
-    margin-top: 2%;
+    margin-right: 6%;
     display: inline-block;
     border-radius: 4px;
     background-color: cornflowerblue;

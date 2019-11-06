@@ -8,6 +8,7 @@
     <title>Mybay</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link rel="stylesheet" href="css/layout.css" type="text/css">
+
 </head>
 
 <body>
@@ -27,8 +28,6 @@
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Procurar</button>
                 </form>
             </div>
-
-
             <div class="dropdown">
                 <p class="username-text">  <%=currentUser.getName()%></p>
                 <img src="static/user.png" class="dropimg">
