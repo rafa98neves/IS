@@ -105,6 +105,15 @@
 
 .item-table tr:nth-child(even){background-color: #f2f2f2}
 
+.item-table tr:hover{
+    background: #cccccc;
+}
+
+.item-table a{
+    display: block;
+    color:black;
+}
+
 .item-table th {
     background-color: #4CAF50;
     color: white;
@@ -145,13 +154,19 @@
     width: 70%;
 }
 
-.profile-box #left{
+.profile-box input[readonly]{
+    outline: none;
+    background-color: darkgrey;
+    color: white;
+}
+
+.profile-box #left, #left2{
     display: inline-block;
     width:50%;
     float: left;
 }
 
-.profile-box #right{
+.profile-box #right, #right2{
     display: inline-block;
     margin:auto;
     width:50%;

@@ -17,6 +17,10 @@ public class Country implements Serializable {
 
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Country(String name) {
         this.name = name;
     }

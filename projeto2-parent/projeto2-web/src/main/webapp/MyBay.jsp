@@ -4,10 +4,9 @@
 
 <% User currentUser = (User) session.getAttribute("currentSessionUser");%>
 <% if (currentUser == null) {
-    String redirectURL = "/projeto2-web/Login.jsp";
+    String redirectURL = "Login.jsp";
     response.sendRedirect(redirectURL);
 } %>
-
 
 <html>
 <head>
@@ -24,15 +23,19 @@
             <th>Nome</th>
             <th>Preço</th>
         </tr>
-        <c:forEach items="${items}" var="item">
-            <tr>
-                <td>No tem</td>
-                <td>No tem</td>
-                <td>${item.name}</td>
-                <td>${item.price}</td>
-            </tr>
-        </c:forEach>
-
+        <c:catch var="exception">
+            <c:forEach items="${items}" var="item">
+                <tr class="tr-items">
+                    <td> <a href="RequestItem?ItID=${item.name}">No tem</a> </td>
+                    <td> <a href="RequestItem?ItID=${item.name}">No tem</a> </td>
+                    <td> <a href="RequestItem?ItID=${item.name}">${item.name}</a> </td>
+                    <td> <a href="RequestItem?ItID=${item.name}">${item.price}</a> </td>
+                </tr>
+            </c:forEach>
+        </c:catch>
+        <c:if test="${not empty exception}">
+            Nenhum item foi encontrado.
+        </c:if>
     </table>
 </body>
 </html>
