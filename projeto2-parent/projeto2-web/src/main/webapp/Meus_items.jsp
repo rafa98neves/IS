@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"
          import="data.User"%>
 
@@ -24,16 +25,21 @@
         <div id="left">
             <form>
                 <select name="category">
-                    <option> Todas as Categorias </option>
-                    <option> Outra </option>
+                    <option  value="all"> Todas as Categorias </option>
+                    <c:forEach items="${sessionScope.categories}" var="category">
+                        <option value="${category.getId()}"> ${category.getType()} </option>
+                    </c:forEach>
                 </select>
                 <select name="country">
-                    <option> Todas os países </option>
-                    <option> Outro </option>
+                    <option value="all"> Todas os países </option>
+                    <c:forEach items="${sessionScope.countries}" var="country">
+                        <option value="${country.getId()}"> ${country.getName()} </option>
+                    </c:forEach>
                 </select>
-                <label>Depois de</label>    <input type="date" > </br>
-                <label>Preço Mínimo</label> <input type="number" min="0" value="0"> </br>
-                <label>Preço Máximo</label> <input type="number" min="0" value="9999"> </br>
+                <label>Depois de</label>    <input name="date" type="date" > </br>
+                <label>Preço Mínimo</label> <input name="min" type="number" min="0" step="any"></br>
+                <label>Preço Máximo</label> <input name="max" type="number" min="0" step="any"></br>
+                <button class="button4" type="submit" href="RequestItemsPageable">Filtrar</button>
             </form>
         </div>
         <div id="right">

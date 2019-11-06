@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="data.User" %>
 <%@ page language="java"
          contentType="text/html; charset=utf-8"
@@ -31,10 +32,9 @@
         </div>
         <div id="right">
             País <select name="country">
-            <option value="portugal">Portugal</option>
-            <option value="espanha">Espanha</option>
-            <option value="inglaterra">Inglaterra</option>
-            <option value="marrocos">Marrocos</option>
+            <c:forEach items="${requestScope.countries}" var="country">
+                <option value="${country.getId()}"> ${country.getName()} </option>
+            </c:forEach>
         </select> </br>
             Data de nascimento  <input type="date" name="birthdate" required/></br>
         </div>

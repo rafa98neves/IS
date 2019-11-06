@@ -28,8 +28,13 @@ public class RequestItemsPageable extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()){
             String search = request.getParameter("search");
-            List<Item> items;
+            String category = request.getParameter("category");
+            String country = request.getParameter("country");
+            String min_price = request.getParameter("min");
+            String max_price = request.getParameter("max");
+            String date = request.getParameter("date");
 
+            List<Item> items;
             if(search == null)
                 items = myItemBean.searchAllItems("");
             else

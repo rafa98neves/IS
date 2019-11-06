@@ -14,4 +14,12 @@ public class Category implements Serializable {
     private long id;
     @Column(length = 32)
     private String type;
+
+    public String getType(){
+        return type;
+    }
+
+    public long getId() {
+        return id;
+    }
 }

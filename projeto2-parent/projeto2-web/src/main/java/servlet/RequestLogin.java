@@ -1,6 +1,7 @@
 package servlet;
 
 import data.User;
+import ejb.InformationBeanLocal;
 import ejb.LoginBeanLocal;
 
 import javax.ejb.EJB;
@@ -18,10 +19,17 @@ import java.io.PrintWriter;
 public class RequestLogin extends HttpServlet {
 
     @EJB LoginBeanLocal myLoginBean;
+    @EJB InformationBeanLocal myInformationBean;
+
+    private void setSession(HttpServletRequest request, User user){
+        HttpSession session = request.getSession(true);
+        session.setAttribute("currentSessionUser",user);
+        session.setAttribute("countries", myInformationBean.getCountries());
+        session.setAttribute("categories", myInformationBean.getCategories());
+    }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws  IOException {
         response.setContentType("text/html");
-        HttpSession session = request.getSession(true);
 
         try (PrintWriter out = response.getWriter()){
             String email= request.getParameter("email");
@@ -30,7 +38,7 @@ public class RequestLogin extends HttpServlet {
             User user = myLoginBean.login(email,psw);
 
             if(user != null){
-                session.setAttribute("currentSessionUser",user);
+                setSession(request, user);
                 response.sendRedirect("RequestItemsPageable");
             }
             else{

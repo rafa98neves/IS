@@ -19,7 +19,7 @@ public class RequestInformation extends HttpServlet {
         response.setContentType("text/html");
         request.setAttribute("countries", myInformationBean.getCountries());
         request.setAttribute("categories", myInformationBean.getCategories());
-        RequestDispatcher rd = request.getRequestDispatcher(request.getRequestURL().toString());
+        RequestDispatcher rd = request.getRequestDispatcher("/Registo.jsp");
         rd.forward(request, response);
     }
 

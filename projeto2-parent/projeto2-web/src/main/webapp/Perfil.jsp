@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"
          import="data.User"%>
 
@@ -25,13 +26,11 @@
                 Email   <input type="email" name="email" value="<%= currentUser.getEmail() %>" > </br>
             </div>
             <div id="right">
-                País <select name="country"  placeholder="<%= currentUser.getCountry()%>">
-
-                        <option value="espanha">Espanha</option>
-                        <option value="portugal">Portugal</option>
-                        <option value="inglaterra">Inglaterra</option>
-                        <option value="marrocos">Marrocos</option>
-                     </select> </br>
+                País <select name="country">
+                        <c:forEach items="${sessionScope.countries}" var="country">
+                            <option value="${country.getId()}"> ${country.getName()} </option>
+                        </c:forEach>
+                    </select> </br>
                 Data de nascimento  <input type="date" name="birthdate"  value="<%= currentUser.getBirthdate().toString()%>" ></br>
             </div>
             <button class="button2" type="submit"><span>Confirmar</span></button>
