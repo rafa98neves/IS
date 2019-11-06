@@ -43,7 +43,7 @@ public class RequestAddItem extends HttpServlet {
             //List<Item> items = myItemBean.searchItemsByUser(user)
             RequestDispatcher rd = request.getRequestDispatcher("/Meus_items.jsp");
             //request.setAttribute("items", items);
-            rd.include(request, response);
+            rd.forward(request, response);
         } catch (Exception e){
             System.out.println("[ADDING ITEM ERROR] " + e);
             response.sendRedirect("/MyBay.jsp");

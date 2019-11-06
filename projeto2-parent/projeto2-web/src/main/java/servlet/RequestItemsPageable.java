@@ -34,7 +34,6 @@ public class RequestItemsPageable extends HttpServlet {
                 items = myItemBean.searchAllItems("");
             else
                 items = myItemBean.searchAllItems(search);
-
             Item item = new Item();
             item.setName("meu item");
             item.setPrice(1.2f);
