@@ -1,8 +1,8 @@
 package servlet;
 
 import data.Country;
-import ejb.RegisterBean;
-import ejb.RegisterBeanLocal;
+import data.User;
+import ejb.UserBeanLocal;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -16,15 +16,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 
+@WebServlet("/EditProfile")
+public class EditProfile extends HttpServlet {
+    @EJB UserBeanLocal myUserBean;
 
-@WebServlet("/RequestRegistration")
-public class RequestRegistration extends HttpServlet {
-
-    @EJB RegisterBeanLocal myRegisterBean;
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,  IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
-        ServletContext context= getServletContext();
+        ServletContext context = getServletContext();
         try (PrintWriter out = response.getWriter()){
             request.setCharacterEncoding("UTF-8");
             String name= request.getParameter("name"); //get name
@@ -33,27 +31,25 @@ public class RequestRegistration extends HttpServlet {
             String raw_country= request.getParameter("country"); //get country
             Country country = new Country("Portugal"); //????
             Date birthdate = Date.valueOf(request.getParameter("birthdate"));
-            String psw= request.getParameter("psw"); //get password
 
-            if(myRegisterBean.registerUser(name,email,country,birthdate,psw)){
-                RequestDispatcher rd = context.getRequestDispatcher("/Login.jsp");
+            User user;
+            if((user = myUserBean.edit(name,country,email,birthdate)) != null){
+                request.getSession().setAttribute("currentSessionUser", user);
+                RequestDispatcher rd = context.getRequestDispatcher("/Perfil.jsp");
                 rd.forward(request, response);
             }
             else{
                 out.println("<script type=\"text/javascript\">");
-                out.println("alert('Este email já está associado a um utilizador');");
-                out.println("location='Registo.jsp';");
+                out.println("alert('Erro ao editar o perfil');");
+                out.println("location='Perfil.jsp';");
                 out.println("</script>");
-                RequestDispatcher rd = context.getRequestDispatcher("/Registo.jsp");
+                RequestDispatcher rd = context.getRequestDispatcher("/Perfil.jsp");
                 rd.forward(request, response);
             }
         } catch (Exception e){
-            System.out.println("[REQUEST REGISTRATION ERROR] " + e);
-            response.sendRedirect("/Registo.jsp");
+            System.out.println("[REQUEST EDIT ERROR] " + e);
+            response.sendRedirect("/Perfil.jsp");
         }
     }
-
-
-
 
 }

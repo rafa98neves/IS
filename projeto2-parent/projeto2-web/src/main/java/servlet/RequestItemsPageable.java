@@ -34,7 +34,7 @@ public class RequestItemsPageable extends HttpServlet {
             if(items != null){
                 RequestDispatcher rd = request.getRequestDispatcher("/MyBay.jsp");
                 request.setAttribute("items", items);
-                rd.include(request, response);
+                rd.forward(request, response);
             }
             else{
                 out.println("<script type=\"text/javascript\">");
@@ -42,7 +42,7 @@ public class RequestItemsPageable extends HttpServlet {
                 out.println("location='MyBay.jsp';");
                 out.println("</script>");
                 RequestDispatcher rd = request.getRequestDispatcher("/MyBay.jsp");
-                rd.include(request, response);
+                rd.forward(request, response);
                 out.close();
             }
         } catch (Exception e){

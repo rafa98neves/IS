@@ -8,6 +8,6 @@ import java.sql.Date;
 
 @Local
 public interface UserBeanLocal {
-    void edit(String name, Country country, String email, String password, Date birthdate);
+    User edit(String name, Country country, String email, Date birthdate);
     void deleteUser(User u);
 }

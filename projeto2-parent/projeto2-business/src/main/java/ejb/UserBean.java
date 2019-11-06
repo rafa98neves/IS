@@ -7,6 +7,7 @@ import data.User;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.sql.Date;
 
@@ -14,28 +15,35 @@ import java.sql.Date;
 public class UserBean implements UserBeanLocal {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("MyBay");
     EntityManager em = emf.createEntityManager();
+    EntityTransaction et = em.getTransaction();
 
 
     public UserBean() {
 
     }
 
-    public void edit(String name, Country country, String email, String password, Date birthdate) {
-        em.createQuery("UPDATE USERS set name = ?, country = ?, password = ?, birthdate = ? where email = ?")
-                .setParameter(0, name)
-                .setParameter(1, country)
-                .setParameter(2, password)
-                .setParameter(3, birthdate)
-                .setParameter(4, email)
-                .executeUpdate();
+    public User edit(String name, Country country, String email, Date birthdate) {
+        if(!et.isActive())et.begin();
+        try {
+            User u = em.find(User.class, email);
+            u.setEmail(email);
+            u.setCountry(country);
+            u.setName(name);
+            u.setBirthdate(birthdate);
+            em.merge(u);
+            et.commit();
+            return u;
+        } catch (Exception e){
+            return null;
+        }
     }
 
     public void deleteUser(User u) {
-        em.getTransaction().begin();
+        if(!em.getTransaction().isActive())em.getTransaction().begin();
         for (Item i : u.getItems()) {
-            em.remove(i);
+            em.remove(em.contains(i) ? i : em.merge(i));
         }
-        em.remove(u);
+        em.remove(em.contains(u) ? u : em.merge(u));
         em.getTransaction().commit();
     }
 

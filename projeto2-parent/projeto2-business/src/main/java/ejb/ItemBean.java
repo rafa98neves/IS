@@ -4,14 +4,14 @@ import data.Category;
 import data.Country;
 import data.Item;
 
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.sql.Date;
 import java.util.List;
 
-@Stateful
+@Stateless
 public class ItemBean implements ItemBeanLocal {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("MyBay");
     EntityManager em = emf.createEntityManager();

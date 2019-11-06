@@ -35,8 +35,7 @@ public class RequestLogin extends HttpServlet {
             if(user != null){
                 HttpSession session = request.getSession(true);
                 session.setAttribute("currentSessionUser",user);
-                RequestDispatcher rd = request.getRequestDispatcher("RequestItemsPageable");
-                rd.forward(request, response);
+                response.sendRedirect("MyBay.jsp");
             }
             else{
                 out.println("<script type=\"text/javascript\">");
@@ -44,7 +43,7 @@ public class RequestLogin extends HttpServlet {
                 out.println("location='Login.jsp';");
                 out.println("</script>");
                 RequestDispatcher rd = context.getRequestDispatcher("/Login.jsp");
-                rd.include(request, response);
+                rd.forward(request, response);
                 out.close();
             }
         } catch (Exception e){
