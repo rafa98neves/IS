@@ -31,7 +31,7 @@ public class RequestLogin extends HttpServlet {
 
             if(user != null){
                 session.setAttribute("currentSessionUser",user);
-                response.sendRedirect("MyBay.jsp");
+                response.sendRedirect("RequestItemsPageable");
             }
             else{
                 out.println("<script type=\"text/javascript\">");

@@ -22,7 +22,7 @@
         <div class="profile-box">
             <div id="left">
                 Email    <input type="email" name="email" required > </br>
-                Password   <input type="password" name="psw" > </br>
+                Password   <input type="password" name="psw" required> </br>
                 <a style="margin-top:2%;" href="Registo.jsp"> Registar </a>
                 <button class="button_login" type="submit"><span>Entrar</span></button>
             </div>

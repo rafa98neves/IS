@@ -23,15 +23,13 @@
             <th>Nome</th>
             <th>Preço</th>
             <th></th>
-            <th></th>
         </tr>
         <tr>
-            <td>ISTO E UMA IMAGEM</td>
-            <td>Peter</td>
-            <td>Griffin</td>
-            <td>$100</td>
-            <td><a href="/novo"> <img class="icon" src="static/edit.png"> </a></td>
-            <td><a href="RequestDeleteItem"> <img class="icon" src="static/trash.png"></a></td>
+            <td> <a href="RequestItem?ItID=${item.name}"> ISTO E UMA IMAGEM</a></td>
+            <td> <a href="RequestItem?ItID=${item.name}">Peter </a></td>
+            <td> <a href="RequestItem?ItID=${item.name}">Griffin</a></td>
+            <td> <a href="RequestItem?ItID=${item.name}">$100</a></td>
+            <td> <a href="RequestDeleteItem"> <img class="icon" src="static/trash.png"></a></td>
         </tr>
     </table>
 

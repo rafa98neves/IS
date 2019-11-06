@@ -15,38 +15,39 @@
 <body>
     <jsp:include page="Layout.jsp"></jsp:include>
 
-    <div class="profile-header">
-        <h3 id="profile-title">Detalhes de ${item.getName()} - ${item.getOwner.getName()}}</h3>
+    <div style="width: 75%; margin-left: 3%;" class="profile-header">
+        <h3 id="profile-title">Detalhes de ${item.getName()} </h3>
+        <h3 style="float: right">${item.getOwner().getName()}</h3>
     </div>
 
-
-    <c:if test="${item.getOwner != currentUser}">
-    <div class="profile-box">
-        <div id="left">
-            Nome    <input type="text" name="name" value=${item.getName} readonly> </br>
-            Preço   <input type="number" name="price" value=${item.getPrice} readonly> </br>
-        </div>
-        <div id="right">
-            Data de inserção  <input type="date" name="date" value=${item.getDateOfInsertion} readonly> </br>
-            Categoria  <input type="text" name="category"  value=${item.getCategory.getName} readonly></br>
-        </div>
-    </div>
-    </c:if>
-    <c:otherwise>
+    <c:choose>
+    <c:when test="${item.getOwner().getEmail() == sessionScope.currentSessionUser.getEmail()}">
     <form method="post" action="RequestItemChange">
         <div class="profile-box">
-            <div id="left2">
-                Nome    <input type="text" name="name" value=${item.getName}> </br>
-                Preço   <input type="number" name="price" value=${item.getPrice}> </br>
+            <div id="left">
+                Nome    <input type="text" name="name" value="<c:out value="${item.getName()}"/>"> </br>
+                Preço   <input type="number" name="price" value="<c:out value="${item.getPrice()}"/>"> </br>
             </div>
-            <div id="right2">
-                Data de inserção  <input type="date" name="date" value=${item.getDateOfInsertion}> </br>
-                Categoria  <input type="text" name="category"  value=${item.getCategory.getName}></br>
+            <div id="right">
+                Data de inserção  <input type="date" name="date" readonly> </br>
+                Categoria  <input type="text" name="category"></br>
             </div>
             <button class="button2" type="submit"><span>Confirmar</span></button>
         </div>
     </form>
+    </c:when>
+    <c:otherwise>
+        <div class="profile-box">
+            <div id="left2">
+                Nome    <input type="text" name="name" value="<c:out value="${item.getName()}"/>" readonly> </br>
+                Preço   <input type="number" step="0.01" name="price" value="<c:out value="${item.getPrice()}"/>" readonly> </br>
+            </div>
+            <div id="right2">
+                Data de inserção  <input type="date" name="date" readonly> </br>
+                Categoria  <input type="text" name="category" readonly></br>
+            </div>
+        </div>
     </c:otherwise>
-
+    </c:choose>
 </body>
 </html>
