@@ -10,7 +10,7 @@ import javax.persistence.Persistence;
 import java.util.List;
 
 @Stateful
-public class InformationBean implements InformationBeanLocal{
+public class InformationBean implements InformationBeanLocal {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("MyBay");
     EntityManager em = emf.createEntityManager();
 

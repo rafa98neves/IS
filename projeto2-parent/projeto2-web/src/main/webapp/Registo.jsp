@@ -18,7 +18,7 @@
 </head>
 
 <body>
-
+    <jsp:useBean id="informationBean" class="ejb.InformationBean"/>
 <div class="profile-header">
     <h3 id="profile-title">Registo</h3>
 </div>
@@ -32,7 +32,7 @@
         </div>
         <div id="right">
             País <select name="country">
-            <c:forEach items="${requestScope.countries}" var="country">
+            <c:forEach items="${informationBean.countries}" var="country">
                 <option value="${country.getId()}"> ${country.getName()} </option>
             </c:forEach>
         </select> </br>

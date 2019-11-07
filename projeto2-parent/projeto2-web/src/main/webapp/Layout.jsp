@@ -14,7 +14,6 @@
 <body>
 
     <% User currentUser = (User) session.getAttribute("currentSessionUser");%>
-
     <% if (currentUser != null) { %>
         <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" id="Title-navbar" href="RequestItemsPageable">MyBay</a>

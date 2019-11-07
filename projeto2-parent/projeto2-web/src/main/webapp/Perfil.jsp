@@ -2,6 +2,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"
          import="data.User"%>
 
+<%
+    response.setHeader("Cache-Control","no-cache");
+    response.setHeader("Cache-Control","no-store");
+    response.setHeader("Pragma","no-cache");
+    response.setDateHeader ("Expires", 0);
+%>
+
 <% User currentUser = (User) session.getAttribute("currentSessionUser");%>
 <% if (currentUser == null) {
     String redirectURL = "/projeto2-web/Login.jsp";
@@ -14,6 +21,7 @@
     <title>MyBay</title>
 </head>
 <body>
+    <jsp:useBean id="informationBean" class="ejb.InformationBean"/>
     <jsp:include page="Layout.jsp"></jsp:include>
     <div class="profile-header">
         <h3 id="profile-title">Perfil de <%= currentUser.getName() %></h3>
@@ -27,7 +35,7 @@
             </div>
             <div id="right">
                 País <select name="country">
-                        <c:forEach items="${sessionScope.countries}" var="country">
+                        <c:forEach items="${informationBean.countries}" var="country">
                             <option value="${country.getId()}"> ${country.getName()} </option>
                         </c:forEach>
                     </select> </br>

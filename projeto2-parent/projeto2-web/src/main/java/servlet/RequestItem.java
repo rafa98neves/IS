@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 
 @WebServlet("/RequestItem")
 public class RequestItem extends HttpServlet {
@@ -26,6 +27,7 @@ public class RequestItem extends HttpServlet {
             if (n.compareTo("meu item") == 0){
                 item.setName(n);
                 item.setPrice(1.2f);
+                item.setDateOfInsertion(Date.valueOf("2019-09-11"));
                 HttpSession session = request.getSession(true);
                 item.setOwner((User) session.getAttribute("currentSessionUser"));
             }

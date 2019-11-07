@@ -19,13 +19,10 @@ import java.io.PrintWriter;
 public class RequestLogin extends HttpServlet {
 
     @EJB LoginBeanLocal myLoginBean;
-    @EJB InformationBeanLocal myInformationBean;
 
     private void setSession(HttpServletRequest request, User user){
         HttpSession session = request.getSession(true);
         session.setAttribute("currentSessionUser",user);
-        session.setAttribute("countries", myInformationBean.getCountries());
-        session.setAttribute("categories", myInformationBean.getCategories());
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws  IOException {

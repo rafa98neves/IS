@@ -8,6 +8,13 @@
     response.sendRedirect(redirectURL);
 } %>
 
+<%
+    response.setHeader("Cache-Control","no-cache");
+    response.setHeader("Cache-Control","no-store");
+    response.setHeader("Pragma","no-cache");
+    response.setDateHeader ("Expires", 0);
+%>
+
 <html>
 <head>
     <title>MyBay</title>
@@ -29,7 +36,7 @@
                 Preço   <input type="number" name="price" value="<c:out value="${item.getPrice()}"/>"> </br>
             </div>
             <div id="right">
-                Data de inserção  <input type="date" name="date" readonly> </br>
+                Data de inserção  <input type="date" name="date" readonly value="<c:out value="${item.getDateOfInsertion()}"/>"> </br>
                 Categoria  <input type="text" name="category"></br>
             </div>
             <button class="button2" type="submit"><span>Confirmar</span></button>

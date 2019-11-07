@@ -2,6 +2,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"
          import="data.User"%>
 
+<%
+    response.setHeader("Cache-Control","no-cache");
+    response.setHeader("Cache-Control","no-store");
+    response.setHeader("Pragma","no-cache");
+    response.setDateHeader ("Expires", 0);
+%>
+
+
 <% User currentUser = (User) session.getAttribute("currentSessionUser");%>
 <% if (currentUser == null) {
     String redirectURL = "Login.jsp";
@@ -14,7 +22,7 @@
 </head>
 <body>
     <jsp:include page="Layout.jsp"></jsp:include>
-
+    <jsp:useBean id="informationBean" class="ejb.InformationBean"/>
     <div class="profile-header">
         <h3 id="Table-title">Itens online</h3>
     </div>
@@ -23,13 +31,13 @@
             <form>
                 <select name="category">
                     <option  value="all"> Todas as Categorias </option>
-                    <c:forEach items="${sessionScope.categories}" var="category">
+                    <c:forEach items="${informationBean.categories}" var="category">
                         <option value="${category.getId()}"> ${category.getType()} </option>
                     </c:forEach>
                 </select>
                 <select name="country">
                     <option value="all"> Todas os países </option>
-                    <c:forEach items="${sessionScope.countries}" var="country">
+                    <c:forEach items="${informationBean.countries}" var="country">
                         <option value="${country.getId()}"> ${country.getName()} </option>
                     </c:forEach>
                 </select>

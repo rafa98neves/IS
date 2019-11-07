@@ -1,6 +1,13 @@
 <%@ page import="data.User" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" %>
 
+<%
+    response.setHeader("Cache-Control","no-cache");
+    response.setHeader("Cache-Control","no-store");
+    response.setHeader("Pragma","no-cache");
+    response.setDateHeader ("Expires", 0);
+%>
+
 <% User currentUser = (User) session.getAttribute("currentSessionUser");%>
 <% if (currentUser != null) {
     String redirectURL = "RequestItemsPageable";
@@ -23,7 +30,7 @@
             <div id="left">
                 Email    <input type="email" name="email" required > </br>
                 Password   <input type="password" name="psw" required> </br>
-                <a style="margin-top:2%;" href="RequestInformation"> Registar </a>
+                <a style="margin-top:2%;" href="Registo.jsp"> Registar </a>
                 <button class="button_login" type="submit"><span>Entrar</span></button>
             </div>
         </div>
