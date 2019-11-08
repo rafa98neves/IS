@@ -39,12 +39,6 @@ public class RequestAddItem extends HttpServlet {
             java.util.Date utilDate = new java.util.Date();
             java.sql.Date date = new java.sql.Date(utilDate.getTime());
             item.setDateOfInsertion(date);
-            user.getItems().sort(new Comparator<Item>() {
-                @Override
-                public int compare(Item o1, Item o2) {
-                    return o1.getDateOfInsertion().compareTo(o2.getDateOfInsertion());
-                }
-            });
             myItemBean.addItem(item, request.getParameter("country"), request.getParameter("category"), user);
             RequestDispatcher rd = request.getRequestDispatcher("/Meus_items.jsp");
             rd.forward(request, response);

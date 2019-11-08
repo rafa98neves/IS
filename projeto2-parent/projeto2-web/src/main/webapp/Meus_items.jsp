@@ -21,7 +21,7 @@
 <body>
     <jsp:include page="Layout.jsp"></jsp:include>
     <div class="profile-header">
-        <h3 id="Table-title">Os meus itens...</h3>
+        <h3 id="Table-title">Meus Itens</h3>
         <a type="button" class="button3" href="AdicionarItem.jsp">+</a>
     </div>
     <div class="meus_itens">

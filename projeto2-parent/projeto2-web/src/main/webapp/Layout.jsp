@@ -31,8 +31,8 @@
                 <p class="username-text">  <%=currentUser.getName()%></p>
                 <img src="static/user.png" class="dropimg">
                 <ul class="dropdown-content">
-                    <a href="Perfil.jsp">O meu perfil</a>
-                    <a href="Meus_items.jsp">Os meus itens</a>
+                    <a href="Perfil.jsp">Meu Perfil</a>
+                    <a href="Meus_items.jsp">Meus Itens</a>
                     <a href="RequestLogout">Logout</a>
                 </ul>
             </div>
