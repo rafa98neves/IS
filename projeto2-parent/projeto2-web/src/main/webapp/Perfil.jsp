@@ -30,7 +30,6 @@
     <form method="post" action="EditProfile">
         <div class="profile-box">
             <div id="left">
-                Imagem <input type="file" name="picture"> </br>
                 Nome    <input type="text" name="name" value="<%= currentUser.getName()%>" > </br>
                 Email   <input type="email" name="email" value="<%= currentUser.getEmail() %>" > </br>
             </div>
