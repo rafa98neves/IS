@@ -18,8 +18,26 @@
 }
 
 
-
 /* ---------------  Layout Page  --------------- */
+.alert{
+    display: block;
+    background-color:red;
+    height: 40px;
+    line-height: 10px;
+    text-align: center;
+    border-radius: 4px;
+    color: white;
+    width: 30%;
+    margin-left: 35%;
+    top: 1%;
+    position: absolute;
+    animation: fadeinout 4s linear forwards;
+}
+
+@keyframes fadeinout {
+    0%,100% { opacity: 0; }
+    50% { opacity: 1; }
+}
 
 #Title-navbar{
     margin-left: 2%;
@@ -267,8 +285,8 @@
 
 .button2 {
     float:right;
-    margin-right: 10%;
-    margin-top: 2%;
+    margin-right: 3%;
+    margin-top: 3.3%;
     display: inline-block;
     border-radius: 4px;
     background-color: #3366ff;
@@ -280,7 +298,25 @@
     width: 120px;
     transition: all 0.5s;
     cursor: pointer;
+    width: 15%;
 }
+
+.button_delete_item {
+    width: 15%;
+    float:right;
+    margin-right: 10%;
+    margin-top: 3.3%;
+    display: inline-block;
+    border-radius: 4px;
+    background-color: red;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px;
+    transition: all 0.5s;
+    cursor: pointer;
+ }
 
 button span {
     cursor: pointer;
@@ -316,6 +352,8 @@ button:hover span:after {
     margin-top: 2%;
     float:left;
     margin-left:10%;
+    height: 70%;
+    background-color: #ccccff;
 }
 
 .meus_itens th {

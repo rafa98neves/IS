@@ -27,7 +27,7 @@
         <h3 id="profile-title">Adicionar um novo item</h3>
     </div>
 
-    <form method="post" action="RequestAddItem">
+    <form method="post" action="RequestAddItem"  enctype = "multipart/form-data">
         <div class="profile-box">
             <div id="left">
                 Imagem <input type="file" name="picture"> </br>
@@ -37,7 +37,6 @@
             <div id="right">
                 Categoria
                 <select name="category">
-                    <option  value="all"> Todas as Categorias </option>
                     <c:forEach items="${informationBean.categories}" var="category">
                         <option value="${category.getId()}"> ${category.getType()} </option>
                     </c:forEach>
@@ -45,9 +44,15 @@
 
                 País
                 <select name="country">
-                    <option value="all"> Todos os países </option>
                     <c:forEach items="${informationBean.countries}" var="country">
-                        <option value="${country.getId()}"> ${country.getName()} </option>
+                        <c:choose>
+                            <c:when test="${country.getId() == sessionScope.currentSessionUser.getCountry().getId()}">
+                                <option value="${country.getId()}" selected> ${country.getName()}</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="${country.getId()}" > ${country.getName()}</option>
+                            </c:otherwise>
+                        </c:choose>
                     </c:forEach>
                 </select> </br>
             </div>

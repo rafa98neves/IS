@@ -8,6 +8,7 @@ import ejb.UserBeanLocal;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +23,7 @@ public class RemoveProfile extends HttpServlet {
     @EJB
     UserBeanLocal myUserBean;
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
         try (PrintWriter out = response.getWriter()){
             User user = (User) request.getSession().getAttribute("currentSessionUser");
@@ -30,16 +31,17 @@ public class RemoveProfile extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("RequestLogout");
             rd.forward(request, response);
         } catch (Exception e){
-            System.out.println("[REMOVING USER ERROR] " + e);
-            response.sendRedirect("/Login.jsp");
+            request.setAttribute("alert",e);
+            RequestDispatcher rd = request.getRequestDispatcher("/Erro.jsp");
+            rd.forward(request, response);
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         processRequest(request, response);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         processRequest(request, response);
     }
 

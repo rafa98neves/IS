@@ -9,6 +9,7 @@ import ejb.ItemBeanLocal;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ public class RequestItemChange extends HttpServlet {
 
     @EJB ItemBeanLocal myItemBean;
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
         try(PrintWriter out = response.getWriter()) {
             String name= request.getParameter("name");
@@ -37,24 +38,22 @@ public class RequestItemChange extends HttpServlet {
                 rd.forward(request, response);
             }
             else{
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Erro ao editar o item');");
-                out.println("location='/Detalhes.jsp';");
-                out.println("</script>");
                 RequestDispatcher rd = request.getRequestDispatcher("/Detalhes.jsp");
+                request.setAttribute("alert","Não foi possível editar o seu item");
                 rd.forward(request, response);
             }
         } catch (Exception e){
-            System.out.println("[ITEM CHANGE ERROR] " + e);
-            response.sendRedirect("MyBay.jsp");
+            request.setAttribute("alert",e);
+            RequestDispatcher rd = request.getRequestDispatcher("/Erro.jsp");
+            rd.forward(request, response);
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         processRequest(request, response);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         processRequest(request, response);
     }
 

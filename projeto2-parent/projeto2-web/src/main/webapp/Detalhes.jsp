@@ -65,6 +65,7 @@
                 </c:forEach>
                 </select></br>
             </div>
+            <a href="RemoveItem?ItID=${item.getId()}"><button class="button_delete_item" type="button"><span>Eliminar</span></button></a>
             <button class="button2" type="submit"><span>Confirmar</span></button>
         </div>
     </form>
