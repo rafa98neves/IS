@@ -35,7 +35,7 @@
             </tr>
             <c:forEach items="<%=currentUser.getItems()%>" var="item">
                 <tr>
-                    <td> <a href="RequestItem?ItID=${item.getId()}"><img src="${item.getPicture()}"/></a></td>
+                    <td> <a href="RequestItem?ItID=${item.getId()}"><img src="s"/></a></td>
                     <td> <a href="RequestItem?ItID=${item.getId()}">${item.getCategory().getType()}</a></td>
                     <td> <a href="RequestItem?ItID=${item.getId()}">${item.getName()}</a></td>
                     <td> <a href="RequestItem?ItID=${item.getId()}">${item.getPrice()}</a></td>

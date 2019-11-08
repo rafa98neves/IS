@@ -7,6 +7,7 @@ import ejb.ItemBeanLocal;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,16 +35,13 @@ public class RequestAddItem extends HttpServlet {
         try (PrintWriter out = response.getWriter()){
             User user = (User) request.getSession().getAttribute("currentSessionUser");
             Item item = new Item();
-            if((item = SaveFile(item, request, response)) == null) {
-                request.setAttribute("alert", "Ficheiro demasiado grande");
-                RequestDispatcher rd = request.getRequestDispatcher("/AdicionarItem.jsp");
-                rd.forward(request, response);
-            }
 
-            out.print(item.getPicture());
-            item.setPrice(Float.parseFloat(request.getParameter("price")));
+            //item.setPicture(SaveFile(request, response));
+            item.setPicture(request.getParameter("picture"));
             item.setName(request.getParameter("name"));
+            item.setPrice(Float.parseFloat(request.getParameter("price")));
             item.setOwner(user);
+
             java.util.Date utilDate = new java.util.Date();
             java.sql.Date date = new java.sql.Date(utilDate.getTime());
             item.setDateOfInsertion(date);
@@ -72,17 +70,20 @@ public class RequestAddItem extends HttpServlet {
         processRequest(request, response);
     }
 
-    protected Item SaveFile(Item item, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected String SaveFile(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int maxFileSize = 50 * 1024;
         int maxMemSize = 4 * 1024;
+        // enctype = "multipart/form-data"
         File file ;
+
         String path = new File(".").getCanonicalPath();
         String filePath = (path+"\\pictures\\");
-
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         response.setContentType("text/html");
         if( !isMultipart ) {
-            return null;
+            request.setAttribute("alert", "Imagem inválida");
+            RequestDispatcher rd = request.getRequestDispatcher("/Meus_items.jsp");
+            rd.forward(request, response);
         }
         DiskFileItemFactory factory = new DiskFileItemFactory();
         factory.setSizeThreshold(maxMemSize);
@@ -90,6 +91,7 @@ public class RequestAddItem extends HttpServlet {
         ServletFileUpload upload = new ServletFileUpload(factory);
         upload.setSizeMax( maxFileSize );
 
+        PrintWriter out = response.getWriter();
         try {
             List fileItems = upload.parseRequest(request);
             Iterator i = fileItems.iterator();
@@ -106,10 +108,9 @@ public class RequestAddItem extends HttpServlet {
                     fi.write( file ) ;
                 }
             }
-            item.setPicture(filePath);
-            return item;
+            return filePath;
         } catch(Exception ex) {
-            return null;
+            return "errr";
         }
     }
 }
