@@ -33,10 +33,17 @@ public class ItemBean implements ItemBeanLocal {
 
     }
 
-    public void delete(Item item){
+    public void delete(long itemId, User u){
         if(!et.isActive())et.begin();
-        em.remove(em.contains(item) ? item : em.merge(item));
-        et.commit();
+        try{
+            Item item = em.find(Item.class, itemId);
+            u.getItems().remove(item);
+            em.remove(em.contains(item) ? item : em.merge(item));
+            et.commit();
+        }catch(Exception e){
+
+        }
+
     }
 
     public boolean addItem(Item item, String country, String category, User newUser){

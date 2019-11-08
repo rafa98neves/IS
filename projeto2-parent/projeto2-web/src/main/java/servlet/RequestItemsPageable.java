@@ -43,17 +43,6 @@ public class RequestItemsPageable extends HttpServlet {
             else
                 items = myItemBean.searchAllItems(search);
 
-            Item item = new Item();
-            item.setName(min);
-            item.setPrice(1.2f);
-            items.add(item);
-
-            Item item2 = new Item();
-            item2.setName(search);
-            item2.setPrice(1.3f);
-            items.add(item2);
-
-
             RequestDispatcher rd = request.getRequestDispatcher("/MyBay.jsp");
             request.setAttribute("items", items);
             request.setAttribute("search",search);

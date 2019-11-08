@@ -11,7 +11,7 @@ import java.util.List;
 
 @Local
 public interface ItemBeanLocal {
-    void delete(Item item);
+    void delete(long itemId, User u);
     boolean addItem(Item item, String country, String category, User newUser);
     Item editItem(long itemId, String name, long categoryId, long countryId, String picture, float price);
     Item findItemById(long id);
