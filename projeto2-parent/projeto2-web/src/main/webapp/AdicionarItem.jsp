@@ -35,18 +35,21 @@
                 Preço <input type="number" step="0.01" name="price"> </br>
             </div>
             <div id="right">
+                Categoria
                 <select name="category">
                     <option  value="all"> Todas as Categorias </option>
                     <c:forEach items="${informationBean.categories}" var="category">
                         <option value="${category.getId()}"> ${category.getType()} </option>
                     </c:forEach>
-                </select>
+                </select> </br>
+
+                País
                 <select name="country">
                     <option value="all"> Todos os países </option>
                     <c:forEach items="${informationBean.countries}" var="country">
                         <option value="${country.getId()}"> ${country.getName()} </option>
                     </c:forEach>
-                </select>
+                </select> </br>
             </div>
             <button class="button2" type="submit"><span>Adicionar</span></button>
         </div>
