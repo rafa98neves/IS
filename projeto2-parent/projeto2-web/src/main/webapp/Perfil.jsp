@@ -31,7 +31,7 @@
         <div class="profile-box">
             <div id="left">
                 Nome    <input type="text" name="name" value="<%= currentUser.getName()%>" > </br>
-                Email   <input type="email" name="email" value="<%= currentUser.getEmail() %>" > </br>
+                Email   <input type="email" name="email" value="<%= currentUser.getEmail() %>" readonly> </br>
             </div>
             <div id="right">
                 País <select name="country">

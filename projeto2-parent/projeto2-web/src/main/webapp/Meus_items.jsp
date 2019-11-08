@@ -35,32 +35,14 @@
             </tr>
             <c:forEach items="${currentUser.getItems()}" var="item">
                 <tr>
-                    <form action="RequestItemsPageable">
-                        <input type="hidden" name="search" value="${requestScope.search}">
-                        <input type="hidden" name="category" value="${requestScope.category}">
-                        <input type="hidden" name="country" value="${requestScope.country}">
-                        <input type="hidden" name="min" value="${requestScope.min}">
-                        <input type="hidden" name="max" value="${requestScope.max}">
-                        <input type="hidden" name="date" value="${requestScope.date}">
-
-                        <th></th>
-                        <th><button type="submit" name="by" value="categoria">Categoria</button></th>
-                        <th><button type="submit" name="by" value="nome">Nome</button></th>
-                        <th><button type="submit" name="by" value="preco">Preço</button></th>
-                        <th></th>
-                    </form>
+                    <td> <a href="RequestItem?ItID=${item.getId()}">${item.getPicture()}</a></td>
+                    <td> <a href="RequestItem?ItID=${item.getId()}">${item.getCategory().getType()}</a></td>
+                    <td> <a href="RequestItem?ItID=${item.getId()}">${item.getName()}</a></td>
+                    <td> <a href="RequestItem?ItID=${item.getId()}">${item.getPrice()}</a></td>
+                    <td>  <a href="RemoveItem?ItID=${item.getId()}"> <img class="icon" src="static/trash.png"></a></td>
                 </tr>
-                <c:forEach items="<%=currentUser.getItems()%>" var="item">
-                    <tr>
-                        <td> <a href="RequestItem?ItID=${item.getId()}"><img src="${item.getPicture()}"></a></td>
-                        <td> <a href="RequestItem?ItID=${item.getId()}">${item.getCategory().getType()}</a></td>
-                        <td> <a href="RequestItem?ItID=${item.getId()}">${item.getName()}</a></td>
-                        <td> <a href="RequestItem?ItID=${item.getId()}">${item.getPrice()}</a></td>
-                        <td> <a href="RemoveItem?ItID=${item.getId()}"> <img class="icon" src="static/trash.png"></a></td>
-                    </tr>
-                </c:forEach>
-            </table>
-        </div>
+            </c:forEach>
+        </table>
     </div>
 </body>
 </html>
