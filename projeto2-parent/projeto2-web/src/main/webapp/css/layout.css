@@ -309,9 +309,23 @@ button:hover span:after {
 
 /* --------------- Meus itens --------------- */
 
+.meus_itens{
+    max-width: 80%;
+    width:80%;
+    display:inline;
+    margin-top: 2%;
+    float:left;
+    margin-left:10%;
+}
+
+.meus_itens th {
+    width: 25% ;
+    padding: 10px ;
+}
+
 .button3 {
     float:right;
-    margin-right: 6%;
+    margin-right: 10%;
     display: inline-block;
     border-radius: 4px;
     background-color: cornflowerblue;

@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page contentType="text/html;charset=UTF-8" language="java"
-         import="data.User"%>
+<%@ page contentType="text/html;charset=UTF-8" import="data.User"%>
 
 <% User currentUser = (User) session.getAttribute("currentSessionUser");%>
 <% if (currentUser == null) {
@@ -25,10 +24,16 @@
         <h3 id="Table-title">Os meus itens...</h3>
         <a type="button" class="button3" href="AdicionarItem.jsp">+</a>
     </div>
-    <div class="menu">
-        <jsp:include page="Filters.jsp"></jsp:include>
-        <div id="right">
-            <table class="item-table">
+    <div class="meus_itens">
+        <table class="item-table">
+            <tr>
+                <th></th>
+                <th>Categoria</th>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th></th>
+            </tr>
+            <c:forEach items="${currentUser.getItems()}" var="item">
                 <tr>
                     <form action="RequestItemsPageable">
                         <input type="hidden" name="search" value="${requestScope.search}">
