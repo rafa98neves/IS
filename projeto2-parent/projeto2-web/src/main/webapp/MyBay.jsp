@@ -47,10 +47,10 @@
                 <c:catch var="exception">
                     <c:forEach items="${items}" var="item">
                         <tr class="tr-items">
-                            <td> <a href="RequestItem?ItID=${item.name}"><img src="${item.picture}"></a> </td>
-                            <td> <a href="RequestItem?ItID=${item.name}">${item.category.type}</a> </td>
-                            <td> <a href="RequestItem?ItID=${item.name}">${item.name}</a> </td>
-                            <td> <a href="RequestItem?ItID=${item.name}">${item.price}</a> </td>
+                            <td> <a href="RequestItem?ItID=${item.getId()}"><img src="${item.picture}"></a> </td>
+                            <td> <a href="RequestItem?ItID=${item.getId()}">${item.category.type}</a> </td>
+                            <td> <a href="RequestItem?ItID=${item.getId()}">${item.name}</a> </td>
+                            <td> <a href="RequestItem?ItID=${item.getId()}">${item.price}</a> </td>
                         </tr>
                     </c:forEach>
                 </c:catch>

@@ -22,12 +22,13 @@ public class UserBean implements UserBeanLocal {
 
     }
 
-    public User edit(String name, Country country, String email, Date birthdate) {
+    public User edit(String name, Long country_id, String email, Date birthdate) {
         if(!et.isActive())et.begin();
         try {
+            Country c = em.find(Country.class, country_id);
             User u = em.find(User.class, email);
             u.setEmail(email);
-            u.setCountry(country);
+            u.setCountry(c);
             u.setName(name);
             u.setBirthdate(birthdate);
             em.merge(u);

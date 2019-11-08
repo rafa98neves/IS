@@ -2,7 +2,9 @@ package servlet;
 
 import data.Item;
 import data.User;
+import ejb.ItemBeanLocal;
 
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,34 +17,23 @@ import java.sql.Date;
 
 @WebServlet("/RequestItem")
 public class RequestItem extends HttpServlet {
+    @EJB ItemBeanLocal myItemBean;
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws  IOException {
         response.setContentType("text/html");
+        request.setCharacterEncoding("UTF-8");
         try(PrintWriter out = response.getWriter()) {
-            String n = request.getParameter("ItID");
-
-
-
-            Item item = new Item();
-            if (n.compareTo("meu item") == 0){
-                item.setName(n);
-                item.setPrice(1.2f);
-                item.setDateOfInsertion(Date.valueOf("2019-09-11"));
-                HttpSession session = request.getSession(true);
-                item.setOwner((User) session.getAttribute("currentSessionUser"));
-            }
-            else {
-                item.setName(n);
-                item.setPrice(1.2f);
-                User testes = new User();
-                testes.setName("Ze das Couves");
-                testes.setEmail("asdamsdklmaskdm@gmail.com");
-                item.setOwner(testes);
+            String id = request.getParameter("ItID");
+            Item item = myItemBean.findItemById(Long.parseLong(id));
+            if(item != null){
+                RequestDispatcher rd = request.getRequestDispatcher("/Detalhes.jsp");
+                request.setAttribute("item", item);
+                rd.forward(request, response);
+            }else{
+                RequestDispatcher rd = request.getRequestDispatcher("/MyBay.jsp");
+                rd.forward(request, response);
             }
 
-            RequestDispatcher rd = request.getRequestDispatcher("/Detalhes.jsp");
-            request.setAttribute("item", item);
-            rd.forward(request, response);
         } catch (Exception e){
             System.out.println("[ITEM DETAILS ERROR] " + e);
             response.sendRedirect("MyBay.jsp");

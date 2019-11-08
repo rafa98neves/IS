@@ -28,12 +28,12 @@ public class EditProfile extends HttpServlet {
             String name= request.getParameter("name"); //get name
             String email= request.getParameter("email"); //get email
 
-            String raw_country= request.getParameter("country"); //get country
-            Country country = new Country("Portugal"); //????
+            String country_id= request.getParameter("country"); //get country
+
             Date birthdate = Date.valueOf(request.getParameter("birthdate"));
 
             User user;
-            if((user = myUserBean.edit(name,country,email,birthdate)) != null){
+            if((user = myUserBean.edit(name,Long.parseLong(country_id),email,birthdate)) != null){
                 request.getSession().setAttribute("currentSessionUser", user);
                 RequestDispatcher rd = context.getRequestDispatcher("/Perfil.jsp");
                 rd.forward(request, response);

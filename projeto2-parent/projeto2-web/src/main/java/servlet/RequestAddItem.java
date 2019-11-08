@@ -28,6 +28,7 @@ public class RequestAddItem extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws  IOException {
         response.setContentType("text/html");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()){
             User user = (User) request.getSession().getAttribute("currentSessionUser");
             Item item = new Item();

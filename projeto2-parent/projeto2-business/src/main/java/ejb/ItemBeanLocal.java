@@ -13,7 +13,8 @@ import java.util.List;
 public interface ItemBeanLocal {
     void delete(Item item);
     boolean addItem(Item item, String country, String category, User newUser);
-    Item editItem(long itemId, String name, Category category, Country country, String picture);
+    Item editItem(long itemId, String name, long categoryId, long countryId, String picture, float price);
+    Item findItemById(long id);
     List<Item> findItemsByDateOfInsertion();
     List<Item> searchAllItems(String searchString);
     List<Item> searchItemsByCategory(String searchString, Category c);

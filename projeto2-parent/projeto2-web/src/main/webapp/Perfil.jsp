@@ -36,7 +36,14 @@
             <div id="right">
                 País <select name="country">
                         <c:forEach items="${informationBean.countries}" var="country">
-                            <option value="${country.getId()}"> ${country.getName()} </option>
+                            <c:choose>
+                                <c:when test="${country.getId() == sessionScope.currentSessionUser.getCountry().getId()}">
+                                    <option value="${country.getId()}" selected> ${country.getName()}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${country.getId()}" > ${country.getName()}</option>
+                                </c:otherwise>
+                            </c:choose>
                         </c:forEach>
                     </select> </br>
                 Data de nascimento  <input type="date" name="birthdate"  value="<%= currentUser.getBirthdate().toString()%>" ></br>

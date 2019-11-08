@@ -10,9 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
@@ -26,9 +24,18 @@ public class ItemBean implements ItemBeanLocal {
 
     }
 
+    public Item findItemById(long id){
+        try{
+            return em.find(Item.class, id);
+        }catch(Exception e){
+            return null;
+        }
+
+    }
+
     public void delete(Item item){
         if(!et.isActive())et.begin();
-        em.remove(item);
+        em.remove(em.contains(item) ? item : em.merge(item));
         et.commit();
     }
 
@@ -49,18 +56,23 @@ public class ItemBean implements ItemBeanLocal {
         }
     }
 
-    public Item editItem(long itemId, String name, Category category, Country country, String picture){
-        em.createQuery("UPDATE ITEMS set name = ?1, category = ?2, country = ?3, picture = ?4 where id = ?5")
-            .setParameter(1, name)
-            .setParameter(2, category)
-            .setParameter(3 ,country)
-            .setParameter(4, picture)
-            .setParameter(5, itemId)
-            .executeUpdate();
-        Item item = (Item) em.createQuery("from ITEMS where id = ?1")
-                .setParameter(1, itemId)
-                .getSingleResult();
-        return item;
+    public Item editItem(long itemId, String name, long categoryId, long countryId, String picture, float price){
+        if(!et.isActive())et.begin();
+        try {
+            Item item = em.find(Item.class, itemId);
+            Category category = em.find(Category.class, categoryId);
+            Country country = em.find(Country.class, countryId);
+            item.setName(name);
+            item.setCategory(category);
+            item.setCountry(country);
+            if(picture !=null) item.setPicture(picture);
+            item.setPrice(price);
+            em.merge(item);
+            et.commit();
+            return item;
+        }catch (Exception e){
+            return null;
+        }
     }
 
     public List<Item> findItemsByDateOfInsertion(){

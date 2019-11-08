@@ -21,6 +21,7 @@
 </head>
 <body>
     <jsp:include page="Layout.jsp"></jsp:include>
+    <jsp:useBean id="informationBean" class="ejb.InformationBean"/>
 
     <div style="width: 75%; margin-left: 3%;" class="profile-header">
         <h3 id="profile-title">Detalhes de ${item.getName()} </h3>
@@ -30,14 +31,40 @@
     <c:choose>
     <c:when test="${item.getOwner().getEmail() == sessionScope.currentSessionUser.getEmail()}">
     <form method="post" action="RequestItemChange">
+        <input type="hidden" name="itemId" value="${item.getId()}">
         <div class="profile-box">
             <div id="left">
                 Nome    <input type="text" name="name" value="<c:out value="${item.getName()}"/>"> </br>
                 Preço   <input type="number" name="price" value="<c:out value="${item.getPrice()}"/>"> </br>
+                País
+                <select name="country">
+                    <c:forEach items="${informationBean.countries}" var="country">
+                        <c:choose>
+                            <c:when test="${item.getCountry().getId() == country.getId()}">
+                                <option value="${country.getId()}" selected> ${country.getName()}</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="${country.getId()}" > ${country.getName()}</option>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </select></br>
             </div>
             <div id="right">
                 Data de inserção  <input type="date" name="date" readonly value="<c:out value="${item.getDateOfInsertion()}"/>"> </br>
-                Categoria  <input type="text" name="category"></br>
+                Categoria
+                <select name="category">
+                <c:forEach items="${informationBean.categories}" var="category">
+                    <c:choose>
+                    <c:when test="${item.getCategory().getType() == category.getType()}">
+                        <option value="${category.getId()}" selected> ${category.getType()}</option>
+                    </c:when>
+                    <c:otherwise>
+                        <option value="${category.getId()}" > ${category.getType()}</option>
+                    </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                </select></br>
             </div>
             <button class="button2" type="submit"><span>Confirmar</span></button>
         </div>
@@ -51,7 +78,7 @@
             </div>
             <div id="right2">
                 Data de inserção  <input type="date" name="date" readonly> </br>
-                Categoria  <input type="text" name="category" readonly></br>
+                Categoria  <input type="text" name="category" value="<c:out value="${requestScope.item.getCategory().getType()}"/>" readonly></br>
             </div>
         </div>
     </c:otherwise>

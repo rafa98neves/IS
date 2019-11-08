@@ -19,33 +19,29 @@ import java.io.PrintWriter;
 @WebServlet("/RequestItemChange")
 public class RequestItemChange extends HttpServlet {
 
-    @EJB
-    ItemBeanLocal myItemBean;
+    @EJB ItemBeanLocal myItemBean;
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws  IOException {
         response.setContentType("text/html");
-        ServletContext context = getServletContext();
         try(PrintWriter out = response.getWriter()) {
-            request.setCharacterEncoding("UTF-8");
             String name= request.getParameter("name");
-            Category category = (Category) request.getAttribute("category");
-            Country country = (Country) request.getAttribute("country");
+            long categoryId = Long.parseLong(request.getParameter("category"));
+            long countryId = Long.parseLong(request.getParameter("country"));
             String picture = request.getParameter("picture");
             float price = Float.parseFloat(request.getParameter("price"));
-            long itemId = Long.valueOf(request.getParameter("itemId"));
-
+            long itemId = Long.parseLong(request.getParameter("itemId"));
             Item item;
-            if((item = myItemBean.editItem(itemId,name,category,country, picture))!= null){
-                RequestDispatcher rd = context.getRequestDispatcher("/Detalhes.jsp");
+            if((item = myItemBean.editItem(itemId,name,categoryId,countryId, picture, price))!= null){
+                RequestDispatcher rd = request.getRequestDispatcher("/Detalhes.jsp");
                 request.setAttribute("item", item);
                 rd.forward(request, response);
             }
             else{
                 out.println("<script type=\"text/javascript\">");
                 out.println("alert('Erro ao editar o item');");
-                out.println("location='Detalhes.jsp';");
+                out.println("location='/Detalhes.jsp';");
                 out.println("</script>");
-                RequestDispatcher rd = context.getRequestDispatcher("/Detalhes.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("/Detalhes.jsp");
                 rd.forward(request, response);
             }
         } catch (Exception e){
