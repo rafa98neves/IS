@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="data.User" %>
 <%@ page language="java"
          contentType="text/html; charset=utf-8"
@@ -38,5 +39,8 @@
             </div>
         </nav>
     <%}%>
+    <c:if test="${not empty requestScope.alert}">
+        <div class="alert">${alert}</div>
+    </c:if>
 </body>
 </html>

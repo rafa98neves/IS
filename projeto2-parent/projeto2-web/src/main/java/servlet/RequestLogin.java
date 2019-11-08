@@ -6,6 +6,7 @@ import ejb.LoginBeanLocal;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +26,7 @@ public class RequestLogin extends HttpServlet {
         session.setAttribute("currentSessionUser",user);
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
 
         try (PrintWriter out = response.getWriter()){
@@ -39,25 +40,22 @@ public class RequestLogin extends HttpServlet {
                 response.sendRedirect("RequestItemsPageable");
             }
             else{
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Email ou password incorrectos');");
-                out.println("location='Login.jsp';");
-                out.println("</script>");
                 RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");
+                request.setAttribute("alert","Email ou password errados!");
                 rd.forward(request,response);
-                out.close();
             }
         } catch (Exception e){
-            System.out.println("[REQUEST LOGIN ERROR] " + e);
-            response.sendRedirect("Login.jsp");
+            request.setAttribute("alert",e);
+            RequestDispatcher rd = request.getRequestDispatcher("/Erro.jsp");
+            rd.forward(request, response);
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         processRequest(request, response);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         processRequest(request, response);
     }
 

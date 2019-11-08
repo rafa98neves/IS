@@ -27,29 +27,25 @@ public class RequestRegistration extends HttpServlet {
         ServletContext context= getServletContext();
         try (PrintWriter out = response.getWriter()){
             request.setCharacterEncoding("UTF-8");
-            String name= request.getParameter("name"); //get name
-            String email= request.getParameter("email"); //get email
-
-            String raw_country= request.getParameter("country"); //get country
-
+            String name= request.getParameter("name");
+            String email= request.getParameter("email");
+            String raw_country= request.getParameter("country");
             Date birthdate = Date.valueOf(request.getParameter("birthdate"));
-            String psw= request.getParameter("psw"); //get password
+            String psw= request.getParameter("psw");
 
             if(myRegisterBean.registerUser(name,email,raw_country,birthdate,psw)){
                 RequestDispatcher rd = context.getRequestDispatcher("/Login.jsp");
                 rd.forward(request, response);
             }
             else{
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Este email já está associado a um utilizador');");
-                out.println("location='Registo.jsp';");
-                out.println("</script>");
+                request.setAttribute("alert","Este email já tem conta associada");
                 RequestDispatcher rd = context.getRequestDispatcher("/Registo.jsp");
                 rd.forward(request, response);
             }
         } catch (Exception e){
-            System.out.println("[REQUEST REGISTRATION ERROR] " + e);
-            response.sendRedirect("/Registo.jsp");
+            request.setAttribute("alert",e);
+            RequestDispatcher rd = request.getRequestDispatcher("/Erro.jsp");
+            rd.forward(request, response);
         }
     }
 

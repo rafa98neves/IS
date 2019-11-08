@@ -5,6 +5,7 @@ import ejb.ItemBeanLocal;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,7 @@ public class RequestItemsPageable extends HttpServlet {
     @EJB
     ItemBeanLocal myItemBean;
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
 
         try (PrintWriter out = response.getWriter()){
@@ -55,18 +56,17 @@ public class RequestItemsPageable extends HttpServlet {
             rd.forward(request, response);
 
         } catch (Exception e){
-            System.out.println("[REQUEST ITEMS PAGEABLE ERROR] " + e);
-            response.sendRedirect("MyBay.jsp");
-        } finally {
-            out.close();
+            request.setAttribute("alert",e);
+            RequestDispatcher rd = request.getRequestDispatcher("/Erro.jsp");
+            rd.forward(request, response);
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         processRequest(request, response);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         processRequest(request, response);
     }
 

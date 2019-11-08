@@ -27,9 +27,7 @@ public class EditProfile extends HttpServlet {
             request.setCharacterEncoding("UTF-8");
             String name= request.getParameter("name"); //get name
             String email= request.getParameter("email"); //get email
-
             String country_id= request.getParameter("country"); //get country
-
             Date birthdate = Date.valueOf(request.getParameter("birthdate"));
 
             User user;
@@ -39,16 +37,14 @@ public class EditProfile extends HttpServlet {
                 rd.forward(request, response);
             }
             else{
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Erro ao editar o perfil');");
-                out.println("location='Perfil.jsp';");
-                out.println("</script>");
+                request.setAttribute("alert","Erro ao editar o perfil");
                 RequestDispatcher rd = context.getRequestDispatcher("/Perfil.jsp");
                 rd.forward(request, response);
             }
         } catch (Exception e){
-            System.out.println("[REQUEST EDIT ERROR] " + e);
-            response.sendRedirect("/Perfil.jsp");
+            request.setAttribute("alert",e);
+            RequestDispatcher rd = request.getRequestDispatcher("/Erro.jsp");
+            rd.forward(request, response);
         }
     }
 

@@ -22,24 +22,26 @@
 <div class="profile-header">
     <h3 id="profile-title">Registo</h3>
 </div>
-<form method="post" action="RequestRegistration">
-    <div class="profile-box">
-        <div id="left">
-            Nome    <input type="text" name="name" required/> </br>
-            Email   <input type="email" name="email" placeholder="exemplo@email.com" required/> </br>
-            Password   <input type="password" name="psw" required/> </br>
-            <a href="Login.jsp"> Já está registado? </a>
+
+    <jsp:include page="Layout.jsp"></jsp:include>
+    <form method="post" action="RequestRegistration">
+        <div class="profile-box">
+            <div id="left">
+                Nome    <input type="text" name="name" required/> </br>
+                Email   <input type="email" name="email" placeholder="exemplo@email.com" required/> </br>
+                Password   <input type="password" name="psw" required/> </br>
+                <a href="Login.jsp"> Já está registado? </a>
+            </div>
+            <div id="right">
+                País <select name="country">
+                <c:forEach items="${informationBean.countries}" var="country">
+                    <option value="${country.getId()}"> ${country.getName()} </option>
+                </c:forEach>
+            </select> </br>
+                Data de nascimento  <input type="date" name="birthdate" required/></br>
+            </div>
+            <button class="button2" type="submit"><span>Registar</span></button>
         </div>
-        <div id="right">
-            País <select name="country">
-            <c:forEach items="${informationBean.countries}" var="country">
-                <option value="${country.getId()}"> ${country.getName()} </option>
-            </c:forEach>
-        </select> </br>
-            Data de nascimento  <input type="date" name="birthdate" required/></br>
-        </div>
-        <button class="button2" type="submit"><span>Registar</span></button>
-    </div>
-</form>
+    </form>
 </body>
 </html>

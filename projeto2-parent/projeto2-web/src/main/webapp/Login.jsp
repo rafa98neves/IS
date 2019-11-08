@@ -22,6 +22,7 @@
 </head>
 
 <body>
+    <jsp:include page="Layout.jsp"></jsp:include>
     <div class="profile-header">
         <h3 id="profile-title">Login</h3>
     </div>

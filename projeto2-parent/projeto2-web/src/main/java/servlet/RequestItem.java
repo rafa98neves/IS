@@ -6,6 +6,7 @@ import ejb.ItemBeanLocal;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ import java.sql.Date;
 public class RequestItem extends HttpServlet {
     @EJB ItemBeanLocal myItemBean;
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
         request.setCharacterEncoding("UTF-8");
         try(PrintWriter out = response.getWriter()) {
@@ -31,20 +32,22 @@ public class RequestItem extends HttpServlet {
                 rd.forward(request, response);
             }else{
                 RequestDispatcher rd = request.getRequestDispatcher("/MyBay.jsp");
+                request.setAttribute("alert","Este item está indisponível");
                 rd.forward(request, response);
             }
 
         } catch (Exception e){
-            System.out.println("[ITEM DETAILS ERROR] " + e);
-            response.sendRedirect("MyBay.jsp");
+            request.setAttribute("alert",e);
+            RequestDispatcher rd = request.getRequestDispatcher("/Erro.jsp");
+            rd.forward(request, response);
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         processRequest(request, response);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         processRequest(request, response);
     }
 
