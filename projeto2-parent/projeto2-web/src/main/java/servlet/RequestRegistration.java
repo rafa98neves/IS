@@ -31,11 +31,11 @@ public class RequestRegistration extends HttpServlet {
             String email= request.getParameter("email"); //get email
 
             String raw_country= request.getParameter("country"); //get country
-            Country country = new Country("Portugal"); //????
+
             Date birthdate = Date.valueOf(request.getParameter("birthdate"));
             String psw= request.getParameter("psw"); //get password
 
-            if(myRegisterBean.registerUser(name,email,country,birthdate,psw)){
+            if(myRegisterBean.registerUser(name,email,raw_country,birthdate,psw)){
                 RequestDispatcher rd = context.getRequestDispatcher("/Login.jsp");
                 rd.forward(request, response);
             }

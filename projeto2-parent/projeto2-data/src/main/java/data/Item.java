@@ -19,8 +19,13 @@ public class Item implements Serializable {
     private float price;
     @Column(nullable = false)
     private Date dateOfInsertion;
-    @ManyToOne
+    @ManyToOne()
     private Category category;
+    @ManyToOne()
+    private Country country;
+    @ManyToOne()
+    private User owner;
+
 
     public long getId() {
         return id;
@@ -86,10 +91,7 @@ public class Item implements Serializable {
         this.owner = owner;
     }
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    private Country country;
-    @ManyToOne(cascade = {CascadeType.ALL})
-    private User owner;
+
 
     public Item(){
 

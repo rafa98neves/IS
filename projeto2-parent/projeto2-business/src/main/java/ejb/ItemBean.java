@@ -3,18 +3,23 @@ package ejb;
 import data.Category;
 import data.Country;
 import data.Item;
+import data.User;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
 public class ItemBean implements ItemBeanLocal {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("MyBay");
     EntityManager em = emf.createEntityManager();
+    EntityTransaction et = em.getTransaction();
 
 
     public ItemBean(){
@@ -22,15 +27,26 @@ public class ItemBean implements ItemBeanLocal {
     }
 
     public void delete(Item item){
-        em.getTransaction().begin();
+        if(!et.isActive())et.begin();
         em.remove(item);
-        em.getTransaction().commit();
+        et.commit();
     }
 
-    public void addItem(Item item){
-        em.getTransaction().begin();
-        em.persist(item);
-        em.getTransaction().commit();
+    public boolean addItem(Item item, String country, String category, User newUser){
+        if(!et.isActive())et.begin();
+        try{
+            Country count = em.find(Country.class, Long.parseLong(country));
+            item.setCountry(count);
+            Category cat = em.find(Category.class, Long.parseLong(category));
+            item.setCategory(cat);
+            newUser.getItems().add(item);
+            em.merge(newUser);
+            em.persist(item);
+            et.commit();
+            return true;
+        } catch(Exception e){
+            return false;
+        }
     }
 
     public void editItem(Item item, String name, Category category, Country country, String picture){
@@ -71,7 +87,6 @@ public class ItemBean implements ItemBeanLocal {
                 .setParameter(2, maxPrice)
                 .setParameter(3, searchString)
                 .getResultList();
-
         return items;
     }
 

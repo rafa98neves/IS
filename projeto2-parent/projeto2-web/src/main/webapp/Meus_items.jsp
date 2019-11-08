@@ -57,13 +57,16 @@
                     <th>Preço</th>
                     <th></th>
                 </tr>
-                <tr>
-                    <td> <a href="RequestItem?ItID=${item.name}"> ISTO E UMA IMAGEM</a></td>
-                    <td> <a href="RequestItem?ItID=${item.name}">Peter </a></td>
-                    <td> <a href="RequestItem?ItID=${item.name}">Griffin</a></td>
-                    <td> <a href="RequestItem?ItID=${item.name}">$100</a></td>
-                    <td> <a href="RequestDeleteItem"> <img class="icon" src="static/trash.png"></a></td>
-                </tr>
+                <c:catch var="exception">
+                    <c:forEach items="<%=currentUser.getItems()%>" var="item">
+                        <tr class="tr-items">
+                            <td> <a href="RequestItem?ItID=${item.name}">No tem</a> </td>
+                            <td> <a href="RequestItem?ItID=${item.name}">${item.category.type}</a> </td>
+                            <td> <a href="RequestItem?ItID=${item.name}">${item.name}</a> </td>
+                            <td> <a href="RequestItem?ItID=${item.name}">${item.price}</a> </td>
+                        </tr>
+                    </c:forEach>
+                </c:catch>
             </table>
         </div>
     </div>

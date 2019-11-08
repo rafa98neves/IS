@@ -13,19 +13,18 @@ public class User implements Serializable {
     private String name;
     @Column(nullable = false, length = 64)
     private String password;
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne()
     private Country country;
     @Column(nullable = false)
     private Date birthdate;
     @Id
     @Column(nullable = false, length=48)
     private String email;
-
-    @OneToMany(mappedBy = "owner", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "owner")
     private List<Item> items;
 
     public User(){
-
+        this.items = new ArrayList<>();
     }
 
     public User(String name, String password, Country country, Date birthdate, String email) {
@@ -34,7 +33,7 @@ public class User implements Serializable {
         this.country = country;
         this.birthdate = birthdate;
         this.email = email;
-        items = new ArrayList<Item>();
+        this.items = new ArrayList<>();
     }
 
     public String getName() {
@@ -69,9 +68,7 @@ public class User implements Serializable {
         return items;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
+    public void setItems(List<Item> items){this.items = items;}
 
     public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;

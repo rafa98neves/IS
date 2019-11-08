@@ -1,5 +1,6 @@
 package servlet;
 
+import data.Category;
 import data.Country;
 import data.Item;
 import data.User;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -28,25 +30,26 @@ public class RequestAddItem extends HttpServlet {
         response.setContentType("text/html");
         try (PrintWriter out = response.getWriter()){
             User user = (User) request.getSession().getAttribute("currentSessionUser");
-
             Item item = new Item();
             item.setPrice(Float.parseFloat(request.getParameter("price")));
             item.setName(request.getParameter("name"));
-            item.setCountry((Country) request.getAttribute("country"));
             item.setOwner(user);
             item.setPicture(request.getParameter("picture"));
             java.util.Date utilDate = new java.util.Date();
             java.sql.Date date = new java.sql.Date(utilDate.getTime());
             item.setDateOfInsertion(date);
-
-            myItemBean.addItem(item);
-            //List<Item> items = myItemBean.searchItemsByUser(user)
+            user.getItems().sort(new Comparator<Item>() {
+                @Override
+                public int compare(Item o1, Item o2) {
+                    return o1.getDateOfInsertion().compareTo(o2.getDateOfInsertion());
+                }
+            });
+            myItemBean.addItem(item, request.getParameter("country"), request.getParameter("category"), user);
             RequestDispatcher rd = request.getRequestDispatcher("/Meus_items.jsp");
-            //request.setAttribute("items", items);
             rd.forward(request, response);
         } catch (Exception e){
             System.out.println("[ADDING ITEM ERROR] " + e);
-            response.sendRedirect("/MyBay.jsp");
+            response.sendRedirect("MyBay.jsp");
         }
     }
 

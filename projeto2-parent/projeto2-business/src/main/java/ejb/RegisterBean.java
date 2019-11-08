@@ -22,10 +22,11 @@ public class RegisterBean implements RegisterBeanLocal {
 
     }
 
-    public boolean registerUser(String name, String email, Country country, Date birthdate, String password){
+    public boolean registerUser(String name, String email, String country, Date birthdate, String password){
         if(!et.isActive()) et.begin();
-        User newUser = new User(name, password, country, birthdate, email);
         try {
+            Country c = em.find(Country.class, Long.parseLong(country));
+            User newUser = new User(name, password, c, birthdate, email);
             em.persist(newUser);
             et.commit();
             return true;

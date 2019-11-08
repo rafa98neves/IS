@@ -3,6 +3,7 @@ package ejb;
 import data.Category;
 import data.Country;
 import data.Item;
+import data.User;
 
 import javax.ejb.Local;
 import java.sql.Date;
@@ -11,7 +12,7 @@ import java.util.List;
 @Local
 public interface ItemBeanLocal {
     void delete(Item item);
-    void addItem(Item item);
+    boolean addItem(Item item, String country, String category, User newUser);
     void editItem(Item item, String name, Category category, Country country, String picture);
     List<Item> findItemsByDateOfInsertion();
     List<Item> searchAllItems(String searchString);
