@@ -108,6 +108,7 @@
 }
 
 .item-table a{
+    text-align: center;
     display: block;
     color:black;
 }
@@ -116,8 +117,13 @@
     background-color: #000099;
     color: white;
 }
-.item-table th a{
-     color: white;
+.item-table th button{
+    border: none;
+    background: none;
+    display: block;
+    color: white;
+    cursor: pointer;
+    width: 100%;
 }
 
 .menu{
@@ -186,6 +192,11 @@
     transition: all 0.5s;
     cursor: pointer;
 }
+
+.button4:hover {
+    background-color: dodgerblue;
+}
+
 .filters {
     position: relative;
     display: block;
@@ -314,6 +325,8 @@ button:hover span:after {
     cursor: pointer;
 }
 .button3:hover {
+    color: white;
+    text-decoration: none;
     background-color: dodgerblue;
 }
 

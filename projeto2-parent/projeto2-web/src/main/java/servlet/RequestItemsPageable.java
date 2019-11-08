@@ -28,31 +28,43 @@ public class RequestItemsPageable extends HttpServlet {
         response.setContentType("text/html");
 
         try (PrintWriter out = response.getWriter()){
+
             String search = request.getParameter("search");
             String category = request.getParameter("category");
             String country = request.getParameter("country");
-            String min_price = request.getParameter("min");
-            String max_price = request.getParameter("max");
+            String min = request.getParameter("min");
+            String max = request.getParameter("max");
             String date = request.getParameter("date");
+            String order = request.getParameter("by");
 
             List<Item> items;
             if(search == null)
                 items = myItemBean.searchAllItems("");
             else
                 items = myItemBean.searchAllItems(search);
+
             Item item = new Item();
-            item.setName("meu item");
+            item.setName(min);
             item.setPrice(1.2f);
             items.add(item);
 
             Item item2 = new Item();
-            item2.setName("item de outro");
+            item2.setName(search);
             item2.setPrice(1.3f);
             items.add(item2);
 
+
             RequestDispatcher rd = request.getRequestDispatcher("/MyBay.jsp");
             request.setAttribute("items", items);
+            request.setAttribute("search",search);
+            request.setAttribute("category",category);
+            request.setAttribute("country",country);
+            request.setAttribute("min_price",min);
+            request.setAttribute("max_price",max);
+            request.setAttribute("date",date);
+            request.setAttribute("by",order);
             rd.forward(request, response);
+
         } catch (Exception e){
             System.out.println("[REQUEST ITEMS PAGEABLE ERROR] " + e);
             response.sendRedirect("MyBay.jsp");

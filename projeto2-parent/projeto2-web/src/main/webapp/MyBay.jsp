@@ -22,38 +22,27 @@
 </head>
 <body>
     <jsp:include page="Layout.jsp"></jsp:include>
-    <jsp:useBean id="informationBean" class="ejb.InformationBean"/>
     <div class="profile-header">
         <h3 id="Table-title">Itens online</h3>
     </div>
     <div class="menu">
-        <div id="left">
-            <form>
-                <select name="category">
-                    <option  value="all"> Todas as Categorias </option>
-                    <c:forEach items="${informationBean.categories}" var="category">
-                        <option value="${category.getId()}"> ${category.getType()} </option>
-                    </c:forEach>
-                </select>
-                <select name="country">
-                    <option value="all"> Todas os países </option>
-                    <c:forEach items="${informationBean.countries}" var="country">
-                        <option value="${country.getId()}"> ${country.getName()} </option>
-                    </c:forEach>
-                </select>
-                <label>Depois de</label>    <input name="date" type="date" > </br>
-                <label>Preço Mínimo</label> <input name="min" type="number" min="0" step="any"></br>
-                <label>Preço Máximo</label> <input name="max" type="number" min="0" step="any"></br>
-                <button class="button4" type="submit" href="RequestItemsPageable">Filtrar</button>
-            </form>
-        </div>
+        <jsp:include page="Filters.jsp"></jsp:include>
         <div id="right">
             <table class="item-table">
                 <tr>
-                    <th></th>
-                    <th><a href="RequestItemsOrderby?by=categoria">Categoria</a></th>
-                    <th><a href="RequestItemsOrderby?by=categoria">Nome</a></th>
-                    <th><a href="RequestItemsOrderby?by=categoria">Preço</a></th>
+                    <form action="RequestItemsPageable">
+                        <input type="hidden" name="search" value="${requestScope.search}">
+                        <input type="hidden" name="category" value="${requestScope.category}">
+                        <input type="hidden" name="country" value="${requestScope.country}">
+                        <input type="hidden" name="min" value="${requestScope.min}">
+                        <input type="hidden" name="max" value="${requestScope.max}">
+                        <input type="hidden" name="date" value="${requestScope.date}">
+
+                        <th></th>
+                        <th><button type="submit" name="by" value="categoria">Categoria</button></th>
+                        <th><button type="submit" name="by" value="nome">Nome</button></th>
+                        <th><button type="submit" name="by" value="preco">Preço</button></th>
+                    </form>
                 </tr>
                 <c:catch var="exception">
                     <c:forEach items="${items}" var="item">

@@ -49,14 +49,18 @@ public class ItemBean implements ItemBeanLocal {
         }
     }
 
-    public void editItem(Item item, String name, Category category, Country country, String picture){
+    public Item editItem(long itemId, String name, Category category, Country country, String picture){
         em.createQuery("UPDATE ITEMS set name = ?1, category = ?2, country = ?3, picture = ?4 where id = ?5")
             .setParameter(1, name)
             .setParameter(2, category)
             .setParameter(3 ,country)
             .setParameter(4, picture)
-            .setParameter(5, item.getId())
+            .setParameter(5, itemId)
             .executeUpdate();
+        Item item = (Item) em.createQuery("from ITEMS where id = ?1")
+                .setParameter(1, itemId)
+                .getSingleResult();
+        return item;
     }
 
     public List<Item> findItemsByDateOfInsertion(){
