@@ -35,7 +35,7 @@
                         <input type="hidden" name="category" value="${requestScope.category}">
                         <input type="hidden" name="country" value="${requestScope.country}">
                         <input type="hidden" name="min" value="${requestScope.min}" min="0">
-                        <input type="hidden" name="max" value="${requestScope.max}" min="${requestScope.g}">
+                        <input type="hidden" name="max" value="${requestScope.max}" min="0"}>
                         <input type="hidden" name="date" value="${requestScope.date}">
 
                         <th></th>

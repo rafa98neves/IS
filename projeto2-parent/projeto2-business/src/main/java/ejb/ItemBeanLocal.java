@@ -15,6 +15,7 @@ public interface ItemBeanLocal {
     boolean addItem(Item item, String country, String category, User newUser);
     Item editItem(long itemId, String name, long categoryId, long countryId, String picture, float price);
     Item findItemById(long id);
+    List<Item> orderItems(List<Item> items, String parameter, String order);
     List<Item> searchAllItems(String searchString);
     List<Item> searchItemsByCategory(String searchString, Category c);
     List<Item> searchItemsByPriceRange(String searchString, float minPrice, float maxPrice);

@@ -11,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.sql.Date;
+import java.util.Comparator;
 import java.util.List;
 
 @Stateless
@@ -80,6 +81,66 @@ public class ItemBean implements ItemBeanLocal {
         }catch (Exception e){
             return null;
         }
+    }
+
+    public List<Item> orderItems(List<Item> items, String parameter, String order){
+        Comparator<Item> comp = null;
+        switch (parameter){
+            case "name":{
+                if(order.equals("asc")){
+                    comp = new Comparator<Item>() {
+                        @Override
+                        public int compare(Item o1, Item o2) {
+                            return o1.getName().compareTo(o2.getName());
+                        }
+                    };
+                }else{
+                    comp = new Comparator<Item>() {
+                        @Override
+                        public int compare(Item o1, Item o2) {
+                            return o2.getName().compareTo(o1.getName());
+                        }
+                    };
+                }
+                break;
+            }case "price":{
+                if(order.equals("asc")){
+                    comp = new Comparator<Item>() {
+                        @Override
+                        public int compare(Item o1, Item o2) {
+                            return Float.compare(o1.getPrice(),o2.getPrice());
+                        }
+                    };
+                }else{
+                    comp = new Comparator<Item>() {
+                        @Override
+                        public int compare(Item o1, Item o2) {
+                            return Float.compare(o2.getPrice(),o1.getPrice());
+                        }
+                    };
+                }
+                break;
+            }case "dateOfInsertion":{
+                if(order.equals("asc")){
+                    comp = new Comparator<Item>() {
+                        @Override
+                        public int compare(Item o1, Item o2) {
+                            return o1.getDateOfInsertion().compareTo(o2.getDateOfInsertion());
+                        }
+                    };
+                }else{
+                    comp = new Comparator<Item>() {
+                        @Override
+                        public int compare(Item o1, Item o2) {
+                            return o2.getDateOfInsertion().compareTo(o1.getDateOfInsertion());
+                        }
+                    };
+                }
+                break;
+            }
+        }
+        items.sort(comp);
+        return items;
     }
 
 
