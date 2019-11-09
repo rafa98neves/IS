@@ -84,8 +84,6 @@ public class RequestItemsPageable extends HttpServlet {
                 }
             }
 
-
-
             RequestDispatcher rd = request.getRequestDispatcher("/MyBay.jsp");
             request.setAttribute("items", items);
             request.setAttribute("search",search);
