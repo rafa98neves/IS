@@ -14,7 +14,7 @@ public class User implements Serializable {
     private String name;
     @Column(nullable = false, length = 256)
     private String password;
-    @OneToOne()
+    @ManyToOne()
     private Country country;
     @Column(nullable = false)
     private Date birthdate;

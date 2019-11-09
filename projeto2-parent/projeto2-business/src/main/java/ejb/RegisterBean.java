@@ -31,7 +31,10 @@ public class RegisterBean implements RegisterBeanLocal {
             et.commit();
             return true;
         }catch (Exception e){
+            et.rollback();
             return false;
+        }finally {
+            em.close();
         }
     }
 }
