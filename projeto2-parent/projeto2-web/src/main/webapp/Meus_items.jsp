@@ -33,15 +33,22 @@
                 <th>Preço</th>
                 <th></th>
             </tr>
-            <c:forEach items="<%=currentUser.getItems()%>" var="item">
-                <tr>
-                    <td> <a href="RequestItem?ItID=${item.getId()}"><img src="s"/></a></td>
-                    <td> <a href="RequestItem?ItID=${item.getId()}">${item.getCategory().getType()}</a></td>
-                    <td> <a href="RequestItem?ItID=${item.getId()}">${item.getName()}</a></td>
-                    <td> <a href="RequestItem?ItID=${item.getId()}">${item.getPrice()}</a></td>
-                    <td> <a href="RemoveItem?ItID=${item.getId()}"> <img class="icon" src="static/trash.png"></a></td>
-                </tr>
-            </c:forEach>
+            <c:choose>
+                <c:when test="${not empty currentUser.getItems()}">
+                    <c:forEach items="<%=currentUser.getItems()%>" var="item">
+                        <tr>
+                            <td> <a href="RequestItem?ItID=${item.getId()}"><img src="s"/></a></td>
+                            <td> <a href="RequestItem?ItID=${item.getId()}">${item.getCategory().getType()}</a></td>
+                            <td> <a href="RequestItem?ItID=${item.getId()}">${item.getName()}</a></td>
+                            <td> <a href="RequestItem?ItID=${item.getId()}">${item.getPrice()}</a></td>
+                            <td> <a href="RemoveItem?ItID=${item.getId()}"> <img class="icon" src="static/trash.png"></a></td>
+                        </tr>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <div class="no_item_message">Não tem itens atualmente!</div>
+                </c:otherwise>
+            </c:choose>
         </table>
     </div>
 </body>

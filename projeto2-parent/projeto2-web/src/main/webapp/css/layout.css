@@ -195,6 +195,13 @@
     margin-left: 1%;
 }
 
+.menu #right .no_item_message{
+    position: absolute;
+    margin-top: 15%;
+    margin-left: 33%;
+    float: left;
+}
+
 .button4 {
     background-color: #3366ff;
     margin-top:12%;
@@ -359,6 +366,13 @@ button:hover span:after {
 .meus_itens th {
     width: 25% ;
     padding: 10px ;
+}
+
+.meus_itens .no_item_message{
+    position: absolute;
+    margin-top: 15%;
+    margin-left: 35%;
+    float: left;
 }
 
 .button3 {

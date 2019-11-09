@@ -44,7 +44,8 @@
                         <th><button type="submit" name="by" value="preco">Preço</button></th>
                     </form>
                 </tr>
-                <c:catch var="exception">
+                <c:choose>
+                    <c:when test="${not empty items}">
                     <c:forEach items="${items}" var="item">
                         <tr class="tr-items">
                             <td> <a href="RequestItem?ItID=${item.getId()}"><img src="${item.picture}"></a> </td>
@@ -53,10 +54,11 @@
                             <td> <a href="RequestItem?ItID=${item.getId()}">${item.price}</a> </td>
                         </tr>
                     </c:forEach>
-                </c:catch>
-                <c:if test="${not empty exception}">
-                    Nenhum item foi encontrado.
-                </c:if>
+                </c:when>
+                <c:otherwise>
+                    <div class="no_item_message">Não existem itens à venda!</div>
+                </c:otherwise>
+                </c:choose>
             </table>
         </div>
     </div>
