@@ -1,25 +1,23 @@
 package servlet;
 
+import Service.MyLogger;
 import data.Item;
 import ejb.ItemBeanLocal;
+import org.apache.log4j.PropertyConfigurator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.ejb.EJB;
-import javax.ejb.Local;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.System.out;
-import static java.lang.System.setSecurityManager;
 
 
 @WebServlet("/RequestItemsPageable")
@@ -27,11 +25,14 @@ public class RequestItemsPageable extends HttpServlet {
 
     @EJB
     ItemBeanLocal myItemBean;
+    final static Logger logger = LogManager.getLogger(MyLogger.class);
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        //PropertyConfigurator.configure("src/log4j.properties");
         response.setContentType("text/html");
 
         try (PrintWriter out = response.getWriter()){
+            logger.info("RequestItemPageable getting filters, if any");
 
             String search = request.getParameter("search");
             String category = request.getParameter("category");
@@ -58,6 +59,8 @@ public class RequestItemsPageable extends HttpServlet {
             }
 
             List<Item> items;
+
+            logger.info("RequestItemPageable searching items...");
             if(search == null){
                 search = "";
                 items = myItemBean.searchAllItems(search, by, order_type);
@@ -93,9 +96,11 @@ public class RequestItemsPageable extends HttpServlet {
             request.setAttribute("max_price",max);
             request.setAttribute("date",date);
             request.setAttribute("by",by);
+            logger.info("RequestItemPageable sending items");
             rd.forward(request, response);
 
         } catch (Exception e){
+            logger.info("RequestItemPageable error occurred");
             request.setAttribute("alert",e);
             RequestDispatcher rd = request.getRequestDispatcher("/Erro.jsp");
             rd.forward(request, response);
@@ -103,10 +108,12 @@ public class RequestItemsPageable extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        logger.info("RequestItemPageable doPost() method called");
         processRequest(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        logger.info("RequestItemPageable doGet() method called");
         processRequest(request, response);
     }
 
