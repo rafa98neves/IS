@@ -17,8 +17,9 @@ public interface ItemBeanLocal {
     Item findItemById(long id);
     List<Item> orderItems(List<Item> items, String parameter, String order);
     List<Item> searchAllItems(String searchString, String parameter, String order);
-    List<Item> searchItemsByCategory(String searchString, Category c, String parameter, String order);
+    List<Item> searchItemsByCategory(String searchString, long cId, String parameter, String order);
     List<Item> searchItemsByPriceRange(String searchString, float minPrice, float maxPrice, String parameter, String order);
-    List<Item> searchItemsByCountry(String searchString, Country c, String parameter, String order);
+    List<Item> searchItemsByCountry(String searchString, long cId, String parameter, String order);
     List<Item> searchItemsByDateOfInsertion(String searchString, Date d, String parameter, String order);
+
 }

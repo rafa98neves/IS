@@ -4,6 +4,7 @@ import data.Item;
 import ejb.ItemBeanLocal;
 
 import javax.ejb.EJB;
+import javax.ejb.Local;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class RequestItemsPageable extends HttpServlet {
             String by = request.getParameter("by");
             String order = request.getParameter("order");
             String order_type = "asc";
+
             if(order != null) {
                 switch (order) {
                     case "asc":
@@ -54,10 +57,22 @@ public class RequestItemsPageable extends HttpServlet {
             }
 
             List<Item> items;
-            if(search == null)
-                items = myItemBean.searchAllItems("", by, order_type);
-            else
+            if(search == null) search = "";
+            if(category != null){
+                items = myItemBean.searchItemsByCategory(search, Long.parseLong(category), by, order_type);
+            }
+            else if(country != null){
+                items = myItemBean.searchItemsByCountry(search,Long.parseLong(country), by, order_type);
+            }
+            else if(min != null || max != null){
+                items = myItemBean.searchItemsByPriceRange(search,Float.parseFloat(min), Float.parseFloat(max), by, order_type);
+            }
+            else if(date != null){
+                items = myItemBean.searchItemsByDateOfInsertion(search, Date.valueOf(date), by, order_type);
+            }else{
                 items = myItemBean.searchAllItems(search, by, order_type);
+            }
+
 
 
             RequestDispatcher rd = request.getRequestDispatcher("/MyBay.jsp");

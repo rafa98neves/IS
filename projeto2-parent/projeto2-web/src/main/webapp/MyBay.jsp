@@ -32,7 +32,7 @@
                 <tr>
                     <form action="RequestItemsPageable">
                         <input type="hidden" name="search" value="${requestScope.search}">
-                        <input type="hidden" name="category" value="${requestScope.category}">
+                        <input type="hidden" name="category" value="${requestScope.dateOfInsertion}">
                         <input type="hidden" name="country" value="${requestScope.country}">
                         <input type="hidden" name="min" value="${requestScope.min}" min="0">
                         <input type="hidden" name="max" value="${requestScope.max}" min="0"}>
@@ -40,9 +40,9 @@
                         <input type="hidden" name="order" value="${requestScope.order}">
 
                         <th></th>
-                        <th><button type="submit" name="by" value="categoria">Categoria</button></th>
-                        <th><button type="submit" name="by" value="nome">Nome</button></th>
-                        <th><button type="submit" name="by" value="preco">Preço</button></th>
+                        <th><button type="submit" name="by" value="name">Nome</button></th>
+                        <th><button type="submit" name="by" value="dateOfInsertion">Data de inserção</button></th>
+                        <th><button type="submit" name="by" value="price">Preço</button></th>
                     </form>
                 </tr>
                 <c:choose>
@@ -50,8 +50,8 @@
                     <c:forEach items="${items}" var="item">
                         <tr class="tr-items">
                             <td> <a href="RequestItem?ItID=${item.getId()}"><img src="${item.getPicture()}"></a> </td>
-                            <td> <a href="RequestItem?ItID=${item.getId()}">${item.category.type}</a> </td>
                             <td> <a href="RequestItem?ItID=${item.getId()}">${item.name}</a> </td>
+                            <td> <a href="RequestItem?ItID=${item.getId()}">${item.dateOfInsertion}</a> </td>
                             <td> <a href="RequestItem?ItID=${item.getId()}">${item.price}</a> </td>
                         </tr>
                     </c:forEach>

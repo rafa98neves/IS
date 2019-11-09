@@ -28,8 +28,8 @@
         <table class="item-table">
             <tr>
                 <th></th>
-                <th>Categoria</th>
                 <th>Nome</th>
+                <th>Data de inserção</th>
                 <th>Preço</th>
                 <th></th>
             </tr>
@@ -38,8 +38,8 @@
                     <c:forEach items="<%=currentUser.getItems()%>" var="item">
                         <tr>
                             <td> <a href="RequestItem?ItID=${item.getId()}"><img class="picture" src="${item.getPicture()}"/></a></td>
-                            <td> <a href="RequestItem?ItID=${item.getId()}">${item.getCategory().getType()}</a></td>
                             <td> <a href="RequestItem?ItID=${item.getId()}">${item.getName()}</a></td>
+                            <td> <a href="RequestItem?ItID=${item.getId()}">${item.dateOfInsertion}</a></td>
                             <td> <a href="RequestItem?ItID=${item.getId()}">${item.getPrice()}</a></td>
                             <td> <a href="RemoveItem?ItID=${item.getId()}"> <img class="icon" src="static/trash.png"></a></td>
                         </tr>

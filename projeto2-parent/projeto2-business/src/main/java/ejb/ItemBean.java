@@ -11,14 +11,14 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.sql.Date;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 @Stateless
 public class ItemBean implements ItemBeanLocal {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("MyBay");
-    EntityManager em = emf.createEntityManager();
-    EntityTransaction et = em.getTransaction();
 
 
     public ItemBean(){
@@ -26,15 +26,19 @@ public class ItemBean implements ItemBeanLocal {
     }
 
     public Item findItemById(long id){
+        EntityManager em = emf.createEntityManager();
         try{
             return em.find(Item.class, id);
         }catch(Exception e){
             return null;
+        }finally {
+            em.close();
         }
-
     }
 
     public void delete(long itemId, User u){
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
         if(!et.isActive())et.begin();
         try{
             Item item = em.find(Item.class, itemId);
@@ -42,12 +46,16 @@ public class ItemBean implements ItemBeanLocal {
             em.remove(em.contains(item) ? item : em.merge(item));
             et.commit();
         }catch(Exception e){
-
+            et.rollback();
+        }finally {
+            em.close();
         }
 
     }
 
     public boolean addItem(Item item, String country, String category, User newUser){
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
         if(!et.isActive())et.begin();
         try{
             Country count = em.find(Country.class, Long.parseLong(country));
@@ -60,11 +68,16 @@ public class ItemBean implements ItemBeanLocal {
             et.commit();
             return true;
         } catch(Exception e){
+            et.rollback();
             return false;
+        }finally {
+            em.close();
         }
     }
 
     public Item editItem(long itemId, String name, long categoryId, long countryId, String picture, float price){
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
         if(!et.isActive())et.begin();
         try {
             Item item = em.find(Item.class, itemId);
@@ -79,7 +92,10 @@ public class ItemBean implements ItemBeanLocal {
             et.commit();
             return item;
         }catch (Exception e){
+            et.rollback();
             return null;
+        }finally {
+            em.close();
         }
     }
 
@@ -145,6 +161,7 @@ public class ItemBean implements ItemBeanLocal {
 
 
     public List<Item> searchAllItems(String searchString, String parameter, String order){
+        EntityManager em = emf.createEntityManager();
         List<Item> items = em.createQuery("from ITEMS where name like concat('%',?1,'%') ")
                 .setParameter(1, searchString)
                 .getResultList();
@@ -152,35 +169,63 @@ public class ItemBean implements ItemBeanLocal {
         else return items;
     }
 
-    public List<Item> searchItemsByCategory(String searchString, Category c, String parameter, String order){
-        List<Item> items = em.createQuery("from ITEMS where category = ?1 and name like concat('%',?2,'%')")
-                .setParameter(1, c)
-                .setParameter(2, searchString)
-                .getResultList();
-        if(parameter != null) return orderItems(items, parameter, order);
-        else return items;
+
+    public List<Item> searchItemsByCategory(String searchString, long cId, String parameter, String order){
+        EntityManager em = emf.createEntityManager();
+        try{
+            Category category = em.find(Category.class, cId);
+            List<Item> items = em.createQuery("from ITEMS where category = ?1 and name like concat('%',?2,'%')")
+                    .setParameter(1, category)
+                    .setParameter(2, searchString)
+                    .getResultList();
+            if(parameter != null) return orderItems(items, parameter, order);
+            else return items;
+        }catch (Exception e){
+            return Collections.emptyList();
+        }finally {
+            em.close();
+        }
+
     }
 
     public List<Item> searchItemsByPriceRange(String searchString, float minPrice, float maxPrice, String parameter, String order){
-        List<Item> items = em.createQuery("from ITEMS where price between ?1 and ?2 and name like concat('%',?3,'%')")
-                .setParameter(1, minPrice)
-                .setParameter(2, maxPrice)
-                .setParameter(3, searchString)
-                .getResultList();
-        if(parameter != null) return orderItems(items, parameter, order);
-        else return items;
+        EntityManager em = emf.createEntityManager();
+        try{
+            List<Item> items = em.createQuery("from ITEMS where price between ?1 and ?2 and name like concat('%',?3,'%')")
+                    .setParameter(1, minPrice)
+                    .setParameter(2, maxPrice)
+                    .setParameter(3, searchString)
+                    .getResultList();
+            if(parameter != null) return orderItems(items, parameter, order);
+            else return items;
+        }catch (Exception e){
+            return Collections.emptyList();
+        }finally {
+            em.close();
+        }
     }
 
-    public List<Item> searchItemsByCountry(String searchString, Country c, String parameter, String order){
-        List<Item> items = em.createQuery("from ITEMS where country = ?1 and name like concat('%',?2,'%')")
-                .setParameter(1, c)
-                .setParameter(2, searchString)
-                .getResultList();
-        if(parameter != null) return orderItems(items, parameter, order);
-        else return items;
+
+    public List<Item> searchItemsByCountry(String searchString, long cId, String parameter, String order){
+        EntityManager em = emf.createEntityManager();
+        try{
+            Country country = em.find(Country.class, cId);
+            List<Item> items = em.createQuery("from ITEMS where country = ?1 and name like concat('%',?2,'%')")
+                    .setParameter(1, country)
+                    .setParameter(2, searchString)
+                    .getResultList();
+            if(parameter != null) return orderItems(items, parameter, order);
+            else return items;
+        }catch (Exception e){
+            return Collections.emptyList();
+        }finally {
+            em.close();
+        }
     }
+
 
     public List<Item> searchItemsByDateOfInsertion(String searchString, Date d, String parameter, String order) {
+        EntityManager em = emf.createEntityManager();
         List<Item> items = em.createQuery("from ITEMS where dateOfInsertion > ?1 and name like concat('%',?2,'%')")
                 .setParameter(1, d)
                 .setParameter(2, searchString)
