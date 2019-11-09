@@ -12,7 +12,7 @@
 <body>
 <jsp:useBean id="informationBean" class="ejb.InformationBean"/>
     <div id="left">
-        <h3 class="filter_title">Ordenar por:</h3>
+        <h3 class="filter_title">Filtrar por:</h3>
         <select id="filters" onchange="show()">
             <option value="default" selected>Escolha um filtro</option>
             <option value="categoria">Categoria</option>

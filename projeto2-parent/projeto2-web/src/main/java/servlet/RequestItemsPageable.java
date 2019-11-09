@@ -69,11 +69,10 @@ public class RequestItemsPageable extends HttpServlet {
             }
             else if(date != null){
                 items = myItemBean.searchItemsByDateOfInsertion(search, Date.valueOf(date), by, order_type);
-            }else{
+            }
+            else{
                 items = myItemBean.searchAllItems(search, by, order_type);
             }
-
-
 
             RequestDispatcher rd = request.getRequestDispatcher("/MyBay.jsp");
             request.setAttribute("items", items);
