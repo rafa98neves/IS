@@ -27,7 +27,7 @@
         <h3 id="profile-title">Adicionar um novo item</h3>
     </div>
 
-    <form method="post" action="RequestAddItem">
+    <form method="post" action="RequestAddItem" enctype="multipart/form-data">
         <div class="profile-box">
             <div id="left">
                 Imagem <input type="file" name="picture"> </br>

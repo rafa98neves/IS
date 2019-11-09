@@ -195,6 +195,11 @@
     margin-left: 1%;
 }
 
+.menu #right img{
+    max-width: 100px;
+    max-height: 100px;
+}
+
 .menu #right .no_item_message{
     position: absolute;
     margin-top: 15%;
@@ -266,6 +271,13 @@
     outline: none;
     background-color: darkgrey;
     color: white;
+}
+
+.profile-box img{
+    max-width: 50%;
+    margin-bottom: 4.3%;
+    margin-left: 25%;
+    max-height: 90px;
 }
 
 .profile-box #left, #left2{
@@ -373,6 +385,10 @@ button:hover span:after {
     margin-top: 15%;
     margin-left: 35%;
     float: left;
+}
+.meus_itens .picture{
+    max-width: 100px;
+    max-height: 100px;
 }
 
 .button3 {

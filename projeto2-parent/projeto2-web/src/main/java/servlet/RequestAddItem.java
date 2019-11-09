@@ -32,27 +32,8 @@ public class RequestAddItem extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
         request.setCharacterEncoding("UTF-8");
-        try (PrintWriter out = response.getWriter()){
-            User user = (User) request.getSession().getAttribute("currentSessionUser");
-            Item item = new Item();
-
-            //item.setPicture(SaveFile(request, response));
-            item.setPicture(request.getParameter("picture"));
-            item.setName(request.getParameter("name"));
-            item.setPrice(Float.parseFloat(request.getParameter("price")));
-            item.setOwner(user);
-
-            java.util.Date utilDate = new java.util.Date();
-            java.sql.Date date = new java.sql.Date(utilDate.getTime());
-            item.setDateOfInsertion(date);
-            myItemBean.addItem(item, request.getParameter("country"), request.getParameter("category"), user);
-            RequestDispatcher rd = request.getRequestDispatcher("/Meus_items.jsp");
-            rd.forward(request, response);
-        } catch (Exception e){
-            request.setAttribute("alert",e);
-            RequestDispatcher rd = request.getRequestDispatcher("/Erro.jsp");
-            rd.forward(request, response);
-        }
+        Item item = new Item();
+        SaveItem(item, request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -63,47 +44,75 @@ public class RequestAddItem extends HttpServlet {
         processRequest(request, response);
     }
 
-    protected String SaveFile(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        int maxFileSize = 50 * 1024;
-        int maxMemSize = 4 * 1024;
-        // enctype = "multipart/form-data"
+    protected void SaveItem(Item item, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        int maxFileSize = 100 * 1024;
+        int maxMemSize = 10 * 1024;
         File file ;
-
-        String path = new File(".").getCanonicalPath();
-        String filePath = (path+"\\pictures\\");
-        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        response.setContentType("text/html");
-        if( !isMultipart ) {
-            request.setAttribute("alert", "Imagem inválida");
-            RequestDispatcher rd = request.getRequestDispatcher("/Meus_items.jsp");
-            rd.forward(request, response);
+        String path, country = new String(), category = new String();
+        File dir = new File("D:\\Aulas\\MEI 1 ano\\IS\\IS\\projeto2-parent\\projeto2-web\\src\\main\\webapp\\static\\items\\");
+        if(dir.exists()){
+            //server 1
+            path="D:\\Aulas\\MEI 1 ano\\IS\\IS\\projeto2-parent\\projeto2-web\\src\\main\\webapp\\static\\items\\";
         }
+        else{
+            //server 2
+            path="D:\\Users\\joaom\\Documents\\IS\\IS\\projeto2-parent\\projeto2-web\\src\\main\\webapp\\static\\items\\";
+        }
+        String filePath = (path);
         DiskFileItemFactory factory = new DiskFileItemFactory();
         factory.setSizeThreshold(maxMemSize);
         factory.setRepository(new File("c:\\temp"));
         ServletFileUpload upload = new ServletFileUpload(factory);
         upload.setSizeMax( maxFileSize );
 
-        PrintWriter out = response.getWriter();
         try {
             List fileItems = upload.parseRequest(request);
             Iterator i = fileItems.iterator();
             while ( i.hasNext () ) {
                 FileItem fi = (FileItem)i.next();
                 if ( !fi.isFormField () ) {
-                    String fileName = fi.getName();
                     // Write the file
+                    String fileName = fi.getName();
+                    String extension = new String();
                     if( fileName.lastIndexOf("\\") >= 0 ) {
-                        file = new File( filePath + fileName.substring( fileName.lastIndexOf("\\"))) ;
+                        extension = fileName.substring( fileName.lastIndexOf("\\"));
                     } else {
-                        file = new File( filePath + fileName.substring(fileName.lastIndexOf("\\")+1)) ;
+                        extension = fileName.substring( fileName.lastIndexOf("\\")+1);
                     }
-                    fi.write( file ) ;
+                    try {
+                        file = new File(filePath + extension);
+                        fi.write( file ) ;
+                    }catch (IOException e){
+                        //Imagem já existe, então não a guardo
+                    }
+                    item.setPicture("static/items/" + extension);
+                }
+                else{
+                    if ("name".equals(fi.getFieldName()))
+                        item.setName(fi.getString());
+                    else if ("price".equals(fi.getFieldName()))
+                        item.setPrice(Float.parseFloat(fi.getString()));
+                    else if ("country".equals(fi.getFieldName()))
+                        country = fi.getString();
+                    else if ("category".equals(fi.getFieldName()))
+                        category = fi.getString();
                 }
             }
-            return filePath;
         } catch(Exception ex) {
-            return "errr";
+            request.setAttribute("alert", ex);
+            RequestDispatcher rd = request.getRequestDispatcher("/Erro.jsp");
+            rd.forward(request, response);
         }
+
+        java.util.Date utilDate = new java.util.Date();
+        java.sql.Date date = new java.sql.Date(utilDate.getTime());
+        item.setDateOfInsertion(date);
+
+        User user = (User) request.getSession().getAttribute("currentSessionUser");
+        item.setOwner(user);
+        myItemBean.addItem(item, country, category, user);
+
+        RequestDispatcher rd = request.getRequestDispatcher("/Meus_items.jsp");
+        rd.forward(request, response);
     }
 }

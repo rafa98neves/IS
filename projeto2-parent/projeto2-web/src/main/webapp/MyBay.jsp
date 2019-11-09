@@ -48,7 +48,7 @@
                     <c:when test="${not empty items}">
                     <c:forEach items="${items}" var="item">
                         <tr class="tr-items">
-                            <td> <a href="RequestItem?ItID=${item.getId()}"><img src="${item.picture}"></a> </td>
+                            <td> <a href="RequestItem?ItID=${item.getId()}"><img src="${item.getPicture()}"></a> </td>
                             <td> <a href="RequestItem?ItID=${item.getId()}">${item.category.type}</a> </td>
                             <td> <a href="RequestItem?ItID=${item.getId()}">${item.name}</a> </td>
                             <td> <a href="RequestItem?ItID=${item.getId()}">${item.price}</a> </td>

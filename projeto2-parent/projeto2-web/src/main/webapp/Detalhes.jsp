@@ -33,8 +33,13 @@
         <input type="hidden" name="itemId" value="${item.getId()}">
         <div class="profile-box">
             <div id="left">
+                <img src="<c:out value="${item.getPicture()}"/>"> </br>
                 Nome    <input type="text" name="name" value="<c:out value="${item.getName()}"/>"> </br>
                 Preço   <input type="number" name="price" value="<c:out value="${item.getPrice()}"/>"> </br>
+
+            </div>
+            <div id="right">
+                Data de inserção  <input type="date" name="date" value="<c:out value="${item.getDateOfInsertion()}"/>"> </br>
                 País
                 <select name="country">
                     <c:forEach items="${informationBean.countries}" var="country">
@@ -48,9 +53,6 @@
                         </c:choose>
                     </c:forEach>
                 </select></br>
-            </div>
-            <div id="right">
-                Data de inserção  <input type="date" name="date" readonly value="<c:out value="${item.getDateOfInsertion()}"/>"> </br>
                 Categoria
                 <select name="category">
                 <c:forEach items="${informationBean.categories}" var="category">
@@ -73,12 +75,14 @@
     <c:otherwise>
         <div class="profile-box">
             <div id="left2">
+                <img src="<c:out value="${item.getPicture()}"/>"> </br>
                 Nome    <input type="text" name="name" value="<c:out value="${item.getName()}"/>" readonly> </br>
                 Preço   <input type="number" step="0.01" name="price" value="<c:out value="${item.getPrice()}"/>" readonly> </br>
             </div>
             <div id="right2">
-                Data de inserção  <input type="date" name="date" readonly> </br>
+                Data de inserção  <input type="date" name="date" value="<c:out value="${item.getDateOfInsertion()}"/>" readonly> </br>
                 Categoria  <input type="text" name="category" value="<c:out value="${requestScope.item.getCategory().getType()}"/>" readonly></br>
+                País  <input type="text" name="country" value="<c:out value="${requestScope.item.getCountry().getName()}"/>" readonly></br>
             </div>
         </div>
     </c:otherwise>
