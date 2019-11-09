@@ -152,15 +152,15 @@ public class ItemBean implements ItemBeanLocal {
 
     }
 
-    public List<Item> searchItemsByCategory(String searchString, Category c){
+    public List<Item> searchItemsByCategory(String searchString, String cId){
         List<Item> items = em.createQuery("from ITEMS where category = ?1 and name like concat('%',?2,'%')")
-                .setParameter(1, c)
+                .setParameter(1, cId)
                 .setParameter(2, searchString)
                 .getResultList();
         return items;
     }
 
-    public List<Item> searchItemsByPriceRange(String searchString, float minPrice, float maxPrice){
+    public List<Item> searchItemsByPriceRange(String searchString, String minPrice, String maxPrice){
         List<Item> items = em.createQuery("from ITEMS where price between ?1 and ?2 and name like concat('%',?3,'%')")
                 .setParameter(1, minPrice)
                 .setParameter(2, maxPrice)
@@ -169,15 +169,15 @@ public class ItemBean implements ItemBeanLocal {
         return items;
     }
 
-    public List<Item> searchItemsByCountry(String searchString, Country c){
+    public List<Item> searchItemsByCountry(String searchString, String cId){
         List<Item> items = em.createQuery("from ITEMS where country = ?1 and name like concat('%',?2,'%')")
-                .setParameter(1, c)
+                .setParameter(1, cId)
                 .setParameter(2, searchString)
                 .getResultList();
         return items;
     }
 
-    public List<Item> searchItemsByDateOfInsertion(String searchString, Date d) {
+    public List<Item> searchItemsByDateOfInsertion(String searchString, String d) {
         List<Item> items = em.createQuery("from ITEMS where dateOfInsertion > ?1 and name like concat('%',?2,'%')")
                 .setParameter(1, d)
                 .setParameter(2, searchString)

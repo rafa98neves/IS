@@ -39,6 +39,7 @@ public class RequestItemsPageable extends HttpServlet {
             String by = request.getParameter("by");
             String order = request.getParameter("order");
             String order_type = "asc";
+
             if(order != null) {
                 switch (order) {
                     case "asc":
@@ -54,10 +55,21 @@ public class RequestItemsPageable extends HttpServlet {
             }
 
             List<Item> items;
-            if(search == null)
-                items = myItemBean.searchAllItems("");
-            else
+            if(search == null) search = "";
+            if(category != null){
+                items = myItemBean.searchItemsByCategory(search,category);
+            }
+            else if(country != null){
+                items = myItemBean.searchItemsByCountry(search,country);
+            }
+            else if(min != null || max != null){
+                items = myItemBean.searchItemsByPriceRange(search,min,max);
+            }
+            else if(date != null){
+                items = myItemBean.searchItemsByDateOfInsertion(search,date);
+            }else{
                 items = myItemBean.searchAllItems(search);
+            }
 
             if(by!=null) items = myItemBean.orderItems(items, by, order_type);
 

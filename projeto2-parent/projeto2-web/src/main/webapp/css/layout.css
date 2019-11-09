@@ -232,6 +232,17 @@
     display: block;
 }
 
+.filter_title{
+    color: white;
+    margin-left: 25%;
+    font-size: 20px;
+    margin-top: 20%;
+}
+
+#left form{
+    display: none;
+}
+
 /* ---------------  Profile Page  --------------- */
 
 .profile-header{
