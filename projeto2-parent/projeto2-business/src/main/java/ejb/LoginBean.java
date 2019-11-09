@@ -1,8 +1,10 @@
 package ejb;
+import data.Item;
 import data.User;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
+import java.util.Comparator;
 
 @Stateless
 public class LoginBean implements LoginBeanLocal {
@@ -19,6 +21,13 @@ public class LoginBean implements LoginBeanLocal {
                     .setParameter("email", email)
                     .setParameter("psw", password)
                     .getSingleResult();
+            u.getItems().sort(new Comparator<Item>() {
+                @Override
+                public int compare(Item o1, Item o2) {
+                    return o1.getDateOfInsertion().compareTo(o2.getDateOfInsertion());
+                }
+            });
+
             return u;
         }catch(NoResultException nre){
             return null;

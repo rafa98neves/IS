@@ -82,11 +82,6 @@ public class ItemBean implements ItemBeanLocal {
         }
     }
 
-    public List<Item> findItemsByDateOfInsertion(){
-        List<Item> items = em.createQuery("from ITEMS order by dateOfInsertion")
-            .getResultList();
-        return items;
-    }
 
     public List<Item> searchAllItems(String searchString){
         List<Item> items = em.createQuery("from ITEMS where name like concat('%',?1,'%') ")
