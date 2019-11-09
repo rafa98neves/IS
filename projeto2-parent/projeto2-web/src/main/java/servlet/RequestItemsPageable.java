@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.System.out;
+import static java.lang.System.setSecurityManager;
 
 
 @WebServlet("/RequestItemsPageable")
@@ -57,20 +58,30 @@ public class RequestItemsPageable extends HttpServlet {
             }
 
             List<Item> items;
-            if(search == null) search = "";
-            if(category != null){
-                items = myItemBean.searchItemsByCategory(search, Long.parseLong(category), by, order_type);
-            }
-            else if(country != null){
-                items = myItemBean.searchItemsByCountry(search,Long.parseLong(country), by, order_type);
-            }
-            else if(min != null || max != null){
-                items = myItemBean.searchItemsByPriceRange(search,Float.parseFloat(min), Float.parseFloat(max), by, order_type);
-            }
-            else if(date != null){
-                items = myItemBean.searchItemsByDateOfInsertion(search, Date.valueOf(date), by, order_type);
-            }else{
+            if(search == null){
+                search = "";
                 items = myItemBean.searchAllItems(search, by, order_type);
+            }else{
+                if(category != null && !category.equals("")){
+                    items = myItemBean.searchItemsByCategory(search, Long.parseLong(category), by, order_type);
+                }
+                else if(country != null && !country.equals("")){
+                    items = myItemBean.searchItemsByCountry(search,Long.parseLong(country), by, order_type);
+                }
+                else if(!(min == null && max == null) && !(min.equals("") && max.equals(""))){
+                    if(min == null || min.equals("") ){
+                        min = "0";
+                    }else if(max == null || max.equals("")){
+                        max = Float.toString(Float.MAX_VALUE);
+                    }
+                    items = myItemBean.searchItemsByPriceRange(search,Float.parseFloat(min), Float.parseFloat(max), by, order_type);
+                }
+                else if(date != null && !date.equals("")){
+                    out.print("HERE1");
+                    items = myItemBean.searchItemsByDateOfInsertion(search, Date.valueOf(date), by, order_type);
+                }else{
+                    items = myItemBean.searchAllItems(search, by, order_type);
+                }
             }
 
 

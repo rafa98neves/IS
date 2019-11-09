@@ -12,10 +12,11 @@
 <body>
 <jsp:useBean id="informationBean" class="ejb.InformationBean"/>
     <div id="left">
-        <h3 class="filter_title">Ordenar por:</h3>
+        <h3 class="filter_title">Filtrar por:</h3>
         <select id="filters" onchange="show()">
             <option value="default" selected>Escolha um filtro</option>
             <option value="categoria">Categoria</option>
+            <option value="pais">País</option>
             <option value="data">Data</option>
             <option value="preco">Preço</option>
         </select>
@@ -31,7 +32,6 @@
         <form id="country">
             <input type="hidden" name="search" value="${requestScope.search}">
             <select name="country">
-                <option value="all"> Todos os países </option>
                 <c:forEach items="${informationBean.countries}" var="country">
                     <option value="${country.getId()}"> ${country.getName()} </option>
                 </c:forEach>
