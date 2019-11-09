@@ -58,7 +58,8 @@ public class RequestItemsPageable extends HttpServlet {
 
             List<Item> items;
             if(search == null) search = "";
-            if(category != null){
+
+            if(category != null){-
                 items = myItemBean.searchItemsByCategory(search, Long.parseLong(category), by, order_type);
             }
             else if(country != null){
