@@ -55,11 +55,10 @@ public class RequestItemsPageable extends HttpServlet {
 
             List<Item> items;
             if(search == null)
-                items = myItemBean.searchAllItems("");
+                items = myItemBean.searchAllItems("", by, order_type);
             else
-                items = myItemBean.searchAllItems(search);
+                items = myItemBean.searchAllItems(search, by, order_type);
 
-            if(by!=null) items = myItemBean.orderItems(items, by, order_type);
 
             RequestDispatcher rd = request.getRequestDispatcher("/MyBay.jsp");
             request.setAttribute("items", items);

@@ -144,44 +144,50 @@ public class ItemBean implements ItemBeanLocal {
     }
 
 
-    public List<Item> searchAllItems(String searchString){
+    public List<Item> searchAllItems(String searchString, String parameter, String order){
         List<Item> items = em.createQuery("from ITEMS where name like concat('%',?1,'%') ")
                 .setParameter(1, searchString)
                 .getResultList();
-        return items;
-
+        if(parameter != null) return orderItems(items, parameter, order);
+        else return items;
     }
 
-    public List<Item> searchItemsByCategory(String searchString, Category c){
+    public List<Item> searchItemsByCategory(String searchString, Category c, String parameter, String order){
         List<Item> items = em.createQuery("from ITEMS where category = ?1 and name like concat('%',?2,'%')")
                 .setParameter(1, c)
                 .setParameter(2, searchString)
                 .getResultList();
-        return items;
+        if(parameter != null) return orderItems(items, parameter, order);
+        else return items;
     }
 
-    public List<Item> searchItemsByPriceRange(String searchString, float minPrice, float maxPrice){
+    public List<Item> searchItemsByPriceRange(String searchString, float minPrice, float maxPrice, String parameter, String order){
         List<Item> items = em.createQuery("from ITEMS where price between ?1 and ?2 and name like concat('%',?3,'%')")
                 .setParameter(1, minPrice)
                 .setParameter(2, maxPrice)
                 .setParameter(3, searchString)
                 .getResultList();
-        return items;
+        if(parameter != null) return orderItems(items, parameter, order);
+        else return items;
     }
 
-    public List<Item> searchItemsByCountry(String searchString, Country c){
+    public List<Item> searchItemsByCountry(String searchString, Country c, String parameter, String order){
         List<Item> items = em.createQuery("from ITEMS where country = ?1 and name like concat('%',?2,'%')")
                 .setParameter(1, c)
                 .setParameter(2, searchString)
                 .getResultList();
-        return items;
+        if(parameter != null) return orderItems(items, parameter, order);
+        else return items;
     }
 
-    public List<Item> searchItemsByDateOfInsertion(String searchString, Date d) {
+    public List<Item> searchItemsByDateOfInsertion(String searchString, Date d, String parameter, String order) {
         List<Item> items = em.createQuery("from ITEMS where dateOfInsertion > ?1 and name like concat('%',?2,'%')")
                 .setParameter(1, d)
                 .setParameter(2, searchString)
                 .getResultList();
-        return items;
+        if(parameter != null) return orderItems(items, parameter, order);
+        else return items;
     }
+
+
 }

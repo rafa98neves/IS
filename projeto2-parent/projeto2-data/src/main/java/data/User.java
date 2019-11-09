@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity(name = "USERS")
@@ -11,7 +12,7 @@ import java.util.List;
 public class User implements Serializable {
     @Column(nullable = false, length = 32)
     private String name;
-    @Column(nullable = false, length = 64)
+    @Column(nullable = false, length = 256)
     private String password;
     @OneToOne()
     private Country country;
@@ -35,6 +36,7 @@ public class User implements Serializable {
         this.email = email;
         this.items = new ArrayList<>();
     }
+
 
     public String getName() {
         return name;

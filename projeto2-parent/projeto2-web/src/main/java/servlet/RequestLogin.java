@@ -1,7 +1,7 @@
 package servlet;
 
+import com.google.common.hash.Hashing;
 import data.User;
-import ejb.InformationBeanLocal;
 import ejb.LoginBeanLocal;
 
 import javax.ejb.EJB;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 
 @WebServlet("/RequestLogin")
@@ -31,8 +32,9 @@ public class RequestLogin extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()){
             String email= request.getParameter("email");
-            String psw= request.getParameter("psw");
-
+            String psw= Hashing.sha256()
+                .hashString(request.getParameter("psw"), StandardCharsets.UTF_8)
+                .toString();
             User user = myLoginBean.login(email,psw);
 
             if(user != null){

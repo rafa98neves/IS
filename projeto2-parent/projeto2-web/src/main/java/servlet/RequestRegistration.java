@@ -1,5 +1,6 @@
 package servlet;
 
+import com.google.common.hash.Hashing;
 import data.Country;
 import ejb.RegisterBean;
 import ejb.RegisterBeanLocal;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 
 
@@ -31,7 +33,9 @@ public class RequestRegistration extends HttpServlet {
             String email= request.getParameter("email");
             String raw_country= request.getParameter("country");
             Date birthdate = Date.valueOf(request.getParameter("birthdate"));
-            String psw= request.getParameter("psw");
+            String psw= Hashing.sha256()
+                .hashString(request.getParameter("psw"), StandardCharsets.UTF_8)
+                .toString();
 
             if(myRegisterBean.registerUser(name,email,raw_country,birthdate,psw)){
                 RequestDispatcher rd = context.getRequestDispatcher("/Login.jsp");

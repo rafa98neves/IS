@@ -24,7 +24,7 @@
 </div>
 
     <jsp:include page="Layout.jsp"></jsp:include>
-    <form method="post" action="RequestRegistration">
+    <form method="post" action="RequestRegistration" autocomplete="off">
         <div class="profile-box">
             <div id="left">
                 Nome    <input type="text" name="name" required/> </br>
