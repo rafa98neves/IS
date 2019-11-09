@@ -36,13 +36,30 @@ public class RequestItemsPageable extends HttpServlet {
             String min = request.getParameter("min");
             String max = request.getParameter("max");
             String date = request.getParameter("date");
-            String order = request.getParameter("by");
+            String by = request.getParameter("by");
+            String order = request.getParameter("order");
+            String order_type = "asc";
+            if(order != null) {
+                switch (order) {
+                    case "asc":
+                        order_type = "desc";
+                        break;
+                    case "desc":
+                        order_type = "asc";
+                        break;
+                    default:
+                        order_type = "asc";
+                }
+                request.setAttribute("order",order_type);
+            }
 
             List<Item> items;
             if(search == null)
                 items = myItemBean.searchAllItems("");
             else
                 items = myItemBean.searchAllItems(search);
+
+            if(by!=null) items = myItemBean.orderItems(items, by, order_type);
 
             RequestDispatcher rd = request.getRequestDispatcher("/MyBay.jsp");
             request.setAttribute("items", items);
@@ -52,7 +69,7 @@ public class RequestItemsPageable extends HttpServlet {
             request.setAttribute("min_price",min);
             request.setAttribute("max_price",max);
             request.setAttribute("date",date);
-            request.setAttribute("by",order);
+            request.setAttribute("by",by);
             rd.forward(request, response);
 
         } catch (Exception e){
