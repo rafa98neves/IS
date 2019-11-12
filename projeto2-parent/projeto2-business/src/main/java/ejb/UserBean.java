@@ -40,12 +40,19 @@ public class UserBean implements UserBeanLocal {
     }
 
     public void deleteUser(User u) {
-        if(!em.getTransaction().isActive())em.getTransaction().begin();
-        for (Item i : u.getItems()) {
-            em.remove(em.contains(i) ? i : em.merge(i));
+        if(!et.isActive())et.begin();
+        try{
+            for (Item i : u.getItems()) {
+                em.remove(em.contains(i) ? i : em.merge(i));
+            }
+            em.remove(em.contains(u) ? u : em.merge(u));
+            et.commit();
+        }catch (Exception e){
+            et.rollback();
+        }finally {
+            em.close();
         }
-        em.remove(em.contains(u) ? u : em.merge(u));
-        em.getTransaction().commit();
+
     }
 
 }

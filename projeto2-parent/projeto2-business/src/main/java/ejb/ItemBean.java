@@ -103,7 +103,7 @@ public class ItemBean implements ItemBeanLocal {
         Comparator<Item> comp = null;
         switch (parameter){
             case "name":{
-                if(order.equals("asc")){
+                if(order.equals("desc")){
                     comp = new Comparator<Item>() {
                         @Override
                         public int compare(Item o1, Item o2) {
@@ -120,7 +120,7 @@ public class ItemBean implements ItemBeanLocal {
                 }
                 break;
             }case "price":{
-                if(order.equals("asc")){
+                if(order.equals("desc")){
                     comp = new Comparator<Item>() {
                         @Override
                         public int compare(Item o1, Item o2) {
@@ -137,7 +137,7 @@ public class ItemBean implements ItemBeanLocal {
                 }
                 break;
             }case "dateOfInsertion":{
-                if(order.equals("asc")){
+                if(order.equals("desc")){
                     comp = new Comparator<Item>() {
                         @Override
                         public int compare(Item o1, Item o2) {
@@ -162,11 +162,18 @@ public class ItemBean implements ItemBeanLocal {
 
     public List<Item> searchAllItems(String searchString, String parameter, String order){
         EntityManager em = emf.createEntityManager();
-        List<Item> items = em.createQuery("from ITEMS where name like concat('%',?1,'%') ")
-                .setParameter(1, searchString)
-                .getResultList();
-        if(parameter != null) return orderItems(items, parameter, order);
-        else return items;
+        try{
+            List<Item> items = em.createQuery("from ITEMS where name like concat('%',?1,'%') ")
+                    .setParameter(1, searchString)
+                    .getResultList();
+            if(parameter != null) return orderItems(items, parameter, order);
+            else return items;
+        }catch (Exception e){
+            return Collections.emptyList();
+        }finally {
+            em.close();
+        }
+
     }
 
 
@@ -226,12 +233,19 @@ public class ItemBean implements ItemBeanLocal {
 
     public List<Item> searchItemsByDateOfInsertion(String searchString, Date d, String parameter, String order) {
         EntityManager em = emf.createEntityManager();
-        List<Item> items = em.createQuery("from ITEMS where dateOfInsertion > ?1 and name like concat('%',?2,'%')")
-                .setParameter(1, d)
-                .setParameter(2, searchString)
-                .getResultList();
-        if(parameter != null) return orderItems(items, parameter, order);
-        else return items;
+        try{
+            List<Item> items = em.createQuery("from ITEMS where dateOfInsertion > ?1 and name like concat('%',?2,'%')")
+                    .setParameter(1, d)
+                    .setParameter(2, searchString)
+                    .getResultList();
+            if(parameter != null) return orderItems(items, parameter, order);
+            else return items;
+        }catch (Exception e){
+            return Collections.emptyList();
+        }finally {
+            em.close();
+        }
+
     }
 
 
