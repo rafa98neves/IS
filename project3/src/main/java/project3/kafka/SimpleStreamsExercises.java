@@ -14,8 +14,9 @@ import org.apache.kafka.streams.kstream.KTable;
 public class SimpleStreamsExercises {
 
     public static void main(String[] args) throws InterruptedException, IOException {
-        String topicName = args[0].toString();
-        String outtopicname = "resultstopic";
+
+        String topicName = "sales";
+        String outtopicname = "resultstopic";                                                                                                                                                                                       
 
         java.util.Properties props = new Properties();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application");
@@ -34,6 +35,5 @@ public class SimpleStreamsExercises {
         streams.start();
 
         System.out.println("Reading stream from topic " + topicName);
-
     }
 }

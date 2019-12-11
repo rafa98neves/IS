@@ -1,7 +1,5 @@
 package project3.producer;
 
-
-//import util.properties packages
 import java.util.Properties;
 
 //import simple producer packages
@@ -13,13 +11,11 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 //import ProducerRecord packages
 import org.apache.kafka.clients.producer.ProducerRecord;
 
-//Create java class named “SimpleProducer”
 public class SimpleProducer {
 
     public static void main(String[] args) throws Exception{
 
-        //Assign topicName to string variable
-        String topicName = args[0].toString();
+        String topicName = "sales";
 
         // create instance for properties to access producer configs
         Properties props = new Properties();
@@ -51,7 +47,7 @@ public class SimpleProducer {
 
         Producer<String, Long> producer = new KafkaProducer<>(props);
 
-        for(int i = 0; i < 1000; i++)
+        for(int i = 0; i < 10; i++)
             producer.send(new ProducerRecord<String, Long>(topicName, Integer.toString(i), (long) i));
 
         System.out.println("Message sent successfully to topic " + topicName);
