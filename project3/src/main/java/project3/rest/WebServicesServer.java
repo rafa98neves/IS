@@ -18,9 +18,10 @@ import project3.data.Purchase;
 import project3.data.Sale;
 import project3.ejb.MyBean;
 
-@Path("/project3")
+@Path("/p")
 @RequestScoped
 public class WebServicesServer {
+
     @Inject
     MyBean db;
 
@@ -28,7 +29,7 @@ public class WebServicesServer {
         System.out.println("WebServicesServer created. db = " + this.db);
     }
 
-    // http://localhost:8080/play-REST-server/webapi/project3/gettext
+    // http://localhost:8080/play-REST-server/webapi/p/gettext
     @GET
     @Path("gettext")
     @Produces({MediaType.TEXT_PLAIN})

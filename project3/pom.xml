@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsdw/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>project3.kafka</groupId>
+    <groupId>project3</groupId>
     <artifactId>project3</artifactId>
+    <name>project3</name>
     <version>2.0.0</version>
+    <packaging>pom</packaging>
+
+    <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java-version>1.8</java-version>
+        <server.port>9990</server.port>
+		<ejb-plugin-version>3.0.0</ejb-plugin-version>
+		<ejb-spec-version>3.2</ejb-spec-version>
+		<wildfly-plugin-version>1.2.0.Final</wildfly-plugin-version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -61,37 +72,65 @@
     </dependencies>
 
     <build>
-        <finalName>play-REST-server</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>12</source>
-                    <target>12</target>
-                </configuration>
-            </plugin>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${wildfly-plugin-version}</version>
+                    <configuration>
+                        <skip>true</skip>
+                        <hostname>localhost</hostname>
+                        <port>${server.port}</port>
+                    </configuration>
+                </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.2.3</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${compiler-plugin-version}</version>
+                    <configuration>
+                        <source>${java-version}</source>
+                        <target>${java-version}</target>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
 
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>2.0.1.Final</version>
-                <configuration>
-                    <hostname>localhost</hostname>
-                    <port>9990</port>
-                </configuration>
-            </plugin>
-        </plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-ejb-plugin</artifactId>
+                    <version>${ejb-plugin-version}</version>
+                    <configuration>
+                        <ejbVersion>${ejb-spec-version}</ejbVersion>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${war-plugin-version}</version>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                        <!-- <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes> -->
+                        <archive>
+                            <manifest>
+                                <addClasspath>true</addClasspath>
+                                <classpathPrefix>lib/</classpathPrefix>
+                            </manifest>
+                        </archive>
+                        <webResources>
+                            <resource>
+                                <filtering>true</filtering>
+                                <directory>src/main/webapp</directory>
+                                <includes>
+                                    <include>**/web.xml</include>
+                                </includes>
+                            </resource>
+                        </webResources>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>
