@@ -6,10 +6,7 @@ import javax.enterprise.context.RequestScoped;
 //import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 import project3.data.Country;
@@ -29,7 +26,7 @@ public class WebServicesServer {
         System.out.println("WebServicesServer created. db = " + this.db);
     }
 
-    // http://localhost:8080/play-REST-server/webapi/p/gettext
+    // http://localhost:8080/project3/webapi/p/gettext
     @GET
     @Path("gettext")
     @Produces({MediaType.TEXT_PLAIN})
@@ -37,7 +34,68 @@ public class WebServicesServer {
         return "Hello World!";
     }
 
-    // http://localhost:8080/play-REST-server/webapi/project3/getpurchases
+
+
+
+    /* -- Actions on countries --*/
+
+    @POST
+    @Path("addcountry")
+    @Produces({MediaType.TEXT_PLAIN})
+    public String addCountry(@QueryParam("country") String name) {
+        if (db.addCountry(name)){
+            return "Country added succefully!";
+        }
+        else{
+            return "Country couldn't be added!";
+        }
+    }
+
+    @GET
+    @Path("getcountries")
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Country> getAllCountries() {
+        return db.getListCountries();
+    }
+
+    @GET
+    @Path("getcountrie/HS")
+    @Produces({MediaType.TEXT_PLAIN})
+    public String getCountryHS() {
+        return db.getCountryHS();
+    }
+
+    /* -- Actions on items -- */
+
+    @GET
+    @Path("getitems")
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Item> getAllItems() {
+        return db.getListItems();
+    }
+
+    @POST
+    @Path("additem")
+    @Produces({MediaType.TEXT_PLAIN})
+    public String addSale(@QueryParam("name") String name, @QueryParam("cost") float cost) {
+        if(db.addItem(name,cost)){
+            return "Item added for sale succefully!";
+        }
+        else{
+            return "Item couldn't be added for sale";
+        }
+    }
+
+
+    /* -- Actions on purchases --*/
+
+    @GET
+    @Path("getpurchase/hp")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Purchase getHPPurchase() {
+        return db.getHPPurchase();
+    }
+
     @GET
     @Path("getpurchases")
     @Produces({MediaType.APPLICATION_XML})
@@ -45,7 +103,16 @@ public class WebServicesServer {
         return db.getListPurchase();
     }
 
-    // http://localhost:8080/play-REST-server/webapi/project3/getsale?id=1
+    @GET
+    @Path("getpurchase")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Purchase getPurchase(@QueryParam("id") int id) {
+        return db.getPurchase(id);
+    }
+
+
+    /* -- Actions on sales --*/
+
     @GET
     @Path("getsale")
     @Produces({MediaType.APPLICATION_JSON})
@@ -53,11 +120,19 @@ public class WebServicesServer {
         return db.getSale(id);
     }
 
-    // http://localhost:8080/play-REST-server/webapi/project3/getsales
     @GET
     @Path("getsales")
-    @Produces({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML})
     public List<Sale> getAllSales() {
         return db.getListSales();
+    }
+
+    /*-- Last hour status --*/
+
+    @GET
+    @Path("status")
+    @Produces({MediaType.TEXT_PLAIN})
+    public String getStatus() {
+        return db.getStatus();
     }
 }

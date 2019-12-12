@@ -45,7 +45,7 @@ public class SimpleProducer {
                 "org.apache.kafka.common.serialization.LongSerializer");
 
 
-        Producer<String, Long> producer = new KafkaProducer<>(props);
+        Producer<String, Long> producer = new KafkaProducer<String, Long>(props);
 
         for(int i = 0; i < 10; i++)
             producer.send(new ProducerRecord<String, Long>(topicName, Integer.toString(i), (long) i));
