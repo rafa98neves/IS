@@ -12,12 +12,12 @@ import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Produced;
 
 
-public class SimpleStreamsExercises {
+public class PurchaseOrders {
 
     public static void main(String[] args) throws InterruptedException, IOException {
 
-        String topicName = "sales";
-        String outtopicname = "resultstopic";                                                                                                                                                                                       
+        String topicName = "DBInfo_topic";
+        String outtopicname = "purchases_topic";
 
         java.util.Properties props = new Properties();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application");
