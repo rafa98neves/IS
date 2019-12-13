@@ -18,7 +18,6 @@ import project3.data.Sale;
 
 public class Customers {
 
-    private static final String tablename = "sales";
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static void main(String[] args) throws InterruptedException, IOException {
@@ -34,7 +33,7 @@ public class Customers {
 
         java.util.Properties props = new Properties();
         props.put("bootstrap.servers", "localhost:9092");
-        props.put("group.id", "test");
+        props.put("group.id", "customer");
         props.put("enable.auto.commit", "true");
         props.put("auto.commit.interval.ms", "1000");
         props.put("session.timeout.ms", "30000");
@@ -42,17 +41,16 @@ public class Customers {
                 "org.apache.kafka.common.serialization.StringDeserializer");
         props.put("value.deserializer",
                 JsonDeserializer.class);
-
-        KafkaConsumer<String, JsonNode> consumer = new KafkaConsumer
-                <String, JsonNode>(props);
-
         props.put("key.serializer",
                 "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer",
                 JsonSerializer.class);
 
+        KafkaConsumer<String, JsonNode> consumer = new KafkaConsumer
+                <>(props);
+
         KafkaProducer<String, JsonNode> producer = new KafkaProducer
-                <String, JsonNode>(props);
+                <>(props);
 
         consumer.subscribe(Arrays.asList(topicName));
 
@@ -67,7 +65,7 @@ public class Customers {
                 sale = new Sale(items.get(r.nextInt(items.size())), r.nextInt(9) + 1, countries.get(r.nextInt(countries.size())));
                 System.out.println("New sale generated: " + sale.getItem().getName() + "*" + sale.getUnits() + " from " + sale.getCountry().getCountry());
 
-                producer.send(new ProducerRecord<String,JsonNode>(outtopicname,"Sale",mapper.convertValue(sale, JsonNode.class)));
+                producer.send(new ProducerRecord<>(outtopicname,"Sale",mapper.convertValue(sale, JsonNode.class)));
             }
             Thread.sleep(2000);
         }

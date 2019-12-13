@@ -19,8 +19,7 @@ public class Purchase implements Serializable {
 
     public Purchase() {}
 
-    public Purchase(int id, Item item, int units) {
-        this.id = id;
+    public Purchase(Item item, int units) {
         this.item = item;
         this.units = units;
         this.price = item.getPrice() * units;

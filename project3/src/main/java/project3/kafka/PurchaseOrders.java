@@ -1,39 +1,79 @@
 package project3.kafka;
 
 import java.io.IOException;
-import java.util.Properties;
+import java.util.*;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.connect.json.JsonDeserializer;
+import org.apache.kafka.connect.json.JsonSerializer;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Produced;
+import project3.data.Country;
+import project3.data.Item;
+import project3.data.Purchase;
+import project3.data.Sale;
 
 
 public class PurchaseOrders {
 
+    private static final ObjectMapper mapper = new ObjectMapper();
+
     public static void main(String[] args) throws InterruptedException, IOException {
+        ConsumerRecords<String, JsonNode> records;
+
+        Purchase purchase;
+        Random r = new Random();
+        List<Item> items = new ArrayList<>();
 
         String topicName = "DBInfo_topic";
         String outtopicname = "purchases_topic";
 
         java.util.Properties props = new Properties();
-        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application");
-        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
-        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
-        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.Long().getClass());
+        props.put("bootstrap.servers", "localhost:9092");
+        props.put("group.id", "purchase");
+        props.put("enable.auto.commit", "true");
+        props.put("auto.commit.interval.ms", "1000");
+        props.put("session.timeout.ms", "30000");
+        props.put("key.deserializer",
+                "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put("value.deserializer",
+                JsonDeserializer.class);
+        props.put("key.serializer",
+                "org.apache.kafka.common.serialization.StringSerializer");
+        props.put("value.serializer",
+                JsonSerializer.class);
 
-        StreamsBuilder builder = new StreamsBuilder();
-        KStream<String, Long> lines = builder.stream(topicName);
+        KafkaConsumer<String, JsonNode> consumer = new KafkaConsumer
+                <>(props);
+        KafkaProducer<String, JsonNode> producer = new KafkaProducer
+                <>(props);
 
-        KTable<String, Long> outlines = lines.groupByKey().count();
-        outlines.mapValues((k,v) -> k + "=>" + v).toStream().to(outtopicname, Produced.with(Serdes.String(), Serdes.String()));
+        consumer.subscribe(Arrays.asList(topicName));
 
-        KafkaStreams streams = new KafkaStreams(builder.build(), props);
-        streams.start();
+        while (true) {
+            records = consumer.poll(2000);
+            for (ConsumerRecord<String, JsonNode> record : records) {
+                if (record.key().equals("Item")) items.add(mapper.convertValue(record.value(), Item.class));
+            }
 
-        System.out.println("Reading stream from topic " + topicName);
+            if (items.size() > 0) {
+                purchase = new Purchase(items.get(r.nextInt(items.size())), r.nextInt(9) + 1 );
+                System.out.println("New purchase generated: " + purchase.getItem().getName() + "*" + purchase.getUnits());
+
+                producer.send(new ProducerRecord<>(outtopicname, "Purchase", mapper.convertValue(purchase, JsonNode.class)));
+            }
+            Thread.sleep(2000);
+        }
     }
 }
