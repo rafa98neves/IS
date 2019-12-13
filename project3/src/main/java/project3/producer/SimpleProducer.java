@@ -3,6 +3,8 @@ package project3.producer;
 import java.util.Properties;
 
 //import simple producer packages
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.producer.Producer;
 
 //import KafkaProducer packages
@@ -10,12 +12,17 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 
 //import ProducerRecord packages
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.connect.json.JsonSerializer;
+import project3.data.Country;
+import project3.data.Item;
+
+import javax.json.JsonObject;
 
 public class SimpleProducer {
 
     public static void main(String[] args) throws Exception{
 
-        String topicName = "sales";
+        String topicName = "DBInfo_topic";
 
         // create instance for properties to access producer configs
         Properties props = new Properties();
@@ -42,13 +49,23 @@ public class SimpleProducer {
                 "org.apache.kafka.common.serialization.StringSerializer");
 
         props.put("value.serializer",
-                "org.apache.kafka.common.serialization.LongSerializer");
+                JsonSerializer.class);
 
 
-        Producer<String, Long> producer = new KafkaProducer<String, Long>(props);
+        Producer<String, JsonNode> producer = new KafkaProducer<String, JsonNode>(props);
 
-        for(int i = 0; i < 10; i++)
-            producer.send(new ProducerRecord<String, Long>(topicName, Integer.toString(i), (long) i));
+        ObjectMapper mapper = new ObjectMapper();
+        Country pais = new Country(0,"portugal");
+        JsonNode node = mapper.convertValue(pais, JsonNode.class);
+        for(int i = 0; i < 10; i++){
+            producer.send(new ProducerRecord<String, JsonNode>(topicName,"Country",node));
+        }
+
+        Item item = new Item(0,"bola",1.2f);
+        node = mapper.convertValue(item, JsonNode.class);
+        for(int i = 0; i < 10; i++){
+            producer.send(new ProducerRecord<String, JsonNode>(topicName,"Item",node));
+        }
 
         System.out.println("Message sent successfully to topic " + topicName);
         producer.close();

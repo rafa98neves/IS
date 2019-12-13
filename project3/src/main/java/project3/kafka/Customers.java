@@ -1,86 +1,75 @@
 package project3.kafka;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Random;
+import java.util.*;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.kafka.common.serialization.Deserializer;
-import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.common.serialization.Serializer;
-import org.apache.kafka.streams.KafkaStreams;
-import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.StreamsConfig;
-import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KTable;
-import org.apache.kafka.streams.kstream.Produced;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.connect.json.JsonDeserializer;
+import org.apache.kafka.connect.json.JsonSerializer;
+import project3.data.Country;
+import project3.data.Item;
+import project3.data.Sale;
 
-import javax.json.Json;
+public class Customers {
 
-
-public class Customers implements Serializer<JsonNode>, Deserializer<JsonNode> {
-
-    private ObjectMapper mapper = new ObjectMapper();
+    private static final String tablename = "sales";
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     public static void main(String[] args) throws InterruptedException, IOException {
+        ConsumerRecords<String, JsonNode> records;
 
+        Sale sale;
         Random r = new Random();
+        List<Item> items = new ArrayList<>();
+        List<Country> countries = new ArrayList<>();
+
         String topicName = "DBInfo_topic";
         String outtopicname = "sales_topic";
 
         java.util.Properties props = new Properties();
-        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application");
-        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
-        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
-        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.Long().getClass());
+        props.put("bootstrap.servers", "localhost:9092");
+        props.put("group.id", "test");
+        props.put("enable.auto.commit", "true");
+        props.put("auto.commit.interval.ms", "1000");
+        props.put("session.timeout.ms", "30000");
+        props.put("key.deserializer",
+                "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put("value.deserializer",
+                JsonDeserializer.class);
 
-        StreamsBuilder builder = new StreamsBuilder();
-        KStream<String, Json> lines = builder.stream(topicName);
+        KafkaConsumer<String, JsonNode> consumer = new KafkaConsumer
+                <String, JsonNode>(props);
 
-        //Escolher um item do topico
+        props.put("key.serializer",
+                "org.apache.kafka.common.serialization.StringSerializer");
+        props.put("value.serializer",
+                JsonSerializer.class);
 
-        //Escolher um pais do topico
+        KafkaProducer<String, JsonNode> producer = new KafkaProducer
+                <String, JsonNode>(props);
 
-        int units = r.nextInt(100); //Escolher número de unidades ( 0 a 100 )
+        consumer.subscribe(Arrays.asList(topicName));
 
-        KTable<String, Long> outlines = lines.groupByKey().count();
-        outlines.mapValues((k,v) -> k + "=>" + v).toStream().to(outtopicname, Produced.with(Serdes.String(), Serdes.String()));
+        while (true) {
+            records = consumer.poll(2000);
+            for (ConsumerRecord<String, JsonNode> record : records){
+                if(record.key().equals("Item")) items.add(mapper.convertValue(record.value(), Item.class));
+                else if(record.key().equals("Country")) countries.add(mapper.convertValue(record.value(), Country.class));
+            }
 
-        KafkaStreams streams = new KafkaStreams(builder.build(), props);
-        streams.start();
+            if(items.size() > 0 && countries.size() > 0) {
+                sale = new Sale(items.get(r.nextInt(items.size())), r.nextInt(9) + 1, countries.get(r.nextInt(countries.size())));
+                System.out.println("New sale generated: " + sale.getItem().getName() + "*" + sale.getUnits() + " from " + sale.getCountry().getCountry());
 
-        System.out.println("Reading stream from topic " + topicName);
-    }
-
-
-    @Override
-    public byte[] serialize(String topic, JsonNode data) {
-
-        try {
-            return mapper.writeValueAsBytes(data);
-        } catch (JsonProcessingException e) {
-            return new byte[0];
+                producer.send(new ProducerRecord<String,JsonNode>(outtopicname,"Sale",mapper.convertValue(sale, JsonNode.class)));
+            }
+            Thread.sleep(2000);
         }
-    }
-
-    @Override
-    public JsonNode deserialize(String topic, byte[] data) {
-
-        try {
-            return mapper.readValue(data, JsonNode.class);
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    @Override
-    public void configure(Map<String, ?> configs, boolean isKey) {
-    }
-
-    @Override
-    public void close() {
     }
 }

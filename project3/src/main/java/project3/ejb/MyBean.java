@@ -20,23 +20,6 @@ public class MyBean {
     List<Item> items;
 
     public MyBean() {
-        Country Pt = new Country(1,"Portugal");
-        countries.add(Pt);
-
-        Item item1 = new Item(1,"bola",1.2f);
-        items.add(item1);
-        Item item2 = new Item(2,"rato",9f);
-        items.add(item2);
-        Item item3 = new Item(3,"leite",0.5f);
-        items.add(item3);
-
-        Purchase purchase = new Purchase(1,item2,4);
-        purchases.add(purchase);
-
-        Sale sale1 = new Sale(1, item2, 2, Pt);
-        sales.add(sale1);
-        Sale sale2 = new Sale(2, item3, 1, Pt);
-        sales.add(sale2);
     }
 
     /* -- Actions on countries --*/

@@ -20,8 +20,7 @@ public class Sale implements Serializable {
 
     public Sale() {}
 
-    public Sale(int id, Item item, int units, Country country) {
-        this.id = id;
+    public Sale( Item item, int units, Country country) {
         this.item = item;
         this.units = units;
         this.country = country;
