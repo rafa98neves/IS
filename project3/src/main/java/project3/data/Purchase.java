@@ -1,18 +1,13 @@
 package project3.data;
 
 import java.io.Serializable;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Purchase implements Serializable {
     private static final long serialVersionUID = 1L;
+    private static final AtomicInteger count = new AtomicInteger(0);
 
-    @XmlAttribute
-    int id;
-
+    private int id;
     private Item item;
     private int units;
     private float price;
@@ -20,9 +15,10 @@ public class Purchase implements Serializable {
     public Purchase() {}
 
     public Purchase(Item item, int units) {
+        this.id = count.getAndIncrement();
         this.item = item;
         this.units = units;
-        this.price = item.getPrice() * units;
+        this.price = item.getItem_price() * units;
     }
 
     public int getId() {
@@ -60,6 +56,6 @@ public class Purchase implements Serializable {
     public void update(Item item, int units) {
         this.units = units;
         this.item = item;
-        this.price = item.getPrice() * units;
+        this.price = item.getItem_price() * units;
     }
 }
