@@ -14,7 +14,7 @@ public class Sale implements Serializable {
     int id;
 
     private Item item;
-    private int price;
+    private float price;
     private int units;
     private Country country;
 
@@ -27,7 +27,7 @@ public class Sale implements Serializable {
         this.item = item;
         this.units = units;
         this.country = country;
-        this.price = item.getPrice() * units;
+        this.price = item.getItem_price() * units;
     }
 
     public int getId() {
@@ -46,11 +46,11 @@ public class Sale implements Serializable {
         this.item = item;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -74,7 +74,7 @@ public class Sale implements Serializable {
         this.units = units;
         this.item = item;
         this.country = country;
-        this.price = item.getPrice() * units;
+        this.price = item.getItem_price() * units;
     }
 
 }

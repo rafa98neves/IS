@@ -3,6 +3,7 @@ package project3.kafka;
 import java.io.IOException;
 import java.util.*;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -22,7 +23,7 @@ public class Customers {
 
     public static void main(String[] args) throws InterruptedException, IOException {
         ConsumerRecords<String, JsonNode> records;
-
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Sale sale;
         Random r = new Random();
         Item item;
@@ -59,16 +60,18 @@ public class Customers {
         while (true) {
             records = consumer.poll(2000);
             for (ConsumerRecord<String, JsonNode> record : records){
-                if(record.key().equals("Item")) items.add(mapper.convertValue(record.value(), Item.class));
-                else if(record.key().equals("Country")) countries.add(mapper.convertValue(record.value(), Country.class));
+                if (record.value().findValue("payload").findValue("type").asText().equals("item")) items.add(mapper.convertValue(record.value().findValue("payload"), Item.class));
+                else if(record.value().findValue("payload").findValue("type").asText().equals("country")) countries.add(mapper.convertValue(record.value().findValue("payload"), Country.class));
             }
 
             if(items.size() > 0 && countries.size() > 0) {
+
                 item = items.get(r.nextInt(items.size()));
                 country = countries.get(r.nextInt(countries.size()));
                 sale = new Sale( item, r.nextInt(9) + 1, country);
-                System.out.println("New sale generated: " + sale.getItem().getName() + "*" + sale.getUnits() + " from " + sale.getCountry().getCountry());
-                producer.send(new ProducerRecord<>(outtopicname,item.getName(),mapper.convertValue(sale, JsonNode.class)));
+                System.out.println("New sale generated: " + sale.getItem().getItem_name() + "*" + sale.getUnits() + " to " + sale.getCountry().getCountry_name());
+
+                producer.send(new ProducerRecord<>(outtopicname,"Sale",mapper.convertValue(sale, JsonNode.class)));
             }
             Thread.sleep(2000);
         }

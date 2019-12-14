@@ -2,54 +2,44 @@ package project3.data;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Item implements Serializable {
-        private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-        @XmlAttribute
-        int id;
+    private int item_id;
+    private String item_name;
+    private float item_price;
 
-        private String name;
-        private int price;
 
-        public Item() {}
+    public Item() {}
 
-        public Item(int id, String name, int price) {
-            this.id = id;
-            this.name = name;
-            this.price = price;
-        }
+    public Item(int item_id, String item_name, float item_price) {
+        this.item_id = item_id;
+        this.item_name = item_name;
+        this.item_price = item_price;
+    }
 
-        public int getId() {
-            return id;
-        }
+    public int getItem_id() {
+        return item_id;
+    }
 
-        public void setId(int id) {
-            this.id = id;
-        }
+    public void setItem_id(int item_id) {
+        this.item_id = item_id;
+    }
 
-        public String getName() {
-            return name;
-        }
+    public String getItem_name() {
+        return item_name;
+    }
 
-        public void setName(String name) {
-            this.name = name;
-        }
+    public void setItem_name(String item_name) {
+        this.item_name = item_name;
+    }
 
-        public int getPrice() {
-            return price;
-        }
+    public float getItem_price() {
+        return item_price;
+    }
 
-        public void setPrice(int price) {
-            this.price = price;
-        }
+    public void setItem_price(float item_price) {
+        this.item_price = item_price;
+    }
 
-        public void update(String name, int price) {
-            this.name = name;
-            this.price = price;
-        }
 }
