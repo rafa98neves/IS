@@ -3,6 +3,7 @@ package project3.kafka;
 import java.io.IOException;
 import java.util.*;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -31,7 +32,7 @@ public class PurchaseOrders {
 
     public static void main(String[] args) throws InterruptedException, IOException {
         ConsumerRecords<String, JsonNode> records;
-
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Purchase purchase;
         Random r = new Random();
         List<Item> items = new ArrayList<>();
@@ -58,19 +59,17 @@ public class PurchaseOrders {
                 <>(props);
         KafkaProducer<String, JsonNode> producer = new KafkaProducer
                 <>(props);
-
         consumer.subscribe(Arrays.asList(topicName));
 
         while (true) {
             records = consumer.poll(2000);
             for (ConsumerRecord<String, JsonNode> record : records) {
-                if (record.key().equals("Item")) items.add(mapper.convertValue(record.value(), Item.class));
+                if (record.value().findValue("payload").findValue("type").asText().equals("item")) items.add(mapper.convertValue(record.value().findValue("payload"), Item.class));
             }
 
             if (items.size() > 0) {
                 purchase = new Purchase(items.get(r.nextInt(items.size())), r.nextInt(9) + 1 );
-                System.out.println("New purchase generated: " + purchase.getItem().getName() + "*" + purchase.getUnits());
-
+                System.out.println("New purchase generated: " + purchase.getItem().getItem_name() + "*" + purchase.getUnits());
                 producer.send(new ProducerRecord<>(outtopicname, "Purchase", mapper.convertValue(purchase, JsonNode.class)));
             }
             Thread.sleep(2000);

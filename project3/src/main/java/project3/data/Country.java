@@ -2,43 +2,32 @@ package project3.data;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Country implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @XmlAttribute
-    int id;
+    private int country_id;
+    private String country_name;
 
-    private String country;
     public Country() {}
 
-    public Country(int id, String name) {
-        this.id = id;
-        this.country = name;
+    public Country(int country_id, String country_name) {
+        this.country_id = country_id;
+        this.country_name = country_name;
     }
 
-    public int getId() {
-        return id;
+    public int getCountry_id() {
+        return country_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCountry_id(int country_id) {
+        this.country_id = country_id;
     }
 
-    public String getCountry() {
-        return country;
+    public String getCountry_name() {
+        return country_name;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setCountry_name(String country_name) {
+        this.country_name = country_name;
     }
-
-    public void update(String name) {
-        this.country = name;
-    }
-
 }

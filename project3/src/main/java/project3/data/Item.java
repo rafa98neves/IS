@@ -2,54 +2,36 @@ package project3.data;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Item implements Serializable {
-        private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-        @XmlAttribute
-        int id;
+    private int item_id;
+    private String item_name;
+    private float item_price;
 
-        private String name;
-        private float price;
+    public Item() {}
 
-        public Item() {}
+    public int getItem_id() {
+        return item_id;
+    }
 
-        public Item(int id, String name, float price) {
-            this.id = id;
-            this.name = name;
-            this.price = price;
-        }
+    public void setItem_id(int item_id) {
+        this.item_id = item_id;
+    }
 
-        public int getId() {
-            return id;
-        }
+    public String getItem_name() {
+        return item_name;
+    }
 
-        public void setId(int id) {
-            this.id = id;
-        }
+    public void setItem_name(String item_name) {
+        this.item_name = item_name;
+    }
 
-        public String getName() {
-            return name;
-        }
+    public float getItem_price() {
+        return item_price;
+    }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public float getPrice() {
-            return price;
-        }
-
-        public void setPrice(float price) {
-            this.price = price;
-        }
-
-        public void update(String name, float price) {
-            this.name = name;
-            this.price = price;
-        }
+    public void setItem_price(float item_price) {
+        this.item_price = item_price;
+    }
 }
