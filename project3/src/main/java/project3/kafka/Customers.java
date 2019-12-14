@@ -25,6 +25,8 @@ public class Customers {
 
         Sale sale;
         Random r = new Random();
+        Item item;
+        Country country;
         List<Item> items = new ArrayList<>();
         List<Country> countries = new ArrayList<>();
 
@@ -62,10 +64,11 @@ public class Customers {
             }
 
             if(items.size() > 0 && countries.size() > 0) {
-                sale = new Sale(items.get(r.nextInt(items.size())), r.nextInt(9) + 1, countries.get(r.nextInt(countries.size())));
+                item = items.get(r.nextInt(items.size()));
+                country = countries.get(r.nextInt(countries.size()));
+                sale = new Sale( item, r.nextInt(9) + 1, country);
                 System.out.println("New sale generated: " + sale.getItem().getName() + "*" + sale.getUnits() + " from " + sale.getCountry().getCountry());
-
-                producer.send(new ProducerRecord<>(outtopicname,"Sale",mapper.convertValue(sale, JsonNode.class)));
+                producer.send(new ProducerRecord<>(outtopicname,item.getName(),mapper.convertValue(sale, JsonNode.class)));
             }
             Thread.sleep(2000);
         }

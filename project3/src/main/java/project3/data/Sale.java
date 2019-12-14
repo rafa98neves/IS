@@ -14,7 +14,7 @@ public class Sale implements Serializable {
     int id;
 
     private Item item;
-    private float price;
+    private int price;
     private int units;
     private Country country;
 
@@ -43,11 +43,11 @@ public class Sale implements Serializable {
         this.item = item;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -72,5 +72,10 @@ public class Sale implements Serializable {
         this.item = item;
         this.country = country;
         this.price = item.getPrice() * units;
+    }
+
+    public static Sale addRevenue(Sale sale1, Sale sale2){
+        sale1.setPrice( sale1.getPrice() + sale2.getPrice() );
+        return sale1;
     }
 }
