@@ -67,27 +67,26 @@ public class Kafka_Streams {
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.Float().getClass());
 
 
-        StreamsBuilder sales_builder = new StreamsBuilder();
-        KStream<String, Sale> sales_stream = sales_builder.stream(salesT, Consumed.with(Serdes.String(), saleSerde));
-
-        StreamsBuilder purchases_builder = new StreamsBuilder();
-        KStream<String, Purchase> purchases_stream = purchases_builder.stream(purchasesT, Consumed.with(Serdes.String(), purchaseSerde));
+        StreamsBuilder builder = new StreamsBuilder();
+        KStream<String, Sale> sales_stream = builder.stream(salesT, Consumed.with(Serdes.String(), saleSerde));
+        KStream<String, Purchase> purchases_stream = builder.stream(purchasesT, Consumed.with(Serdes.String(), purchaseSerde));
 
 
         // Revenue per item
 
-        KStream<Integer, Float> revenueStream = sales_stream.map((key, value) -> KeyValue.pair(value.getItem().getItem_id(), value.getPrice()));
-        KTable<Integer, Float> revenueTable = revenueStream.groupByKey().reduce((a,b) -> a + b);
-        revenueTable.mapValues((k, v) -> k + "=>" + v).toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
+        KTable<Integer, Float> revenueTable = sales_stream.map((key, value) -> KeyValue.pair(value.getItem().getItem_id(), value.getPrice())).groupByKey().reduce((a,b) -> a + b);
+        revenueTable.mapValues((k, v) -> "Item: " + k + " has got " + v + " revenues.").toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
 
         // Expenses per item
 
-        KTable<Integer, Float> table = purchases_stream.map((k,v) -> KeyValue.pair(v.getItem().getItem_id(), v.getPrice())).groupByKey().reduce((a, b) -> a + b);
-        table.mapValues((k, v) -> "Item:" + k + " expenses = " + v.toString()).toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
+        KTable<Integer, Float> purchasesTable = purchases_stream.map((k,v) -> KeyValue.pair(v.getItem().getItem_id(), v.getPrice())).groupByKey().reduce((a, b) -> a + b);
+        purchasesTable.mapValues((k, v) -> "Item: " + k + " has got " + v + " expenses.").toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
 
 
         // Profit per item
 
+        KTable<Integer, Float> profitTable = revenueTable.leftJoin(purchasesTable, (revenues, expenses) -> revenues - expenses);
+        profitTable.mapValues((k, v) -> "Item: " + k + " has got " + v + " profit.").toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
 
         // Total revenues
 
@@ -107,8 +106,11 @@ public class Kafka_Streams {
         outstream.mapValues((k,v) -> k + "=>" + v).toStream().to(outtopicname, Produced.with(Serdes.String(), Serdes.String()));
         */
 
-        KafkaStreams streams = new KafkaStreams(purchases_builder.build(), props);
-        streams.start();
+
+        KafkaStreams revenue_streams = new KafkaStreams(builder.build(), props);
+        revenue_streams.start();
+        KafkaStreams purchase_streams = new KafkaStreams(builder.build(), props);
+        purchase_streams.start();
 
         //System.out.println("Reading stream from topic " + salesT);
         //System.out.println("Reading stream from topic " + purchasesT);
