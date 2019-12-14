@@ -36,8 +36,10 @@ public class Kafka_Streams {
         java.util.Properties props;
         Map<String, Object> saleProps = new HashMap<>();
         Map<String, Object> purchaseProps = new HashMap<>();
+
         String salesT = "sales_topic";
         String purchasesT = "purchases_topic";
+        String[] topics = { salesT, purchasesT };
         String outtopicname = "resultstopic";
 
         final Serializer<Sale> SaleSerializer = new JsonSaleSerializer<>();
@@ -75,13 +77,11 @@ public class Kafka_Streams {
 
 
         // Revenue per item
-
         KStream<Integer, Float> revenueStream = sales_stream.map((key, value) -> KeyValue.pair(value.getItem().getItem_id(), value.getPrice()));
         KTable<Integer, Float> revenueTable = revenueStream.groupByKey().reduce((a,b) -> a + b);
         revenueTable.mapValues((k, v) -> k + "=>" + v).toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
 
         // Expenses per item
-
         KTable<Integer, Float> table = purchases_stream.map((k,v) -> KeyValue.pair(v.getItem().getItem_id(), v.getPrice())).groupByKey().reduce((a, b) -> a + b);
         table.mapValues((k, v) -> "Item:" + k + " expenses = " + v.toString()).toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
 
@@ -90,9 +90,13 @@ public class Kafka_Streams {
 
 
         // Total revenues
-
+        KTable<Integer, Float> totalRevenueTable = sales_stream.map((k,v) -> KeyValue.pair(-1, v.getPrice())).groupByKey().reduce((a, b) -> a + b);
+        totalRevenueTable.mapValues((k, v) -> "Total revenues: " + v.toString()).toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
 
         // Total expenses
+        KTable<Integer, Float> totalExpensesTable = purchases_stream.map((k,v) -> KeyValue.pair(-2, v.getPrice())).groupByKey().reduce((a, b) -> a + b);
+        totalExpensesTable.mapValues((k, v) -> "Total expenses: " + v.toString()).toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
+
         // Total profit
         // Average amount spent in each purchase (separated by item)
         // Average amount spent in each purchase (aggregated for all items)
@@ -103,12 +107,12 @@ public class Kafka_Streams {
 
         // Name of the country with the highest sales per item. Include the value of such sales
 
-        /*outstream = purchases_stream.groupByKey().count();
-        outstream.mapValues((k,v) -> k + "=>" + v).toStream().to(outtopicname, Produced.with(Serdes.String(), Serdes.String()));
-        */
 
-        KafkaStreams streams = new KafkaStreams(purchases_builder.build(), props);
-        streams.start();
+        KafkaStreams sale_streams = new KafkaStreams(sales_builder.build(), props);
+        sale_streams.start();
+
+        KafkaStreams purchases_streams = new KafkaStreams(purchases_builder.build(), props);
+        purchases_streams.start();
 
         //System.out.println("Reading stream from topic " + salesT);
         //System.out.println("Reading stream from topic " + purchasesT);
