@@ -60,7 +60,7 @@ public class SimpleProducer {
             producer.send(new ProducerRecord<>(topicName,"Country",node));
         }
 
-        Item item = new Item(0,"bola",1.2f);
+        Item item = new Item(0,"bola",1);
         node = mapper.convertValue(item, JsonNode.class);
         for(int i = 0; i < 10; i++){
             producer.send(new ProducerRecord<>(topicName,"Item",node));

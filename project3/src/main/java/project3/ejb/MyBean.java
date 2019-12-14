@@ -48,7 +48,7 @@ public class MyBean {
         return items;
     }
 
-    public boolean addItem(String name, float cost){
+    public boolean addItem(String name, int cost){
         //add item to db
 
         Item new_item = new Item(0,name,cost);

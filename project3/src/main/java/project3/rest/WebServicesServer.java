@@ -77,7 +77,7 @@ public class WebServicesServer {
     @POST
     @Path("additem")
     @Produces({MediaType.TEXT_PLAIN})
-    public String addSale(@QueryParam("name") String name, @QueryParam("cost") float cost) {
+    public String addSale(@QueryParam("name") String name, @QueryParam("cost") int cost) {
         if(db.addItem(name,cost)){
             return "Item added for sale succefully!";
         }

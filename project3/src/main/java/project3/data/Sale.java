@@ -20,7 +20,10 @@ public class Sale implements Serializable {
 
     public Sale() {}
 
-    public Sale( Item item, int units, Country country) {
+    public Sale(int n){
+    }
+
+    public Sale(Item item, int units, Country country) {
         this.item = item;
         this.units = units;
         this.country = country;
@@ -74,8 +77,4 @@ public class Sale implements Serializable {
         this.price = item.getPrice() * units;
     }
 
-    public static Sale addRevenue(Sale sale1, Sale sale2){
-        sale1.setPrice( sale1.getPrice() + sale2.getPrice() );
-        return sale1;
-    }
 }
