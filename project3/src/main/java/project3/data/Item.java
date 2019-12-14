@@ -9,6 +9,7 @@ public class Item implements Serializable {
     private String item_name;
     private float item_price;
 
+
     public Item() {}
 
     public int getItem_id() {
@@ -34,4 +35,5 @@ public class Item implements Serializable {
     public void setItem_price(float item_price) {
         this.item_price = item_price;
     }
+
 }

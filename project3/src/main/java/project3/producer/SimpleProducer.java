@@ -51,20 +51,19 @@ public class SimpleProducer {
         props.put("value.serializer",
                 JsonSerializer.class);
 
-
         Producer<String, JsonNode> producer = new KafkaProducer<String, JsonNode>(props);
 
         ObjectMapper mapper = new ObjectMapper();
         Country pais = new Country(0,"portugal");
         JsonNode node = mapper.convertValue(pais, JsonNode.class);
         for(int i = 0; i < 10; i++){
-            producer.send(new ProducerRecord<String, JsonNode>(topicName,"Country",node));
+            producer.send(new ProducerRecord<>(topicName,"Country",node));
         }
 
         Item item = new Item(0,"bola",1.2f);
         node = mapper.convertValue(item, JsonNode.class);
         for(int i = 0; i < 10; i++){
-            producer.send(new ProducerRecord<String, JsonNode>(topicName,"Item",node));
+            producer.send(new ProducerRecord<>(topicName,"Item",node));
         }
 
         System.out.println("Message sent successfully to topic " + topicName);

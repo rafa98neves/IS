@@ -24,7 +24,7 @@ public class Sale implements Serializable {
         this.item = item;
         this.units = units;
         this.country = country;
-        this.price = item.getPrice() * units;
+        this.price = item.getItem_price() * units;
     }
 
     public int getId() {
@@ -71,6 +71,11 @@ public class Sale implements Serializable {
         this.units = units;
         this.item = item;
         this.country = country;
-        this.price = item.getPrice() * units;
+        this.price = item.getItem_price() * units;
+    }
+
+    public static Sale addRevenue(Sale sale1, Sale sale2){
+        sale1.setPrice( sale1.getPrice() + sale2.getPrice() );
+        return sale1;
     }
 }
