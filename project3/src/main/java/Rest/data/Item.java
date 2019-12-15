@@ -1,27 +1,20 @@
-package project3.data;
+package Rest.data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class Item implements Serializable {
+@Table(name="items")
+public class Item{
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int item_id;
+    @Column(name="item_name", length=50, nullable=false, unique=false)
     private String item_name;
+    @Column(name="item_price", nullable=false, unique=false)
     private float item_price;
-
-    public Item() {}
-
-    public Item(String item_name, float item_price) {
-        this.item_name = item_name;
-        this.item_price = item_price;
-    }
 
     public int getItem_id() {
         return item_id;

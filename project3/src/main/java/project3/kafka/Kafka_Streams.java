@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.stream.Stream;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,10 +16,7 @@ import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.*;
-import project3.Serdes.JsonPurchaseDeserializer;
-import project3.Serdes.JsonPurchaseSerializer;
-import project3.Serdes.JsonSaleDeserializer;
-import project3.Serdes.JsonSaleSerializer;
+import project3.Serdes.*;
 import project3.data.Purchase;
 import project3.data.Sale;
 
@@ -33,6 +29,7 @@ public class Kafka_Streams {
 
         Serde<Sale> saleSerde;
         Serde<Purchase> purchaseSerde;
+        Serde<Sale> highestProfitSale;
         java.util.Properties props;
         Map<String, Object> saleProps = new HashMap<>();
         Map<String, Object> purchaseProps = new HashMap<>();
@@ -85,7 +82,6 @@ public class Kafka_Streams {
         purchasesTable.mapValues((k, v) -> "Item: " + k + " has got " + v + " expenses.").toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
 
         // Profit per item
-
         KTable<Integer, Float> profitTable = revenueTable.leftJoin(purchasesTable, (revenues, expenses) -> revenues - expenses);
         profitTable.mapValues((k, v) -> "Item: " + k + " has got " + v + " profit.").toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
 
@@ -100,12 +96,14 @@ public class Kafka_Streams {
         // Total profit
         // Average amount spent in each purchase (separated by item)
         // Average amount spent in each purchase (aggregated for all items)
+
         // Highest profit of all (only one if there is a tie)
         // Total revenue in the last hour 1 (use a tumbling time window)
         // Total expenses in the last hour (use a tumbling time window)
         // Total profits in the last hour (use a tumbling time window)
 
         // Name of the country with the highest sales per item. Include the value of such sales
+
 
         KafkaStreams revenue_streams = new KafkaStreams(builder.build(), props);
         revenue_streams.start();
@@ -116,4 +114,5 @@ public class Kafka_Streams {
         //System.out.println("Reading stream from topic " + salesT);
         //System.out.println("Reading stream from topic " + purchasesT);
     }
+
 }

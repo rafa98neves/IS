@@ -54,13 +54,13 @@ public class SimpleProducer {
         Producer<String, JsonNode> producer = new KafkaProducer<String, JsonNode>(props);
 
         ObjectMapper mapper = new ObjectMapper();
-        Country pais = new Country(0,"portugal");
+        Country pais = new Country("portugal");
         JsonNode node = mapper.convertValue(pais, JsonNode.class);
         for(int i = 0; i < 10; i++){
             producer.send(new ProducerRecord<>(topicName,"Country",node));
         }
 
-        Item item = new Item(0,"bola",1);
+        Item item = new Item("bola",1);
         node = mapper.convertValue(item, JsonNode.class);
         for(int i = 0; i < 10; i++){
             producer.send(new ProducerRecord<>(topicName,"Item",node));
