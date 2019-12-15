@@ -1,13 +1,17 @@
 package project3.kafka;
 
 import java.io.IOException;
+import java.security.Key;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.kafka.common.protocol.types.Field;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
@@ -24,6 +28,8 @@ import project3.Serdes.JsonSaleSerializer;
 import project3.data.Purchase;
 import project3.data.Sale;
 
+import javax.validation.constraints.Null;
+
 
 public class Kafka_Streams {
 
@@ -39,8 +45,7 @@ public class Kafka_Streams {
 
         String salesT = "sales_topic";
         String purchasesT = "purchases_topic";
-        String[] topics = { salesT, purchasesT };
-        String outtopicname = "resultstopic";
+        String outtopicname[] = {"resultstopic1", "resultstopic2", "resultstopic3"};
 
         final Serializer<Sale> SaleSerializer = new JsonSaleSerializer<>();
         saleProps.put("JsonSaleClass", Sale.class);
@@ -62,6 +67,9 @@ public class Kafka_Streams {
 
         purchaseSerde = Serdes.serdeFrom(PurchaseSerializer, PurchaseDeserializer);
 
+        long windowSize = TimeUnit.MINUTES.toMillis(1);
+
+
         props = new Properties();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "streams");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
@@ -74,36 +82,77 @@ public class Kafka_Streams {
         KStream<String, Purchase> purchases_stream = builder.stream(purchasesT, Consumed.with(Serdes.String(), purchaseSerde));
 
 
+        String itemTableJSON = "{\"schema\": {\"type\":\"struct\", \"fields\":[{\"type\":\"int32\",\"optional\":false,\"field\":\"item_id\"}, {\"type\":\"float\",\"optional\":false,\"field\":\"revenues\"}," +
+                "{\"type\":\"float\",\"optional\":false,\"field\":\"expenses\"},{\"type\":\"float\",\"optional\":false,\"field\":\"profit\"}, {\"type\":\"float\",\"optional\":false,\"field\":\"average_purchase\"}]," +
+                " \"optional\": false, \"name\": \"item_table\"}, \"payload\":{";
+
+        String totalTableJSON = "{\"schema\": {\"type\":\"struct\", \"fields\":[{\"type\":\"int32\",\"optional\":false,\"field\":\"id\"}, {\"type\":\"float\",\"optional\":false,\"field\":\"revenues\"}," +
+                "{\"type\":\"float\",\"optional\":false,\"field\":\"expenses\"},{\"type\":\"float\",\"optional\":false,\"field\":\"profit\"}, {\"type\":\"float\",\"optional\":false,\"field\":\"average_purchase\"}]," +
+                " \"optional\": false, \"name\": \"total_table\"}, \"payload\":{";
+
+        String windowedTableJSON = "{\"schema\": {\"type\":\"struct\", \"fields\":[{\"type\":\"int32\",\"optional\":false,\"field\":\"id\"}, {\"type\":\"float\",\"optional\":false,\"field\":\"revenues\"}," +
+                "{\"type\":\"float\",\"optional\":false,\"field\":\"expenses\"},{\"type\":\"float\",\"optional\":false,\"field\":\"profit\"}]," +
+                " \"optional\": false, \"name\": \"windowed_table\"}, \"payload\":{";
+
         // Revenue per item
 
         KTable<Integer, Float> revenueTable = sales_stream.map((key, value) -> KeyValue.pair(value.getItem().getItem_id(), value.getPrice())).groupByKey().reduce((a,b) -> a + b);
-        revenueTable.mapValues((k, v) -> "Item: " + k + " has got " + v + " revenues.").toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
+        KStream<Integer, String> itemStream = revenueTable.toStream().map((key, value) -> KeyValue.pair(key, "\"item_id\" :" + key + ", \"revenues\":" + value));
 
         // Expenses per item
 
-        KTable<Integer, Float> purchasesTable = purchases_stream.map((k,v) -> KeyValue.pair(v.getItem().getItem_id(), v.getPrice())).groupByKey().reduce((a, b) -> a + b);
-        purchasesTable.mapValues((k, v) -> "Item: " + k + " has got " + v + " expenses.").toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
+        KTable<Integer, Float> expensesTable = purchases_stream.map((k,v) -> KeyValue.pair(v.getItem().getItem_id(), v.getPrice())).groupByKey().reduce((a, b) -> a + b);
+        itemStream = itemStream.leftJoin(expensesTable, (left, right) -> left + ", \"expenses\": " + right, Joined.with(Serdes.Integer(),Serdes.String(), Serdes.Float()));
 
         // Profit per item
 
-        KTable<Integer, Float> profitTable = revenueTable.leftJoin(purchasesTable, (revenues, expenses) -> revenues - expenses);
-        profitTable.mapValues((k, v) -> "Item: " + k + " has got " + v + " profit.").toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
+        KTable<Integer, Float> profitTable = revenueTable.leftJoin(expensesTable, (revenues, expenses) -> revenues - expenses);
+        itemStream = itemStream.leftJoin(profitTable, (left, right) -> left + ", \"profit\": " + right, Joined.with(Serdes.Integer(),Serdes.String(), Serdes.Float()));
 
         // Total revenues
-        KTable<Integer, Float> totalRevenueTable = sales_stream.map((k,v) -> KeyValue.pair(-1, v.getPrice())).groupByKey().reduce((a, b) -> a + b);
-        totalRevenueTable.mapValues((k, v) -> "Total revenues: " + v.toString()).toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
+
+        KTable<Integer, Float> totalRevenueTable = sales_stream.map((k,v) -> KeyValue.pair(1, v.getPrice())).groupByKey().reduce((a, b) -> a + b);
+        KStream<Integer, String> totalStream = totalRevenueTable.toStream().map((key, value) -> KeyValue.pair(key, "\"id\": 1, \"revenues\":" + value));
 
         // Total expenses
-        KTable<Integer, Float> totalExpensesTable = purchases_stream.map((k,v) -> KeyValue.pair(-2, v.getPrice())).groupByKey().reduce((a, b) -> a + b);
-        totalExpensesTable.mapValues((k, v) -> "Total expenses: " + v.toString()).toStream().to(outtopicname, Produced.with(Serdes.Integer(), Serdes.String()));
 
+        KTable<Integer, Float> totalExpensesTable = purchases_stream.map((k,v) -> KeyValue.pair(1, v.getPrice())).groupByKey().reduce((a, b) -> a + b);
+        totalStream = totalStream.leftJoin(totalExpensesTable, (left, right) -> left + ", \"expenses\": " + right, Joined.with(Serdes.Integer(), Serdes.String(), Serdes.Float()));
         // Total profit
+
+        KTable<Integer, Float> totalProfitTable = totalRevenueTable.leftJoin(totalExpensesTable, (totalRevenues, totalExpenses) -> totalRevenues - totalExpenses);
+        totalStream = totalStream.leftJoin(totalProfitTable, (left, right) -> left + ", \"profit\": " + right, Joined.with(Serdes.Integer(), Serdes.String(), Serdes.Float()));
+
         // Average amount spent in each purchase (separated by item)
+        KTable<Integer, Long> countByItem = purchases_stream.map((k,v) -> KeyValue.pair(v.getItem().getItem_id(), v.getPrice())).groupByKey().count();
+        KTable<Integer, Float> averagePurchaseByItem = expensesTable.leftJoin(countByItem, (expenses, number) -> expenses/number.floatValue());
+
+        itemStream = itemStream.leftJoin(averagePurchaseByItem, (left, right) -> itemTableJSON + left + ", \"average_purchase\": " + right + "}}", Joined.with(Serdes.Integer(),Serdes.String(), Serdes.Float()));
+        itemStream.to(outtopicname[0], Produced.with(Serdes.Integer(), Serdes.String()));
+
         // Average amount spent in each purchase (aggregated for all items)
+
+        KTable<Integer, Long> count = purchases_stream.map((k, v) -> KeyValue.pair(1, v.getPrice())).groupByKey().count();
+        KTable<Integer, Float> averagePurchase = totalExpensesTable.leftJoin(count, (expenses, n) -> expenses / n.floatValue());
+
+        totalStream = totalStream.leftJoin(averagePurchase, (left, right) -> totalTableJSON + left + ", \"average_purchase\": " + right + "}}", Joined.with(Serdes.Integer(), Serdes.String(), Serdes.Float()));
+        totalStream.to(outtopicname[1], Produced.with(Serdes.Integer(), Serdes.String()));
+
         // Highest profit of all (only one if there is a tie)
-        // Total revenue in the last hour 1 (use a tumbling time window)
+
+        // Total revenue in the last hour (use a tumbling time window)
+
+       // KTable<Windowed<Integer>, Float> totalRevenueTableTumbling = sales_stream.map((k, v) -> KeyValue.pair(0, v.getPrice())).groupByKey().windowedBy(TimeWindows.of(windowSize)).reduce((a, b) -> a + b);
+       // KStream windowedStream = totalRevenueTableTumbling.toStream().map((key, value) -> KeyValue.pair(key, "\"id\": 1, \"revenues\":" + value));
         // Total expenses in the last hour (use a tumbling time window)
+
+        //KTable<Windowed<Integer>, Float> totalExpensesTableTumbling = purchases_stream.map((k, v) -> KeyValue.pair(0, v.getPrice())).groupByKey().windowedBy(TimeWindows.of(windowSize)).reduce((a, b) -> a + b);
+     //   windowedStream = windowedStream.leftJoin(totalExpensesTableTumbling, (left, right) -> left + ", \"expenses\":" + right, Joined.with(Serdes.Integer(), Serdes.String(), Serdes.Float()));
         // Total profits in the last hour (use a tumbling time window)
+
+      //  KTable<Windowed<Integer>, Float> totalProfitTableTumbling = totalRevenueTableTumbling.leftJoin(totalExpensesTableTumbling, (revenues, expenses) -> revenues - expenses);
+      //  windowedStream = windowedStream.leftJoin(totalProfitTableTumbling, (left, right) -> windowedTableJSON + left + ", \"profit\":" + right + "}}", Joined.with(Serdes.Integer(), Serdes.String(), Serdes.Float()));
+      //  windowedStream.to(outtopicname[2], Produced.with(WindowedSerdes.timeWindowedSerdeFrom(Integer.class), Serdes.String()));
 
         // Name of the country with the highest sales per item. Include the value of such sales
 
@@ -112,8 +161,5 @@ public class Kafka_Streams {
         KafkaStreams purchase_streams = new KafkaStreams(builder.build(), props);
         purchase_streams.start();
 
-
-        //System.out.println("Reading stream from topic " + salesT);
-        //System.out.println("Reading stream from topic " + purchasesT);
     }
 }

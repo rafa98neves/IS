@@ -42,10 +42,12 @@ public class PurchaseOrders {
 
         java.util.Properties props = new Properties();
         props.put("bootstrap.servers", "localhost:9092");
-        props.put("group.id", "purchase");
-        props.put("enable.auto.commit", "true");
-        props.put("auto.commit.interval.ms", "1000");
-        props.put("session.timeout.ms", "30000");
+        props.put("group.id", "purchase_orders");
+        props.put("acks", "all");
+        props.put("retries", 0);
+        props.put("batch.size", 16384);
+        props.put("linger.ms", 1);
+        props.put("buffer.memory", 33554432);
         props.put("key.deserializer",
                 "org.apache.kafka.common.serialization.StringDeserializer");
         props.put("value.deserializer",
