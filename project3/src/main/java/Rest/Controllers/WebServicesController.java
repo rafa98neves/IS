@@ -2,18 +2,23 @@ package Rest.Controllers;
 
 import java.util.List;
 
-import Rest.Repositories.CountryRepository;
-import Rest.Repositories.ItemRepository;
-import Rest.data.Item;
+import Rest.Repositories.*;
+import Rest.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import Rest.data.Country;
 
 
 @RestController
 public class WebServicesController {
+
+    @Autowired
+    private RT1Repository RT1Repo;
+    @Autowired
+    private RT2Repository RT2Repo;
+    @Autowired
+    private RT3Repository RT3Repo;
 
     @Autowired
     private ItemRepository itemRepo;
@@ -42,15 +47,6 @@ public class WebServicesController {
         return countryRepository.findAll();
     }
 
-   /*
-    @RequestMapping("/country/hs")
-    public String getCountryHS() {
-        // #######################################################  NOT DONE
-        return "";
-    }
-    */
-
-
     @RequestMapping("/list/items")
     public List<Item> getAllItems() {
         return itemRepo.findAll();
@@ -69,60 +65,43 @@ public class WebServicesController {
         }
     }
 
-    /*
-
     @RequestMapping("/get/item/revenue")
-    public List<Item> getRevenue() {
-        // #######################################################  NOT DONE
-        return db.getListItems();
+    public List<RTopic1> getRevenue() {
+        return RT1Repo.findAll();
     }
 
     @RequestMapping("/get/item/expenses")
-    public List<Item> getExpenses() {
-        // #######################################################  NOT DONE
-        return db.getListItems();
+    public List<RTopic1> getExpenses() {
+        return RT1Repo.findExpenses();
     }
 
     @RequestMapping("/get/item/profit")
-    public List<Item> getProfit() {
-        // #######################################################  NOT DONE
-        return db.getListItems();
+    public List<RTopic1> getProfit() {
+        return RT1Repo.findProfit();
+    }
+
+    @RequestMapping("/get/item/average")
+    public List<RTopic1> getAverage() {
+        return RT1Repo.findAverage();
     }
 
     @RequestMapping("/get/total/revenue")
-    public List<Item> getTotalRevenue() {
-        // #######################################################  NOT DONE
-        return db.getListItems();
+    public List<RTopic2> getTotalRevenue() {
+        return RT2Repo.findRevenues();
     }
 
-
     @RequestMapping("/get/total/expenses")
-    public List<Item> getTotalExpenses() {
-        // #######################################################  NOT DONE
-        return db.getListItems();
+    public List<RTopic2> getTotalExpenses() {
+        return RT2Repo.findExpenses();
     }
 
     @RequestMapping("/get/total/profit")
-    public List<Item> getTotalProfit() {
-        // #######################################################  NOT DONE
-        return db.getListItems();
-    }
-
-    @RequestMapping("/get/amount/item")
-    public List<Item> getAmountSpentItem() {
-        // #######################################################  NOT DONE
-        return db.getListItems();
-    }
-
-    @RequestMapping("/get/amount/all")
-    public List<Item> getAmountSpent() {
-        // #######################################################  NOT DONE
-        return db.getListItems();
+    public List<RTopic2> getTotalProfit() {
+        return RT2Repo.findProfit();
     }
 
     @RequestMapping("/lastHour")
-    public String getStatus() {
-        // #######################################################  NOT DONE
-        return db.getStatus();
-    }*/
+    public List<RTopic3> getStatus() {
+        return RT3Repo.findAll();
+    }
 }

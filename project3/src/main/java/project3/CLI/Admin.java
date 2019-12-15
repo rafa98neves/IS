@@ -94,7 +94,7 @@ public class Admin {
         }
     }
 
-    public void OperationsMenu(){
+    public void OperationsMenu() throws IOException, JSONException{
         while(true){
             System.out.println("\n\n\t\tOPERATIONS");
             System.out.println("1.Total Revenues\n\t2.Total Expenses\n\t3.Total profit\n\t4.Amount spent in each purchase (by item)\n\t5.Amount spent in each purchase (all items)\n\t" +
@@ -145,7 +145,7 @@ public class Admin {
     }
 
     public void HSCountry(){
-        //Call URL
+        System.out.println("NOT DONE\n");
         System.out.println("0.Back\n");
         scanIn.next();
         return;
@@ -165,24 +165,27 @@ public class Admin {
     }
 
     public void GetItem(String by) throws IOException, JSONException{
+        JSONArray json = new JSONArray();
         switch(by){
             case "all":
-                JSONArray json = reader.readJsonArrayFromUrl("http://localhost:8080/list/items");
-                System.out.println(json);
+                json = reader.readJsonArrayFromUrl("http://localhost:8080/list/items");
                 break;
             case "revenue":
-                //Call Url
+                json = reader.readJsonArrayFromUrl("http://localhost:8080/get/item/revenue");
                 break;
             case "expenses":
-                //Call Url
+                json = reader.readJsonArrayFromUrl("http://localhost:8080/get/item/expenses");
                 break;
             case "profit":
-                //Call Url
+                json = reader.readJsonArrayFromUrl("http://localhost:8080/get/item/profit");
                 break;
             case "hp":
-                //Call Url
+                System.out.println("NOT DONE!");
                 break;
         }
+        if(json != null)
+            System.out.println(json);
+
         System.out.println("0.Back\n");
         scanIn.next();
         return;
@@ -190,39 +193,49 @@ public class Admin {
 
     /* --------- OperationsMenu ---------- */
 
-    public void GetTotal(String by){
+    public void GetTotal(String by) throws IOException, JSONException{
+        JSONArray json = new JSONArray();
         switch(by){
             case "revenue":
-                //Call Url
+                json = reader.readJsonArrayFromUrl("http://localhost:8080/get/total/revenue");
                 break;
             case "expenses":
-                //Call Url
+                json = reader.readJsonArrayFromUrl("http://localhost:8080/get/total/expenses");
                 break;
             case "profit":
-                //Call Url
+                json = reader.readJsonArrayFromUrl("http://localhost:8080/get/total/profit");
                 break;
         }
+        if(json != null)
+            System.out.println(json);
         System.out.println("0.Back\n");
         scanIn.next();
         return;
     }
 
-    public void GetAmountSpent(String by){
-        switch(by){
+    public void GetAmountSpent(String by) throws IOException, JSONException{
+        JSONArray json = new JSONArray();
+        switch(by) {
             case "item":
-                //Call Url
+                json = reader.readJsonArrayFromUrl("http://localhost:8080/get/item/average");
                 break;
             case "all":
-                //Call Url
+                json = reader.readJsonArrayFromUrl("http://localhost:8080/total/average");
                 break;
         }
+        if(json != null)
+            System.out.println(json);
+
         System.out.println("0.Back\n");
         scanIn.next();
         return;
     }
 
-    public void LastHour(){
-        //Call Url
+    public void LastHour() throws IOException, JSONException{
+        JSONArray json = reader.readJsonArrayFromUrl("http://localhost:8080/lastHour");
+        if(json != null)
+            System.out.println(json);
+
         System.out.println("0.Back\n");
         scanIn.next();
         return;
