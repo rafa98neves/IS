@@ -86,22 +86,22 @@ public class WebServicesController {
     }
 
     @RequestMapping("/get/total/revenue")
-    public List<RTopic2> getTotalRevenue() {
+    public RTopic2 getTotalRevenue() {
         return RT2Repo.findRevenues();
     }
 
     @RequestMapping("/get/total/expenses")
-    public List<RTopic2> getTotalExpenses() {
+    public RTopic2 getTotalExpenses() {
         return RT2Repo.findExpenses();
     }
 
     @RequestMapping("/get/total/profit")
-    public List<RTopic2> getTotalProfit() {
+    public RTopic2 getTotalProfit() {
         return RT2Repo.findProfit();
     }
 
     @RequestMapping("/lastHour")
-    public List<RTopic3> getStatus() {
-        return RT3Repo.findAll();
+    public RTopic3 getStatus() {
+        return RT3Repo.find();
     }
 }

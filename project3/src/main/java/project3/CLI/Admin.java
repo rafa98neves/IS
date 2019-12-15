@@ -194,16 +194,16 @@ public class Admin {
     /* --------- OperationsMenu ---------- */
 
     public void GetTotal(String by) throws IOException, JSONException{
-        JSONArray json = new JSONArray();
+        JSONObject json = new JSONObject();
         switch(by){
             case "revenue":
-                json = reader.readJsonArrayFromUrl("http://localhost:8080/get/total/revenue");
+                json = reader.readJsonObjectFromUrl("http://localhost:8080/get/total/revenue");
                 break;
             case "expenses":
-                json = reader.readJsonArrayFromUrl("http://localhost:8080/get/total/expenses");
+                json = reader.readJsonObjectFromUrl("http://localhost:8080/get/total/expenses");
                 break;
             case "profit":
-                json = reader.readJsonArrayFromUrl("http://localhost:8080/get/total/profit");
+                json = reader.readJsonObjectFromUrl("http://localhost:8080/get/total/profit");
                 break;
         }
         if(json != null)
@@ -214,17 +214,16 @@ public class Admin {
     }
 
     public void GetAmountSpent(String by) throws IOException, JSONException{
-        JSONArray json = new JSONArray();
         switch(by) {
             case "item":
-                json = reader.readJsonArrayFromUrl("http://localhost:8080/get/item/average");
+                JSONArray json1 = reader.readJsonArrayFromUrl("http://localhost:8080/get/item/average");
+                System.out.println(json1);
                 break;
             case "all":
-                json = reader.readJsonArrayFromUrl("http://localhost:8080/total/average");
+                JSONObject json = reader.readJsonObjectFromUrl("http://localhost:8080/total/average");
+                System.out.println(json);
                 break;
         }
-        if(json != null)
-            System.out.println(json);
 
         System.out.println("0.Back\n");
         scanIn.next();
@@ -232,7 +231,7 @@ public class Admin {
     }
 
     public void LastHour() throws IOException, JSONException{
-        JSONArray json = reader.readJsonArrayFromUrl("http://localhost:8080/lastHour");
+        JSONObject json = reader.readJsonObjectFromUrl("http://localhost:8080/lastHour");
         if(json != null)
             System.out.println(json);
 
