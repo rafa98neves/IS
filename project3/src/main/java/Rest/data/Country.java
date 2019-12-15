@@ -1,25 +1,19 @@
-package project3.data;
+package Rest.data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class Country implements Serializable {
+@Table(name="countries")
+public class Country {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int country_id;
+
+    @Column(name="country_name", length=50, nullable=false, unique=true)
     private String country_name;
-
-    public Country() {}
-
-    public Country(String country_name) {
-        this.country_name = country_name;
-    }
 
     public int getCountry_id() {
         return country_id;

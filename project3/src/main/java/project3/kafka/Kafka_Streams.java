@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.protocol.types.Field;
@@ -21,10 +22,7 @@ import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.*;
-import project3.Serdes.JsonPurchaseDeserializer;
-import project3.Serdes.JsonPurchaseSerializer;
-import project3.Serdes.JsonSaleDeserializer;
-import project3.Serdes.JsonSaleSerializer;
+import project3.Serdes.*;
 import project3.data.Purchase;
 import project3.data.Sale;
 
@@ -39,6 +37,7 @@ public class Kafka_Streams {
 
         Serde<Sale> saleSerde;
         Serde<Purchase> purchaseSerde;
+        Serde<Sale> highestProfitSale;
         java.util.Properties props;
         Map<String, Object> saleProps = new HashMap<>();
         Map<String, Object> purchaseProps = new HashMap<>();
@@ -109,6 +108,7 @@ public class Kafka_Streams {
         KTable<Integer, Float> profitTable = revenueTable.leftJoin(expensesTable, (revenues, expenses) -> revenues - expenses);
         itemStream = itemStream.leftJoin(profitTable, (left, right) -> left + ", \"profit\": " + right, Joined.with(Serdes.Integer(),Serdes.String(), Serdes.Float()));
 
+
         // Total revenues
 
         KTable<Integer, Float> totalRevenueTable = sales_stream.map((k,v) -> KeyValue.pair(1, v.getPrice())).groupByKey().reduce((a, b) -> a + b);
@@ -131,6 +131,7 @@ public class Kafka_Streams {
         itemStream.to(outtopicname[0], Produced.with(Serdes.Integer(), Serdes.String()));
 
         // Average amount spent in each purchase (aggregated for all items)
+
 
         KTable<Integer, Long> count = purchases_stream.map((k, v) -> KeyValue.pair(1, v.getPrice())).groupByKey().count();
         KTable<Integer, Float> averagePurchase = totalExpensesTable.leftJoin(count, (expenses, n) -> expenses / n.floatValue());
@@ -156,10 +157,12 @@ public class Kafka_Streams {
 
         // Name of the country with the highest sales per item. Include the value of such sales
 
+
         KafkaStreams revenue_streams = new KafkaStreams(builder.build(), props);
         revenue_streams.start();
         KafkaStreams purchase_streams = new KafkaStreams(builder.build(), props);
         purchase_streams.start();
 
     }
+
 }
